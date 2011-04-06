@@ -156,7 +156,8 @@ function getTransmissionTransferList($uid) {
 			$seeds = 0;
 
 		// TODO: transferowner is always admin... probably not what we want
-		$tArray = array(
+		// Suppress error/warning messages(using the @ sign) otherwhise a shitload of warnings are shown
+		$tArray = @array(
 			'is_owner' => true,
 			'transferRunning' => ($transferRunning ? 1 : 0),
 			'url_entry' => $aTorrent['hashString'],
@@ -514,6 +515,7 @@ function getTransmissionStatusImage($running, $seederCount, $uploadRate){
 function getTransmissionSeederCount($transfer) {
 	$options = array('trackerStats');
 	$transfer = getTransmissionTransfer($transfer, $options);
+	$seeds = "";
 	foreach ( $transfer['trackerStats'] as $tracker ) {
 		$seeds += ($tracker['seederCount']==-1 ? 0 : $tracker['seederCount']);
 		//$announceResult = $tracker['lastAnnounceResult'];

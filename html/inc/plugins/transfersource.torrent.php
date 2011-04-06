@@ -5,6 +5,7 @@ function getPluginUi() {
 	$clientNames = array("Transmission-daemon");
 	$pluginName = "transmission-daemon";
 	
+	$htmlcode = "";
 	foreach ( $clientNames as $clientName ) {
 		$htmlcode .= "<option value=$clientName>".$clientName."</option>";
 	}
