@@ -21,6 +21,7 @@
 *******************************************************************************/
 
 require_once('inc/singleton/db.php');
+require_once('inc/lang/transferstatus.php');
 
 function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
 	global $cfg;
@@ -121,31 +122,32 @@ function getTransmissionTransferList($uid) {
 		case 16:
 			$transferRunning = false;
 			if ( $aTorrent['percentDone'] >= 1 ) {
-				$status = "Done";
+				$status = TransferStatus::STATUS_FINISHED;
 				$eta = '';
 			} else {
-				$status = "Stopped";
+				$status = TransferStatus::STATUS_STOPPED;
 				$eta = 'Torrent Stopped'; # this might be fixed in a cleaner way
 				if ( $aTorrent['downloadedEver'] == 0 ) {
-					$status = "New";
+					$status = TransferStatus::STATUS_NEW;
 					$eta = '';
 				}
 			}
 			break;
 		case 4:
 			if ( $aTorrent['rateDownload'] == 0 ) {
-				$status = "Idle";
+				$status = TransferStatus::STATUS_IDLE;
 			} else {
-				$status = "Downloading";
+				$status = TransferStatus::STATUS_DOWNLOADING;
 			}
 			$transferRunning = true;
 			break;
 		case 8:
-			$status = "Seeding";
+			$status = TransferStatus::STATUS_SEEDING;
 			$transferRunning = true;
 			break;
 		case 2:
-			$status = "Checking data...";
+			//$status = "Checking data...";
+			$status = TransferStatus::STATUS_CHECKING;
 			$transferRunning = true;
 			break;
 		}
