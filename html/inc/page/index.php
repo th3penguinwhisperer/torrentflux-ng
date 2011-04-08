@@ -83,8 +83,9 @@ function getActions($transferhash) {
 getPluginUi();
 
 if ($cfg["transmission_rpc_enable"]) {
-	require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
-	$arUserTorrent = getTransmissionTransferList($cfg['uid']);
+	require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');
+	$td = new TransmissionDaemonClient();
+	$arUserTorrent = $td->getTransferList($cfg['uid']);
 }
 
 //print_r($arUserTorrent);
