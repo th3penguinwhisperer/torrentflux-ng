@@ -73,9 +73,9 @@ function printHtml($html) {
  * Get actions that are specific and non specific for this client
  */
 function getActions($transferhash) {
-	$actions = "<a href=\"dispatcher.php?action=delete&transfer=$transferhash\">Delete</a> ";
-	$actions .= "<a href=\"dispatcher.php?action=start&transfer=$transferhash\">Start</a> ";
-	$actions .= "<a href=\"dispatcher.php?action=stop&transfer=$transferhash\">Stop</a>";
+	$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=$transferhash\">Delete</a> ";
+	$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=$transferhash\">Start</a> ";
+	$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=$transferhash\">Stop</a>";
 	
 	return $actions;
 }
