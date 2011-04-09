@@ -4,7 +4,7 @@ interface ClientInterface
 {
 	function getCapabilities();
 	
-	function getActions();
+	function getActions($transferhash);
 	
 	function executeAction($transfer, $action);
 	
