@@ -12,7 +12,7 @@ class TransmissionDaemonClient implements ClientInterface
 		return $capabilities;
 	}
 	
-	function getActions() {
+	function getActions($transferhash) {
 		$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=$transferhash\">Delete</a> ";
 		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=$transferhash\">Start</a> ";
 		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=$transferhash\">Stop</a>";
