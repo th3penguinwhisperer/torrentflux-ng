@@ -1,7 +1,7 @@
 <?php
 
 $action = $_REQUEST['action'];
-$plugin = $_REQUEST['plugin'];
+$plugin = (isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : "");
 $client = $_REQUEST['client'];
 $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
 $url = (isset($_REQUEST['url']) ? $_REQUEST['url'] : "");
