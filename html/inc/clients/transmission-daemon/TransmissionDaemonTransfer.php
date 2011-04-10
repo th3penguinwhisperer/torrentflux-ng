@@ -12,7 +12,7 @@ class TransmissionDaemonTransfer implements TransferInterface
 
 	function getTransferListItem() {
 		// fill in eta
-		if ( $this->data['eta'] == '-1' && $aTorrent['percentDone'] != 1 ) {
+		if ( $this->data['eta'] == '-1' && $this->data['percentDone'] != 1 ) {
 			$eta = 'n/a';
 		} elseif ( $this->data['percentDone'] == 1 ) {
 			$eta = 'Download Succeeded!';
