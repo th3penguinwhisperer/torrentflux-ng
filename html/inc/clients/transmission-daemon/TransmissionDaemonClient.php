@@ -1,6 +1,7 @@
 <?php
 
 require_once("inc/clients/ClientInterface.php");
+require_once("inc/clients/transmission-daemon/TransmissionDaemonTransfer.php");
 //require_once("inc/clients/transmission-daemon/");
 
 class TransmissionDaemonClient implements ClientInterface
@@ -35,6 +36,10 @@ class TransmissionDaemonClient implements ClientInterface
 		//  -2 : Unknown
 		foreach($result as $aTorrent)
 		{
+			$transfer = new TransmissionDaemonTransfer($aTorrent);
+			array_push($arUserTorrent, $transfer);
+		}
+/*			
 			// fill in eta
 			if ( $aTorrent['eta'] == '-1' && $aTorrent['percentDone'] != 1 ) {
 				$eta = 'n/a';
@@ -134,6 +139,7 @@ class TransmissionDaemonClient implements ClientInterface
 	//			$cfg["total_download"] = $cfg["total_download"] + GetSpeedValue($aTorrent[rateDownload]/1000);
 	//		}
 		}
+*/
 		
 		return $arUserTorrent;
 	}
