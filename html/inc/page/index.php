@@ -49,7 +49,7 @@ $rowshtml = "";
 function addRow ( $transfer ) {
 	global $rowshtml;
 	$data = $transfer->getTransferListItem();
-	$rowshtml = $rowshtml . "\r<tr><td>".$data['displayname']. "</td><td>". $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>".getActions($data['url_entry'])."</td></tr>";
+	$rowshtml = $rowshtml . "\r<tr><td>".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>".getActions($data['url_entry'])."</td></tr>";
 }
 
 function getTable($data) {
