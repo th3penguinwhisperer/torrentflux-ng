@@ -49,7 +49,7 @@ $rowshtml = "";
 function addRow ( $transfer ) {
 	global $rowshtml;
 	$data = $transfer->getTransferListItem();
-	$rowshtml = $rowshtml . "\r<tr><td>".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>".getActions($data['url_entry'])."</td></tr>";
+	$rowshtml = $rowshtml . "\r<tr><td>".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>" . $transfer->getActions()."</td></tr>";
 }
 
 function getTable($data) {
@@ -68,17 +68,6 @@ function printHtml($html) {
   print( "
 </body>
 </html>" );
-}
-
-/**
- * Get actions that are specific and non specific for this client
- */
-function getActions($transferhash) {
-	$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=$transferhash\">Delete</a> ";
-	$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=$transferhash\">Start</a> ";
-	$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=$transferhash\">Stop</a>";
-	
-	return $actions;
 }
 
 getPluginUi();

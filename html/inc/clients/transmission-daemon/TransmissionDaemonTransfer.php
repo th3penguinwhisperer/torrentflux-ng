@@ -100,9 +100,9 @@ class TransmissionDaemonTransfer implements TransferInterface
 	}
 
 	function getActions() {
-		$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=" . $data['hashString'] . "\">Delete</a> ";
-		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=" . $data['hashString'] . "\">Start</a> ";
-		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $data['hashString'] . "\">Stop</a>";
+		$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=" . $this->data['hashString'] . "\">Delete</a> ";
+		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=" . $this->data['hashString'] . "\">Start</a> ";
+		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "\">Stop</a>";
 	
 		return $actions;
 	}
