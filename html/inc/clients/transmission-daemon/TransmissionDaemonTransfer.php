@@ -15,7 +15,7 @@ class TransmissionDaemonTransfer implements TransferInterface
 		if ( $this->data['eta'] == '-1' && $this->data['percentDone'] != 1 ) {
 			$eta = 'n/a';
 		} elseif ( $this->data['percentDone'] == 1 ) {
-			$eta = 'Download Succeeded!';
+			$eta = ''; // Download succeeded
 		} elseif ( $this->data['eta'] == '-2' ) {
 			$eta = 'Unknown';
 		} else {
@@ -31,7 +31,7 @@ class TransmissionDaemonTransfer implements TransferInterface
 				$eta = '';
 			} else {
 				$status = TransferStatus::STATUS_STOPPED;
-				$eta = 'Torrent Stopped'; # this might be fixed in a cleaner way
+				$eta = ''; # this might be fixed in a cleaner way // Transfer stopped
 				if ( $this->data['downloadedEver'] == 0 ) {
 					$status = TransferStatus::STATUS_NEW;
 					$eta = '';
