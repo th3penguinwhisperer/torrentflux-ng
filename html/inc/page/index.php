@@ -49,7 +49,7 @@ $rowshtml = "";
 function addRow ( $transfer ) {
 	global $rowshtml;
 	$data = $transfer->getTransferListItem();
-	$rowshtml = $rowshtml . "\r<tr><td>".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>" . $transfer->getActions()."</td></tr>";
+	$rowshtml = $rowshtml . "\r<tr><td><img onclick=\"javascript:pp.url('dispatcher.php?action=transferdetails&transfer=" . $data['url_entry'] . "');\">".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>" . $transfer->getActions()."</td></tr>";
 }
 
 function getTable($data) {
@@ -61,7 +61,19 @@ $data
 function printHtml($html) {
   global $rowArray;
 
-  print( "<html>\n<head></head>\n<body>");
+//	<script type="text/javascript" src="/js/jquery.tablesorter.js"></script>
+// TODO: path is now relative... this might have to be changed to an absolute path
+  print( '<html>
+<head>
+	<script type="text/javascript" src="js/jquery.js"></script> 
+	<script type="text/javascript" src="js/popup.js"></script>
+	<script type="text/javascript">
+pp = new Popup;
+	</script>
+</head>
+<body>');
+
+  getPluginUi();
 
   print($html);
 
@@ -70,7 +82,6 @@ function printHtml($html) {
 </html>" );
 }
 
-getPluginUi();
 
 if ($cfg["transmission_rpc_enable"]) {
 	require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');

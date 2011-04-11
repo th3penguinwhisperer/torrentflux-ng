@@ -2,7 +2,7 @@
 
 $action = $_REQUEST['action'];
 $plugin = (isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : "");
-$client = $_REQUEST['client'];
+$client = (isset($_REQUEST['client']) ? $_REQUEST['client'] : "");
 $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
 $url = (isset($_REQUEST['url']) ? $_REQUEST['url'] : "");
 
@@ -19,6 +19,9 @@ if ( $cfg["transmission_rpc_enable"] && isset($action)) {
 	if ($action == "delete")	deleteTransmissionTransfer($cfg['uid'], $transfer);
 	if ($action == "deletewithdata")	deleteTransmissionTransferWithData($cfg['uid'], $transfer);
 	if ($action == "upload")	addTransmissionTransfer($cfg['uid'], $url, $path); // addTransmissionTransfer($uid = 0, $url, $path, $paused=true)
+	if ($action == "transferdetails") {
+		require_once("inc/page/transferdetails.php");
+	}
 }
 
 ?>
