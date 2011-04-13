@@ -30,7 +30,7 @@ class TransmissionDaemonClient implements ClientInterface
 			$transfer = new TransmissionDaemonTransfer($aTorrent);
 			array_push($arUserTorrent, $transfer);
 		}
-		
+
 		return $arUserTorrent;
 	}
 	
@@ -39,7 +39,7 @@ class TransmissionDaemonClient implements ClientInterface
 		$fields = array("id", "name", "eta", "downloadedEver", "hashString", "fileStats", "totalSize", "percentDone", 
 			"metadataPercentComplete", "rateDownload", "rateUpload", "status", "files", "trackerStats" );
 
-		return getTransmissionTransfer($hash, $fields);
+		return new TransmissionDaemonTransfer( getTransmissionTransfer($hash, $fields) );
 	}
 }
 

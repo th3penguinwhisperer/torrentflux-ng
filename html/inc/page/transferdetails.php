@@ -10,12 +10,25 @@ if ( ! isset($_REQUEST['transfer']) ) {
 }
 
 $td = new TransmissionDaemonClient();
-$trtransfer = $td->getTransfer($transfer);
+$transtransfer = $td->getTransfer($transfer);
+$transdata = $transtransfer->getTransferListItem();
 
 $item = array();
 $arraydata = array();
 $item['name'] = "Name";
-$item['value'] = $trtransfer['name'];
+$item['value'] = $transdata['displayname'];
+array_push($arraydata, $item);
+$item['name'] = "Size";
+$item['value'] = $transdata['format_af_size'];
+array_push($arraydata, $item);
+$item['name'] = "Status";
+$item['value'] = $transdata['statusStr'];
+array_push($arraydata, $item);
+$item['name'] = "Download rate";
+$item['value'] = $transdata['down_speed'];
+array_push($arraydata, $item);
+$item['name'] = "Upload rate";
+$item['value'] = $transdata['up_speed'];
 array_push($arraydata, $item);
 
 getDetailsPage($arraydata);
