@@ -379,7 +379,7 @@ function getUserTransmissionTransfers($uid = 0) {
 }
 
 //used in iid/index
-function getTransmissionStatusImage($running, $seederCount, $uploadRate){
+function getTransmissionStatusImage($percentDone, $running, $seederCount, $uploadRate){
 	$statusImage = "black.gif";
 	if ($running) {
 		// running
@@ -390,7 +390,7 @@ function getTransmissionStatusImage($running, $seederCount, $uploadRate){
 				if ($seederCount >= 2)
 						$statusImage = "green.gif";
 	}
-	if ( floor($aTorrent[percentDone]*100) >= 100 ) {
+	if ( floor($percentDone*100) >= 100 ) {
 		$statusImage = ( $uploadRate != 0 && $running )
 						? "green.gif" /* seeding */
 						: "black.gif"; /* finished */

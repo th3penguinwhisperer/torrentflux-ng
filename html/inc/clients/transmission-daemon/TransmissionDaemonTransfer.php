@@ -1,6 +1,8 @@
 <?php
 
 require_once("inc/clients/TransferInterface.php");
+require_once("inc/generalfunctions.php");
+
 
 class TransmissionDaemonTransfer implements TransferInterface
 {
@@ -11,6 +13,8 @@ class TransmissionDaemonTransfer implements TransferInterface
 	}
 
 	function getTransferListItem() {
+// TODO: get this moved to a settings class
+$cfg['user'] = "administrator";
 		// fill in eta
 		if ( $this->data['eta'] == '-1' && $this->data['percentDone'] != 1 ) {
 			$eta = 'n/a';
@@ -64,11 +68,13 @@ class TransmissionDaemonTransfer implements TransferInterface
 
 		// TODO: transferowner is always admin... probably not what we want
 		// Suppress error/warning messages(using the @ sign) otherwhise a shitload of warnings are shown
-		$tArray = @array(
+		// Remove the $nothing variables
+		$nothing = "";
+		$tArray = array(
 			'is_owner' => true,
 			'transferRunning' => ($transferRunning ? 1 : 0),
 			'url_entry' => $this->data['hashString'],
-			'hd_image' => getTransmissionStatusImage($transferRunning, $seeds, $this->data['rateUpload']),
+			'hd_image' => getTransmissionStatusImage($this->data['percentDone'], $transferRunning, $seeds, $this->data['rateUpload']),
 			'hd_title' => $nothing,
 			'displayname' => $this->data['name'],
 			'transferowner' => getTransmissionTransferOwner($this->data['hashString']),
@@ -96,6 +102,7 @@ class TransmissionDaemonTransfer implements TransferInterface
 			'show_run' => 1,
 			'entry' => $this->data['name']
 		);
+
 		return $tArray;
 	}
 
