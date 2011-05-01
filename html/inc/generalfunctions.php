@@ -170,7 +170,7 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					@chmod($fullfilename, 0644);
 					//AuditAction($cfg["constants"]["file_upload"], $filename);
 
-					if ($cfg["transmission_rpc_enable"]) {
+					if ($cfg["transmission_rpc_enable"]) { // Do this using a ClientHandler principle
 						require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');
 						$tdc = new TransmissionDaemonClient();
 						$tdc->fileUploaded($fullfilename);
