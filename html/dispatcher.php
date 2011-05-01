@@ -1,5 +1,7 @@
 <?php
 
+require_once('inc/singleton/Configuration.php');
+
 $action = $_REQUEST['action'];
 $plugin = (isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : "");
 $client = (isset($_REQUEST['client']) ? $_REQUEST['client'] : "");
@@ -7,9 +9,11 @@ $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
 $url = (isset($_REQUEST['url']) ? $_REQUEST['url'] : "");
 
 // TODO get these replaced by a config manager singleton class
-$cfg['uid'] = 0;
-$path = "/usr/local/torrentflux/git/administrator";
-$cfg["transmission_rpc_enable"] = true;
+$cfg = Configuration::get_instance()->get_cfg();
+
+//$cfg['uid'] = 0;
+//$path = "/usr/local/torrentflux/git/administrator";
+//$cfg["transmission_rpc_enable"] = true;
 
 if ( $cfg["transmission_rpc_enable"] && isset($action)) {
 	require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
@@ -18,7 +22,7 @@ if ( $cfg["transmission_rpc_enable"] && isset($action)) {
 	if ($action == "stop")	stopTransmissionTransfer($transfer);
 	if ($action == "delete")	deleteTransmissionTransfer($cfg['uid'], $transfer);
 	if ($action == "deletewithdata")	deleteTransmissionTransferWithData($cfg['uid'], $transfer);
-	if ($action == "add") addTransmissionTransfer($cfg['uid'], $url, $path, ($subaction == "add" ? true : false) ); // addTransmissionTransfer($uid = 0, $url, $path, $paused=true)
+	if ($action == "add") addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], ($subaction == "add" ? true : false) ); // addTransmissionTransfer($uid = 0, $url, $path, $paused=true)
 	if ($action == "transferdetails") {	require_once("inc/page/transferdetails.php"); }
 	if ($action == "metafileupload") handleFileUpload($_FILES);
 }
@@ -30,7 +34,8 @@ if ( $cfg["transmission_rpc_enable"] && isset($action)) {
  * @return string or false
  */
 function tfb_cleanFileName($inName) {
-		$cfg['file_types_array'] = array(".torrent"); // TODO get this through the configuration manager
+		//$cfg['file_types_array'] = array(".torrent"); // TODO get this through the configuration manager
+		$cfg = Configuration::get_instance()->get_cfg();
 		
         $outName = $inName;
         //$outName = tfb_clean_accents($inName); // TODO: import this function; not done yet because editor can't save strange characters
@@ -119,9 +124,10 @@ function handleFileUpload($files) {
  * @return bool
  */
 function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadMessages, &$tStack) {
-	$cfg["transmission_rpc_enable"] = true;
-	$cfg["file_types_label"] = ".torrent";
-	$cfg["transfer_file_path"] = "/usr/local/torrentflux/git/.transfers/";
+	$cfg = Configuration::get_instance()->get_cfg();
+	//$cfg["transmission_rpc_enable"] = true;
+	//$cfg["file_types_label"] = ".torrent";
+	//$cfg["transfer_file_path"] = "/usr/local/torrentflux/git/.transfers/";
 	
 	$filename = tfb_cleanFileName(stripslashes($name));
 	if ($filename === false) {
@@ -159,7 +165,7 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 				}
 			}
 		}*/
-		if ($size > 0) { // $size <= $cfg["upload_limit"] &&
+		if ($size <= $cfg["upload_limit"] && $size > 0) {
 			//FILE IS BEING UPLOADED
 			if (@is_file($cfg["transfer_file_path"].$filename)) {
 				// Error

@@ -22,9 +22,9 @@
 
 require_once("inc/plugins/transfersource.torrent.php");
 require_once("inc/generalfunctions.php");
+require_once('inc/singleton/Configuration.php');
 
-$cfg['uid'] = "administrator";
-$cfg['transmission_rpc_enable'] = true;
+$cfg = Configuration::get_instance()->get_cfg();
 
 $rowshtml = "";
 function addRow ( $transfer ) {
