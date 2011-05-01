@@ -27,7 +27,6 @@ function formatBytesTokBMBGBTB($inBytes) {
  * @return string or false
  */
 function tfb_cleanFileName($inName) {
-		//$cfg['file_types_array'] = array(".torrent"); // TODO get this through the configuration manager
 		$cfg = Configuration::get_instance()->get_cfg();
 		
         $outName = $inName;
@@ -127,9 +126,6 @@ function getTransferClient($transfer) {
  */
 function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadMessages, &$tStack) {
 	$cfg = Configuration::get_instance()->get_cfg();
-	//$cfg["transmission_rpc_enable"] = true;
-	//$cfg["file_types_label"] = ".torrent";
-	//$cfg["transfer_file_path"] = "/usr/local/torrentflux/git/.transfers/";
 	
 	$filename = tfb_cleanFileName(stripslashes($name));
 	if ($filename === false) {

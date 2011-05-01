@@ -251,7 +251,6 @@ function stopTransmissionTransfer($hash) {
  * This method deletes the Transmission transfer with the matching hash, without removing the data
  *
  * @return void
- * TODO: test delete :)
  */
 function deleteTransmissionTransfer($uid, $hash, $deleteData = false) {
 	require_once('inc/clients/transmission-daemon/Transmission.class.php');
@@ -271,7 +270,6 @@ function deleteTransmissionTransfer($uid, $hash, $deleteData = false) {
  * This method deletes the Transmission transfer with the matching hash, and its data
  *
  * @return void
- * TODO: test delete :)
  */
 function deleteTransmissionTransferWithData($uid, $hash) {
 	deleteTransmissionTransfer($uid, $hash, true);

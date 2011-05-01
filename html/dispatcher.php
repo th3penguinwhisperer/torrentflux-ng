@@ -9,12 +9,7 @@ $client = (isset($_REQUEST['client']) ? $_REQUEST['client'] : "");
 $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
 $url = (isset($_REQUEST['url']) ? $_REQUEST['url'] : "");
 
-// TODO get these replaced by a config manager singleton class
 $cfg = Configuration::get_instance()->get_cfg();
-
-//$cfg['uid'] = 0;
-//$path = "/usr/local/torrentflux/git/administrator";
-//$cfg["transmission_rpc_enable"] = true;
 
 if ( isset($action) ) {
 	require_once('inc/classes/ClientHandler.php');
