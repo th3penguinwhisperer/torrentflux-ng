@@ -106,6 +106,15 @@ function handleFileUpload($files) {
 }
 
 /**
+ * getTransferClient, returns a string that holds the name of the client that handles this transfer
+ * @param $transfer
+ * @return string
+ */
+function getTransferClient($transfer) {
+	return "transmission-daemon"; // TODO: implement this
+}
+
+/**
  * _dispatcher_processUpload
  *
  * @param $name
@@ -171,9 +180,8 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					//AuditAction($cfg["constants"]["file_upload"], $filename);
 
 					if ($cfg["transmission_rpc_enable"]) { // Do this using a ClientHandler principle
-						require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');
-						$tdc = new TransmissionDaemonClient();
-						$tdc->fileUploaded($fullfilename);
+						$client = ClientHandler::getInstance();
+						$client->fileUploaded($fullfilename);
 						
 						//if ( $actionId > 1 ) {
 							//startTransmissionTransfer( $hash );
