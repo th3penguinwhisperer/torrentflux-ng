@@ -16,16 +16,17 @@ $cfg = Configuration::get_instance()->get_cfg();
 //$path = "/usr/local/torrentflux/git/administrator";
 //$cfg["transmission_rpc_enable"] = true;
 
-if ( $cfg["transmission_rpc_enable"] && isset($action)) {
-	require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
+if ( isset($action) ) {
+	require_once('inc/classes/ClientHandler.php');
+	$client = ClientHandler::getInstance(getTransferClient($transfer));
 	
-	if ($action == "start")	startTransmissionTransfer($transfer);
-	if ($action == "stop")	stopTransmissionTransfer($transfer);
-	if ($action == "delete")	deleteTransmissionTransfer($cfg['uid'], $transfer);
-	if ($action == "deletewithdata")	deleteTransmissionTransferWithData($cfg['uid'], $transfer);
+	if ($action == "start")				$client->start($transfer);
+	if ($action == "stop")				$client->stop($transfer);
+	if ($action == "delete")			$client->delete($transfer);
+	if ($action == "deletewithdata")	$client->deletewithdata($transfer);
 	if ($action == "add") addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], ($subaction == "add" ? true : false) ); // addTransmissionTransfer($uid = 0, $url, $path, $paused=true)
 	if ($action == "transferdetails") {	require_once("inc/page/transferdetails.php"); }
-	if ($action == "metafileupload") handleFileUpload($_FILES);
+	if ($action == "metafileupload") 	handleFileUpload($_FILES);
 }
 
 ?>

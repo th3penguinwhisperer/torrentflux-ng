@@ -9,6 +9,14 @@ interface ClientInterface
 	function getTransferList($uid);
 	
 	function fileUploaded($fullfilename);
+	
+	function start($transfer);
+	
+	function stop($transfer);
+	
+	function delete($transfer);
+	
+	function deletewithdata($transfer);
 }
 
 ?>

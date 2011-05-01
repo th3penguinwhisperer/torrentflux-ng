@@ -2,6 +2,8 @@
 
 require_once("inc/clients/ClientInterface.php");
 require_once("inc/clients/transmission-daemon/TransmissionDaemonTransfer.php");
+require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
+require_once("inc/singleton/Configuration.php");
 
 class TransmissionDaemonClient implements ClientInterface
 {
@@ -37,8 +39,26 @@ class TransmissionDaemonClient implements ClientInterface
 		unlink($fullfilename);
 	}
 	
+	function start($transfer) {
+		startTransmissionTransfer($transfer);
+	}
+
+	function stop($transfer) {
+		stopTransmissionTransfer($transfer);
+	}
+	
+	function delete($transfer) {
+		$cfg = Configuration::get_instance()->get_cfg();
+		deleteTransmissionTransfer($cfg['uid'], $transfer);
+	}
+	
+	function deletewithdata($transfer) {
+		$cfg = Configuration::get_instance()->get_cfg();
+		deleteTransmissionTransferWithData($cfg['uid'], $transfer);
+	}
+	
+	
 	function getTransferList($uid) {
-		require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
 		$result = getUserTransmissionTransfers($uid);
 	
 		$arUserTorrent = array();
