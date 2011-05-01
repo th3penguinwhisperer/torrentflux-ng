@@ -19,7 +19,7 @@ if ( isset($action) ) {
 	if ($action == "stop")				$client->stop($transfer);
 	if ($action == "delete")			$client->delete($transfer);
 	if ($action == "deletewithdata")	$client->deletewithdata($transfer);
-	if ($action == "add") addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], ($subaction == "add" ? true : false) ); // addTransmissionTransfer($uid = 0, $url, $path, $paused=true)
+	if ($action == "add") 				$client->add($url, ($subaction == "add" ? true : false)); // addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], ($subaction == "add" ? true : false) ); // addTransmissionTransfer($uid = 0, $url, $path, $paused=true)
 	if ($action == "transferdetails") {	require_once("inc/page/transferdetails.php"); }
 	if ($action == "metafileupload") 	handleFileUpload($_FILES);
 }

@@ -57,6 +57,11 @@ class TransmissionDaemonClient implements ClientInterface
 		deleteTransmissionTransferWithData($cfg['uid'], $transfer);
 	}
 	
+	function add($url, $paused) {
+		$cfg = Configuration::get_instance()->get_cfg();
+		addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], $paused);
+	}
+	
 	
 	function getTransferList($uid) {
 		$result = getUserTransmissionTransfers($uid);

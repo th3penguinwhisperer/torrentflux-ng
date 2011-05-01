@@ -17,6 +17,8 @@ interface ClientInterface
 	function delete($transfer);
 	
 	function deletewithdata($transfer);
+	
+	function add($url, $paused);
 }
 
 ?>
