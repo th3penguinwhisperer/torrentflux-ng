@@ -30,6 +30,9 @@ array_push($arraydata, $item);
 $item['name'] = "Upload rate";
 $item['value'] = $transdata['up_speed'];
 array_push($arraydata, $item);
+$item['name'] = "Downloaded";
+$item['value'] = $transdata['downloaded'];
+array_push($arraydata, $item);
 
 getDetailsPage($arraydata);
 
