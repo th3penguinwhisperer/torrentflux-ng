@@ -29,7 +29,7 @@ function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
 	#@error($errorstr, "", "", $response);
 	#addGrowlMessage('transmission-rpc',$errorstr.$response);
 	//dbError($errorstr);
-	print("There was an error!");
+	print("There was an error: \n" . $errorstr . "\n" . $response);
 	exit();
 }
 
