@@ -175,16 +175,14 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					@chmod($fullfilename, 0644);
 					//AuditAction($cfg["constants"]["file_upload"], $filename);
 
-					if ($cfg["transmission_rpc_enable"]) { // Do this using a ClientHandler principle
-						$client = ClientHandler::getInstance();
-						$client->fileUploaded($fullfilename);
-						
-						//if ( $actionId > 1 ) {
-							//startTransmissionTransfer( $hash );
-							//array_push($tStack,$filename);
-						//}
-						//return true;
-					}
+					$client = ClientHandler::getInstance();
+					$client->fileUploaded($fullfilename);
+					
+					//if ( $actionId > 1 ) {
+						//startTransmissionTransfer( $hash );
+						//array_push($tStack,$filename);
+					//}
+					//return true;
 					// instant action ?
 					if ($actionId > 1)
 						array_push($tStack,$filename);
