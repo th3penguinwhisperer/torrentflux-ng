@@ -100,7 +100,8 @@ $cfg['user'] = "administrator";
 			'datapath' => $this->data['name'],
 			'is_no_file' => 1,
 			'show_run' => 1,
-			'entry' => $this->data['name']
+			'entry' => $this->data['name'],
+			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] )
 		);
 
 		return $tArray;
@@ -109,7 +110,9 @@ $cfg['user'] = "administrator";
 	function getActions() {
 		$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=" . $this->data['hashString'] . "\">Delete</a> ";
 		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=" . $this->data['hashString'] . "\">Start</a> ";
-		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "\">Stop</a>";
+		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "\">Stop</a> ";
+		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=deletewithdata&transfer=" . $this->data['hashString'] . "\">Delete with data</a>";
+
 	
 		return $actions;
 	}

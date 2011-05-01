@@ -7,13 +7,26 @@ class TransmissionDaemonClient implements ClientInterface
 {
 	
 	function getCapabilities() {
-		$capabilities = array("start", "stop", "delete", "deletewithdata");
+		$capabilities = array("start", "stop", "delete", "deletewithdata", "add", "upload");
 		
 		return $capabilities;
 	}
 	
 	function executeAction($transfer, $action) {
 		;
+	}
+	
+	function fileUploaded($fullfilename) {
+		//require_once('inc/functions/functions.rpc.transmission.php');
+		// TODO create config manager to replace these variable definitions here
+		$cfg['uid'] = 0;
+		$cfg['path'] = "/usr/local/torrentflux/git/administrator";
+		$cfg['user'] = "administrator";
+		
+		$hash = addTransmissionTransfer( $cfg['uid'], $fullfilename, $cfg['path'].$cfg['user'] );
+		
+		unlink($fullfilename);
+		//unlink($cfg['transfer_file_path'].$filename);
 	}
 	
 	function getTransferList($uid) {
