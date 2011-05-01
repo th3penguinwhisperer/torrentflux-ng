@@ -20,7 +20,7 @@ class TransmissionDaemonClient implements ClientInterface
 		//require_once('inc/functions/functions.rpc.transmission.php');
 		// TODO create config manager to replace these variable definitions here
 		$cfg['uid'] = 0;
-		$cfg['path'] = "/usr/local/torrentflux/git/administrator";
+		$cfg['path'] = "/usr/local/torrentflux/git/";
 		$cfg['user'] = "administrator";
 		
 		$hash = addTransmissionTransfer( $cfg['uid'], $fullfilename, $cfg['path'].$cfg['user'] );
