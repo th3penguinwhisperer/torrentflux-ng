@@ -6,6 +6,14 @@ require_once("inc/clients/transmission-daemon/TransmissionDaemonTransfer.php");
 class TransmissionDaemonClient implements ClientInterface
 {
 	
+	static private $instance;
+	
+	static function getInstance() {
+		if ( ! isset(TransmissionDaemonClient::$instance) )
+			TransmissionDaemonClient::$instance = new TransmissionDaemonClient();
+		return TransmissionDaemonClient::$instance;
+	}
+	
 	function getCapabilities() {
 		$capabilities = array("start", "stop", "delete", "deletewithdata", "add", "upload");
 		
