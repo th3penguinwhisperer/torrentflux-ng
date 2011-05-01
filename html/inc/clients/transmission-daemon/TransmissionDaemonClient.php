@@ -27,7 +27,6 @@ class TransmissionDaemonClient implements ClientInterface
 		$hash = addTransmissionTransfer( $cfg['uid'], $fullfilename, $cfg['path'].$cfg['user'] );
 		
 		unlink($fullfilename);
-		//unlink($cfg['transfer_file_path'].$filename);
 	}
 	
 	function getTransferList($uid) {
