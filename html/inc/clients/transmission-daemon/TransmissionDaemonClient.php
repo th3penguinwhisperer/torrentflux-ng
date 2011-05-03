@@ -56,6 +56,12 @@ class TransmissionDaemonClient implements ClientInterface
 		addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], $paused);
 	}
 	
+	function gettabs($tabname = "") {
+		if($tabname == "") require_once("inc/clients/transmission-daemon/tabs/transferfiles.php");
+		else if ($tabname == "files") {
+			require_once("inc/clients/transmission-daemon/tabs/transferdetails.php");
+		}
+	}
 	
 	function getTransferList($uid) {
 		$result = getUserTransmissionTransfers($uid);
