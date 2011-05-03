@@ -117,7 +117,9 @@ $cfg['user'] = "administrator";
 		return $actions;
 	}
 
-
+	function getData() {
+		return $this->data;
+	}
 }
 
 ?>
