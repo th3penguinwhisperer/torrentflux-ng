@@ -1,12 +1,7 @@
 <?php
 
-
-$transfer = $_REQUEST['transfer'];
 print("The transfer hash is ". $transfer);
 
-if ( ! isset($_REQUEST['transfer']) ) {
-	exit();
-}
 if ( isset($_REQUEST['subaction']) && $_REQUEST['subaction'] == "set" ) {
 	require_once("inc/clients/transmission-daemon/TransmissionDaemonClient.php");
 	foreach ($_REQUEST['files'] as $fileid ) {

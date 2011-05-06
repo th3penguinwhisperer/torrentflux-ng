@@ -57,10 +57,7 @@ class TransmissionDaemonClient implements ClientInterface
 	}
 	
 	function gettabs($tabname = "") {
-		if($tabname == "") require_once("inc/clients/transmission-daemon/tabs/transferfiles.php");
-		else if ($tabname == "files") {
-			require_once("inc/clients/transmission-daemon/tabs/transferdetails.php");
-		}
+		require_once('inc/clients/transmission-daemon/tabs/tabs.php');
 	}
 	
 	function getTransferList($uid) {
