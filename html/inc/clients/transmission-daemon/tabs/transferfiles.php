@@ -99,6 +99,7 @@ function get($transfer) {
 		$retVal .= "<form name=\"priority\" action=\"dispatcher.php\" method=\"POST\" >";
 		$retVal .= "<input type=\"hidden\" name=\"transfer\" value=\"".$transfer."\" >";
 		$retVal .= "<input type=\"hidden\" name=\"subaction\" value=\"set\" >";
+		$retVal .= "<input type=\"hidden\" name=\"tab\" value=\"files\" >";
 	}
 	$retVal .= "<div id=\"filelist\"></div>";
 	$retVal .= "<script type=\"text/javascript\">\n";
