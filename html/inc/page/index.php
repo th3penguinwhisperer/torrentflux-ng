@@ -30,7 +30,7 @@ $rowshtml = "";
 function addRow ( $transfer ) {
 	global $rowshtml;
 	$data = $transfer->getTransferListItem();
-	$rowshtml = $rowshtml . "\r<tr><td><img onclick=\"javascript:pp.url('dispatcher.php?action=transfertabs&transfer=" . $data['url_entry'] . "');\">".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>" . $transfer->getActions()."</td></tr>";
+	$rowshtml = $rowshtml . "\r<tr><td><img onclick=\"javascript:pp.url('dispatcher.php?action=transfertabs&transfer=" . $data['url_entry'] . "');\">".$data['displayname']. "</td><td>". $data['estTime'] . "</td><td>" . $data['percentage'] . "</td><td>" . $data['statusStr'] . "</td><td>" . $data['down_speed'] ."</td><td>". $data['up_speed'] . "</td><td>" . $transfer->getActions()."</td></tr>"; // TODO get this retrieved in a nicer way
 }
 
 function getTable($data) {
