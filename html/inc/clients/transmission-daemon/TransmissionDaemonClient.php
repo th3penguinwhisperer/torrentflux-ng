@@ -88,6 +88,12 @@ class TransmissionDaemonClient implements ClientInterface
 		return new TransmissionDaemonTransfer( getTransmissionTransfer($hash, $fields) );
 	}
 	
+	function setTransfer($transfer, $data) {
+		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
+
+		setTransmissionTransferProperties($transfer, $data);
+	}
+	
 /*	function getTransfer($transfer, $fields = array()) {
 		require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
 		
