@@ -1,0 +1,11 @@
+<?php
+
+class DbSettings 
+{
+	static $server = "hostnameOrIp";
+	static $user = "username";
+	static $pwd = "password";
+	static $database = "database";
+}
+
+?>

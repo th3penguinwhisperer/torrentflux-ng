@@ -1,27 +1,10 @@
 <?php
 
-
-//$db = null;
-
-//function getDbInstance() {
-//	if (!isset($db)) {
-//		$server = "hostnameOrIp";
-//		$user = "username";
-//		$pwd = "password";
-//		$database = "database";
-//		$db = NewADOConnection('mysql');
-//		$db->Connect($server, $user, $pwd, $database);
-//	}
-//	return $db;
-//}
+require_once('settings/db.config.php');
 
 class DB
 {
 	static private $db;
-	static private $server = "hostnameOrIp";
-	static private $user = "username";
-	static private $pwd = "password";
-	static private $database = "database";
 
 	private $handle;
 
@@ -29,7 +12,7 @@ class DB
 		require_once('inc/adodb/adodb.inc.php');
 		$dbinst = NewADOConnection('mysql');
 		try {
-			$dbinst->Connect(DB::$server, DB::$user, DB::$pwd, DB::$database);
+			$dbinst->Connect(DbSettings::$server, DbSettings::$user, DbSettings::$pwd, DbSettings::$database);
 		} catch (exception $e) {
 			print_r($e); // TODO make logging/error print mechanism
 		}
