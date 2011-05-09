@@ -20,8 +20,10 @@ if ( isset($action) ) {
 	if ($action == "delete")			$client->delete($transfer);
 	if ($action == "deletewithdata")	$client->deletewithdata($transfer);
 	if ($action == "add") 				$client->add($url, ($subaction == "add" ? true : false));
-	if ($action == "transfertabs") {	$client->gettabs();  }
+	if ($action == "transfertabs") {	$client->gettabs(); exit(); }
 	if ($action == "metafileupload") 	handleFileUpload($_FILES);
 }
+
+header('Location: index.php');
 
 ?>
