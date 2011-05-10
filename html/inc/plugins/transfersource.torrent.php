@@ -48,9 +48,17 @@ $(function() {
       data: dataString,
       success: function() {
         $('#status_message').html(\"New transfer is added\");
+        var refreshId = setInterval(
+            function() {
+                $(\"#status_message\").val(\"\");
+		$(\"#status_message\").hide();
+                $(\"#url\").val(\"\");
+            }, 
+            5000
+        );
+        gettransferlist();
       }
     });
-    setTimeout(\"gettransferlist()\",2000);
     return false;
   });
 });
