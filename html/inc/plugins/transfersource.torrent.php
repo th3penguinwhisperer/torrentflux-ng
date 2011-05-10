@@ -50,7 +50,7 @@ $(function() {
         $('#status_message').html(\"New transfer is added\");
       }
     });
-    gettransferlist();
+    setTimeout(\"gettransferlist()\",2000);
     return false;
   });
 });
