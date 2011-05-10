@@ -40,7 +40,7 @@ pp = new Popup;
 	</script>
 	<script type="text/javascript" src="js/transferlist.js"></script>
 </head>
-<body onload="javascript:gettransferlist()">');
+<body onload="javascript:gettransferlist(); reloadtransferlist();">');
 
   getPluginUi();
 
