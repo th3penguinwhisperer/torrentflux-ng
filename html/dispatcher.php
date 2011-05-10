@@ -7,7 +7,7 @@ $action = $_REQUEST['action'];
 $plugin = (isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : "");
 $client = (isset($_REQUEST['client']) ? $_REQUEST['client'] : "");
 $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
-$url = (isset($_REQUEST['url']) ? $_REQUEST['url'] : "");
+$url = (isset($_REQUEST['url']) ? urldecode($_REQUEST['url']) : "");
 
 $cfg = Configuration::get_instance()->get_cfg();
 
@@ -19,7 +19,7 @@ if ( isset($action) ) {
 	if ($action == "stop")				$client->stop($transfer);
 	if ($action == "delete")			$client->delete($transfer);
 	if ($action == "deletewithdata")	$client->deletewithdata($transfer);
-	if ($action == "add") 				$client->add($url, ($subaction == "add" ? true : false));
+	if ($action == "add") { 			$client->add($url, ($subaction == "add" ? true : false)); exit(); }
 	if ($action == "transfertabs") {	$client->gettabs(); exit(); }
 	if ($action == "metafileupload") 	handleFileUpload($_FILES);
 }
