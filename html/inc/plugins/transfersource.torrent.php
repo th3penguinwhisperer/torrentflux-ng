@@ -48,7 +48,8 @@ $(function() {
       data: dataString,
       success: function() {
         $('#status_message').html(\"New transfer is added\");
-        var refreshId = setInterval(
+        $(\"#status_message\").show();
+        var refreshId = setTimeout(
             function() {
                 $(\"#status_message\").val(\"\");
 		$(\"#status_message\").hide();
