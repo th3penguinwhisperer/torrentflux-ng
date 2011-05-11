@@ -192,7 +192,7 @@ dTree.prototype.node = function(node, nodeId) {
 		str += '<img id="i' + this.obj + nodeId + '" src="' + ((node._io) ? node.iconOpen : node.icon) + '" alt="" />';
 	}
 // dirty hack by alatar :)
-    str += '<input type="checkbox" id="b' + this.obj + nodeId + '" name="files[]" onClick=" chg(' +  node.id + '); return true;" value="' + node.id + '"'+((node.prio==1)?" checked":"")+' />';
+    str += '<input type="checkbox" id="b' + this.obj + nodeId + '" name="files[]" id="files" onClick=" chg(' +  node.id + '); return true;" value="' + node.id + '"'+((node.prio==1)?" checked":"")+' />';
 // alatar end
 	if (node.url) {
 		str += '<a id="s' + this.obj + nodeId + '" class="' + ((this.config.useSelection) ? ((node._is ? 'nodeSel' : 'node')) : 'node') + '" href="' + node.url + '"';

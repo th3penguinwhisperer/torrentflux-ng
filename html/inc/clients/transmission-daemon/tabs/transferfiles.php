@@ -102,7 +102,7 @@ $(function() {
     var count = $(\"#count\").val();
 
     var file_query_string = '';
-    $(\"input:checkbox\").each(
+    $(\"[@id=files]:checked\").each(
     function()
     {
         if (this.checked)
@@ -129,7 +129,7 @@ $(function() {
         //var refreshId = setTimeout(
         //    function() {
         //        $(\"#status_message\").val(\"\");
-	//	$(\"#status_message\").hide();
+        //	$(\"#status_message\").hide();
         //        $(\"#url\").val(\"\");
         //    }, 
         //    5000
