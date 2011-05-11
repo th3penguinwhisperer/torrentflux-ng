@@ -1,0 +1,114 @@
+
+/**********************************************************************
+TorrentFlux-NG README file
+**********************************************************************/
+
+    Contents:
+    =========
+    1. Introduction
+    2. Features
+    3. Requirements
+        3.1 Minimum Requirements
+        3.2 Additional/Optional Feature Requirements
+        3.3 Fluxd Requirements
+    4. Installation
+    5. Support
+
+/**********************************************************************
+1. Introduction
+**********************************************************************/
+
+    TorrentFlux-NG is a multi-user download client inspired by 
+    TorrentFlux B4rt
+    http://www.torrentflux-ng.org/
+
+    It includes the new RedRound theme and uses jQuery
+
+    TorrentFlux-NG is a web based transfer control client.
+    it allows you to control your torrent/http/... transfers
+    from anywhere using a highly configurable web based front end.
+
+    The full code rewrite makes TorrentFlux-NG a framework for which
+    easily new transfer backends (Torrent clients, ...) can be added.
+
+    TorrentFlux-NG is very easy to install on a web server and includes
+    a simple setup script which can be accessed from a web browser.
+    Just upload the files to your web server, run the setup script and
+    your installation is ready to go.
+
+    TorrentFlux-NG has builtin support for transfers via:
+
+        o BitTorrent - supported client(s) include:
+
+            * Original BitTorrent/Mainline - supports trackerless
+              torrents and encryption
+
+            * BitTornado - uses slightly less resources than the original
+              BT, allows file priority for downloading files selectively
+
+            * Transmission - much smaller memory footprint without much
+              loss in functionality
+            
+            * Transmission-daemon - small memory footprint, total 
+              bandwidth control, encryption, dht, magnet links, ...
+
+            * Azureus - control a number of transfers from a single
+              control process, tighter control on total max bandwidth
+              for all torrents
+
+        o HTTP/FTP - supported client(s) include:
+
+            * wget - standard lightweight file transfer utility on
+              Linux, supported on many other platforms also
+
+        o Usenet - supported client(s) include:
+
+            * nzbperl - perl based application allowing multi-connection
+              news server downloads from nzb files with functionality
+              for bandwidth throttling.
+
+
+    TorrentFlux-NG incorporates a huge number of advanced options to
+    allow you finer grained control of your transfers. The
+    administration panel in torrentflux-b4rt includes a large number of
+    options to allow you fine grained control over every aspect of your
+    bittorrent/transfers usage.
+
+    TorrentFlux-NG is also a multi-user application, allowing you to
+    create individual accounts and assign restrictions to those accounts
+    as you wish.
+
+
+/**********************************************************************
+2. Features
+**********************************************************************/
+
+    TODO
+
+
+/**********************************************************************
+3. Requirements
+**********************************************************************/
+
+   TODO
+
+
+/**********************************************************************
+4. Installation
+**********************************************************************/
+
+    TorrentFlux-NG can be installed quickly from a web browser using
+    the included setup script. For full details of how to install,
+    please see the INSTALL file. (TODO: create INSTALL file)
+
+    It is also possible to Upgrade an existing installation of 2.1-b4rt
+    or official TF (2.1 - 2.3) to TorrentFlux-NG. Details about
+    this can be found in the INSTALL file. (TODO: create INSTALL file)
+
+
+/**********************************************************************
+5. Support
+**********************************************************************/
+
+    Please see the SUPPORT file for information on getting help with
+    your Torrentflux-NG installation. (TODO: create SUPPORT file)
