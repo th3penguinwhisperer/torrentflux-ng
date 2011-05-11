@@ -135,13 +135,15 @@ function Popup() {
 		popld = "popup_loading";
 	
 		//hide popup divs
-		$("#"+popfg).hide();
-		$("#"+popbg).fadeOut('fast');
+		$("#"+popfg).fadeOut('fast');
+		$("#"+popbg).fadeOut('fast', function(){
+			//remove popup divs
+			$("#"+popfg).hide();
+			$("#"+popfg).remove();
+			$("#"+popbg).remove();
+			$("#"+popld).remove();
+		});
 		
-		//remove popup divs
-		$("#"+popfg).remove();
-		$("#"+popbg).remove();
-		$("#"+popld).remove();
 	}
 	
 	/** 2010-12-15
@@ -209,7 +211,7 @@ function Popup() {
 			$("#"+popfg).attr('style','display:none; background-color:white; border:1px solid #000000; overflow:auto; min-width: 100px; min-height: 50px; max-width:95%; max-height:95%;');
 			//non-debugging 
 			//$("#"+popfg).attr('style','display:none; background-color:white; border:1px solid #000000; overflow:auto;');
-			$("#"+popfg).html('<img src="/img/loading.gif"/>');
+			$("#"+popfg).html('<img src="images/loading.gif"/>');
 			$("#"+popbg).dblclick(this.close);
 		}
 		else {
@@ -218,7 +220,7 @@ function Popup() {
 			$("#"+popfg).hide();
 		}
 		if($("#"+popld).length==0) {
-			$("body").append('<div id="'+popld+'"><img src="/img/loading.gif"/></div>');
+			$("body").append('<div id="'+popld+'"><img src="images/loading.gif"/></div>');
 			$("#"+popld).attr('style','background-color:white; border:1px solid #000000; display:block; overflow:auto;'); 
 			$("#"+popld).hide();
 		}
@@ -228,8 +230,8 @@ function Popup() {
 	
 		// fade in
 		reposition();
-		$("#"+popbg).show();
-		$("#"+popld).show();
+		$("#"+popbg).fadeIn('fast');
+		$("#"+popld).fadeIn('fast');
 		$("#"+popfg).load(szUrl, data, this.complete);
 	}
 	
