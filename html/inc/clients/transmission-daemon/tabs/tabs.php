@@ -17,6 +17,7 @@ function update(tab, transfer) {
                 $(\'#tabcontent\').html(\'Loading..\');
                 $.get(\'dispatcher.php?action=transfertabs&tab=\' + tab + \'&transfer=\' + transfer, function(data) {
                         $(\'#tabcontent\').html(data);
+			reposition();
                 //window.setTimeout(update, 10000);
                 });
 };
