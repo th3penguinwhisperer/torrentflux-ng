@@ -93,13 +93,58 @@ function get($transfer) {
 
 	$retVal = "";
 	$retVal .= "<div id=\"sel\">0</div>"; // This is a placeholder updated by the javascript dtree
+	$retVal .= "\n
+<script type=\"text/javascript\" src=\"js/jquery.js\"></script>
+<script type=\"text/javascript\">
+$(function() {
+  $(\".save_file_selection\").click( function() {
+    var tab = $(\"#tab\").val();
+    var count = $(\"#count\").val();
+
+    var file_query_string = '';
+    $(\"input:checkbox\").each(
+    function()
+    {
+        if (this.checked)
+        {
+            file_query_string += \"&files[]=\" + this.value;
+        }
+    });
+    alert(file_query_string);
+    var filecount = $(\"#filecount\").val();
+    var transfer = $(\"#transfer\").val();
+    var subaction = $(\"#subaction\").val();
+    var action = $(\"#action\").val();
+
+    // validate and process form here
+    var dataString = 'tab=' + tab + '&transfer=' + transfer + '&subaction=' + subaction + '&action=' + action + '&filecount=' + filecount + '&count=' + count + '&files=' + file_query_string;
+
+    $.ajax({
+      type: \"POST\",
+      url: \"dispatcher.php\",
+      data: dataString,
+      success: function() {
+        //$('#status_message').html(\"New transfer is added\");
+        //$(\"#status_message\").show();
+        //var refreshId = setTimeout(
+        //    function() {
+        //        $(\"#status_message\").val(\"\");
+	//	$(\"#status_message\").hide();
+        //        $(\"#url\").val(\"\");
+        //    }, 
+        //    5000
+        //);
+        //gettransferlist();
+      }
+    });
+    return false;
+  });
+});
+</script>";
 	$withForm = true; //TODO: get this in a setting
 	if ($withForm) {
+		$retVal .= "<form name=\"file_selection\" id=\"file_selection\" action=\"\" >";
 		//$retVal .= "<form name=\"priority\" action=\"inc/clients/transmission-daemon/tabs/transferfiles.php\" method=\"POST\" >"; // TODO: get this fixed in a nicer way
-		$retVal .= "<form name=\"priority\" action=\"dispatcher.php\" method=\"POST\" >";
-		$retVal .= "<input type=\"hidden\" name=\"transfer\" value=\"".$transfer."\" >";
-		$retVal .= "<input type=\"hidden\" name=\"subaction\" value=\"set\" >";
-		$retVal .= "<input type=\"hidden\" name=\"tab\" value=\"files\" >";
 	}
 	$retVal .= "<div id=\"filelist\"></div>";
 	$retVal .= "<script type=\"text/javascript\">\n";
@@ -112,13 +157,15 @@ function get($transfer) {
 	$retVal .= "sel = getSizes();\n";
 	$retVal .= "drawSel();\n";
 	$retVal .= "</script>\n";
-	$retVal .= "<input type=\"hidden\" name=\"filecount\" value=\"".$filescount."\">";
-	$retVal .= "<input type=\"hidden\" name=\"action\" value=\"transfertabs\">";
-	$retVal .= "<input type=\"hidden\" name=\"subaction\" value=\"set\">";
-	$retVal .= "<input type=\"hidden\" name=\"count\" value=\"".$dirnum."\">";
+	$retVal .= "<input type=\"hidden\" name=\"filecount\" id=\"filecount\" value=\"".$filescount."\">";
+	$retVal .= "<input type=\"hidden\" name=\"count\" id=\"count\" value=\"".$dirnum."\">";
 	$retVal .= "<br>";
 	if ($withForm) {
-		$retVal .= '<input type="submit" value="Save" >';
+		$retVal .= "<input type=\"hidden\" name=\"transfer\" id=\"transfer\" value=\"".$transfer."\" >";
+		$retVal .= "<input type=\"hidden\" name=\"subaction\" id=\"subaction\" value=\"set\" >";
+		$retVal .= "<input type=\"hidden\" name=\"tab\" id=\"tab\" value=\"files\" >";
+		$retVal .= "<input type=\"hidden\" name=\"action\" id=\"action\" value=\"transfertabs\">";
+		$retVal .= '<input type="submit" class="save_file_selection" value="Save" >';
 		$retVal .= "<br>";
 		$retVal .= "</form>";
 	}
