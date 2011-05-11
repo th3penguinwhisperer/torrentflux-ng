@@ -98,9 +98,8 @@ function get($transfer) {
 <script type=\"text/javascript\">
 $(function() {
   $(\".save_file_selection\").click( function() {
-    var tab = $(\"#tab\").val();
-    var count = $(\"#count\").val();
-
+    var tab = $(\"#file_selection .tab\").val();
+    var count = $(\"#file_selection .count\").val();
     var file_query_string = '';
     $(\"[@id=files]:checked\").each(
     function()
@@ -110,11 +109,10 @@ $(function() {
             file_query_string += \"&files[]=\" + this.value;
         }
     });
-    alert(file_query_string);
-    var filecount = $(\"#filecount\").val();
-    var transfer = $(\"#transfer\").val();
-    var subaction = $(\"#subaction\").val();
-    var action = $(\"#action\").val();
+    var filecount = $(\"#file_selection .filecount\").val();
+    var transfer = $(\"#file_selection .transfer\").val();
+    var subaction = $(\"#file_selection .subaction\").val();
+    var action = $(\"#file_selection .action\").val();
 
     // validate and process form here
     var dataString = 'tab=' + tab + '&transfer=' + transfer + '&subaction=' + subaction + '&action=' + action + '&filecount=' + filecount + '&count=' + count + '&files=' + file_query_string;
@@ -124,17 +122,16 @@ $(function() {
       url: \"dispatcher.php\",
       data: dataString,
       success: function() {
-        //$('#status_message').html(\"New transfer is added\");
-        //$(\"#status_message\").show();
-        //var refreshId = setTimeout(
-        //    function() {
-        //        $(\"#status_message\").val(\"\");
-        //	$(\"#status_message\").hide();
-        //        $(\"#url\").val(\"\");
-        //    }, 
-        //    5000
-        //);
-        //gettransferlist();
+        $('#status_message').html(\"Selected files for transfer have been saved!\");
+	pp.close();
+        $(\"#status_message\").show();
+        var refreshId = setTimeout(
+            function() {
+                $(\"#status_message\").val(\"\");
+       	        $(\"#status_message\").hide();
+            }, 
+            5000
+        );
       }
     });
     return false;
@@ -157,14 +154,14 @@ $(function() {
 	$retVal .= "sel = getSizes();\n";
 	$retVal .= "drawSel();\n";
 	$retVal .= "</script>\n";
-	$retVal .= "<input type=\"hidden\" name=\"filecount\" id=\"filecount\" value=\"".$filescount."\">";
-	$retVal .= "<input type=\"hidden\" name=\"count\" id=\"count\" value=\"".$dirnum."\">";
+	$retVal .= "<input type=\"hidden\" name=\"filecount\" class=\"filecount\" value=\"".$filescount."\">";
+	$retVal .= "<input type=\"hidden\" name=\"count\" class=\"count\" value=\"".$dirnum."\">";
 	$retVal .= "<br>";
 	if ($withForm) {
-		$retVal .= "<input type=\"hidden\" name=\"transfer\" id=\"transfer\" value=\"".$transfer."\" >";
-		$retVal .= "<input type=\"hidden\" name=\"subaction\" id=\"subaction\" value=\"set\" >";
-		$retVal .= "<input type=\"hidden\" name=\"tab\" id=\"tab\" value=\"files\" >";
-		$retVal .= "<input type=\"hidden\" name=\"action\" id=\"action\" value=\"transfertabs\">";
+		$retVal .= "<input type=\"hidden\" name=\"transfer\" class=\"transfer\" value=\"".$transfer."\" >";
+		$retVal .= "<input type=\"hidden\" name=\"subaction\" class=\"subaction\" value=\"set\" >";
+		$retVal .= "<input type=\"hidden\" name=\"tab\" class=\"tab\" value=\"files\" >";
+		$retVal .= "<input type=\"hidden\" name=\"action\" class=\"action\" value=\"transfertabs\">";
 		$retVal .= '<input type="submit" class="save_file_selection" value="Save" >';
 		$retVal .= "<br>";
 		$retVal .= "</form>";
