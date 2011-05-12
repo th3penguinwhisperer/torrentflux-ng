@@ -8,6 +8,7 @@ $plugin = (isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : "");
 $client = (isset($_REQUEST['client']) ? $_REQUEST['client'] : "");
 $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
 $url = (isset($_REQUEST['url']) ? urldecode($_REQUEST['url']) : "");
+$subaction = (isset($_REQUEST['subaction']) ? $_REQUEST['subaction'] : "");
 
 $cfg = Configuration::get_instance()->get_cfg();
 
