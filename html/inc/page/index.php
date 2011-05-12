@@ -20,7 +20,39 @@
 
 *******************************************************************************/
 
+
+function getClientSelection()
+{
+	$clients = array("transmission-daemon");
+	$clientNames = array("Transmission-daemon");
+	$clienthtmlcode = "";
+	foreach ( $clientNames as $clientName ) {
+		$clienthtmlcode .= "\t\t<option value=" . array_shift($clients) . ">".$clientName."</option>\n";
+	}
+
+	print("
+	<select name=client id=client>
+$clienthtmlcode	</select>");	
+}
+
+function getActionSelection() 
+{
+	$actions = array("Add");
+	array_push($actions, "Add+Start");
+	$actionsnames = array("add");
+	array_push($actionsnames, "addstart");
+	$actionhtmlcode = "";
+	foreach ( $actions as $action ) {
+		$actionhtmlcode .= "\t<option value=" . array_shift($actionsnames) . ">" . $action . "</option>\n";
+	}
+	
+	print("		<select name=subaction id=subaction>
+$actionhtmlcode
+		</select>");
+}
+
 require_once("inc/plugins/transfersource.torrent.php");
+require_once("inc/plugins/transfersource.fileupload.php");
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
 
@@ -42,7 +74,10 @@ pp = new Popup;
 </head>
 <body onload="javascript:gettransferlist(); reloadtransferlist();">');
 
-  getPluginUi();
+  getClientSelection();
+  getActionSelection();
+  TransfersourceFileupload::getPluginUi();
+  TransfersourceTorrent::getPluginUi();
 
   print('<img onclick="javascript:gettransferlist();">');
   print('<div id=transferlist>');

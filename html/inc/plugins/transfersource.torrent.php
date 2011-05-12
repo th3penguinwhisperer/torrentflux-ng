@@ -1,25 +1,12 @@
 <?php
 
-function getPluginUi() {
-	//getClientNames() // Put the following in this function
-	$clientNames = array("Transmission-daemon");
-	$pluginName = "transmission-daemon";
+class TransfersourceTorrent
+{
+
+	static function getPluginUi() {
+		$pluginName = "transmission-daemon"; // TODO: can probably be removed as plugins in this context are not linked to a client
 	
-	$clienthtmlcode = "";
-	foreach ( $clientNames as $clientName ) {
-		$clienthtmlcode .= "\t<option value=$clientName>".$clientName."</option>\n";
-	}
-	
-	$actions = array("Add");
-	array_push($actions, "Add+Start");
-	$actionsnames = array("add");
-	array_push($actionsnames, "addstart");
-	$actionhtmlcode = "";
-	foreach ( $actions as $action ) {
-		$actionhtmlcode .= "\t<option value=" . array_shift($actionsnames) . ">" . $action . "</option>\n";
-	}
-	
-	print("\n
+		print("\n
 <script type=\"text/javascript\">
 $(function() {
   $(\".add_url_button\").click( function() {
@@ -68,23 +55,12 @@ $(function() {
 </div>
 <form name=addurl action=\"\">Torrent URL: 
 	<input type=text name=url id=url>
-		<select name=client id=client>
-$clienthtmlcode
-		</select>
-		<select name=subaction id=subaction>
-$actionhtmlcode
-		</select>
 	<input type=submit class=\"add_url_button\">
-	<input type=hidden name=plugin id=plugin value=$pluginName>
 	<input type=hidden name=action id=action value=add>
 </form>");
-/*print("
-<form name=uploadmetafile method=post action=dispatcher.php enctype=\"multipart/form-data\">Metafile upload
-	<input type=file name=metafile>
-	<input type=submit class=\"upload_file_button\">
-	<input type=hidden name=plugin value=$pluginName>
-	<input type=hidden name=action value=metafileupload>
-</form>");*/
+
+	}
+	
 }
 
 ?>
