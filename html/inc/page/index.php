@@ -51,9 +51,7 @@ $actionhtmlcode
 		</select>");
 }
 
-require_once('inc/plugins/basictransferadd/basictransferadd.php');
-require_once("inc/plugins/rss/readrss.php");
-
+require_once('inc/plugins/PluginHandler.php');
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
 
@@ -81,13 +79,11 @@ pp = new Popup;
   print('<img onclick="javascript:gettransfersource();"> <img onclick="javascript:gettransfersource();">
 <div id=transfersources>');
 
-  $className = 'BasicTransferAdd';
-  $inst = new $className;
-  $inst->show();
-  
-  $className = 'RssReader';
-  $inst = new $className;
-  $inst->show();
+  $ph = new PluginHandler();
+  $pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_TRANSFERSOURCE);
+  foreach( $pluginNames as $plugin ) {
+  	$ph->getPlugin($plugin[0]);
+  }
   
   print('</div>
   
