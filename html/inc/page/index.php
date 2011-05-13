@@ -53,6 +53,8 @@ $actionhtmlcode
 
 require_once("inc/plugins/transfersource.torrent.php");
 require_once("inc/plugins/transfersource.fileupload.php");
+require_once("inc/plugins/rss/readrss.php");
+
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
 
@@ -76,12 +78,20 @@ pp = new Popup;
 
   getClientSelection();
   getActionSelection();
+
+  print('<img onclick="javascript:gettransfersource();"> <img onclick="javascript:gettransfersource();">
+<div id=transfersources>');
+
   TransfersourceFileupload::getPluginUi();
   TransfersourceTorrent::getPluginUi();
-
-  print('<img onclick="javascript:gettransferlist();">');
-  print('<div id=transferlist>');
-  print('</div>');
+  global $rss_list; // TODO: fix this properly: aka get rid of it
+  getRssList($rss_list);
+  
+  print('</div>
+  
+<img onclick="javascript:gettransferlist();">
+<div id=transferlist>
+</div>');
 
   print( "
 </body>
