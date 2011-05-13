@@ -200,4 +200,25 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 	}
 }
 
+/**
+ * checks a dir. recursive process to emulate "mkdir -p" if dir not present
+ *
+ * @param $dir the name of the dir
+ * @param $mode the mode of the dir if created. default is 0755
+ * @return boolean if dir exists/could be created
+ */
+function checkDirectory($dir, $mode = 0755, $depth = 0) {
+	if ($depth > 32)
+		return false;
+	if ((@is_dir($dir) && @is_writable($dir)) || @mkdir($dir, $mode))
+		return true;
+	if ($dir == '/')
+		return false;
+	if (!@checkDirectory(dirname($dir), $mode, ++$depth))
+		return false;
+	return @mkdir($dir, $mode);
+}
+
+
+
 ?>
