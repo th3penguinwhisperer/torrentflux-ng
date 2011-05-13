@@ -77,17 +77,14 @@ function ScrubDescription($desc, $title) {
  * @return array
  */
 function GetRSSLinks() {
-	// TODO: For now lets comment this out for testing :) DB will be used later
-	/*
-	global $cfg, $db;
+	require_once('inc/singleton/db.php');
+	$db = DB::get_db()->get_handle();
+	
 	$link_array = array();
 	$sql = "SELECT rid, url FROM tf_rss ORDER BY rid";
 	$link_array = $db->GetAssoc($sql);
 	if ($db->ErrorNo() != 0) dbError($sql);
 	return $link_array;
-	*/
-	
-	return array('http://www.ezrss.it/search/index.php?show_name=family+guy&date=&quality=&release_group=&mode=rss');
 }
 
 ?>
