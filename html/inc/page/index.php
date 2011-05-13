@@ -51,8 +51,7 @@ $actionhtmlcode
 		</select>");
 }
 
-require_once("inc/plugins/transfersource.torrent.php");
-require_once("inc/plugins/transfersource.fileupload.php");
+require_once('inc/plugins/basictransferadd/basictransferadd.php');
 require_once("inc/plugins/rss/readrss.php");
 
 require_once("inc/generalfunctions.php");
@@ -82,10 +81,13 @@ pp = new Popup;
   print('<img onclick="javascript:gettransfersource();"> <img onclick="javascript:gettransfersource();">
 <div id=transfersources>');
 
-  TransfersourceFileupload::getPluginUi();
-  TransfersourceTorrent::getPluginUi();
-  global $rss_list; // TODO: fix this properly: aka get rid of it
-  getRssList($rss_list);
+  $className = 'BasicTransferAdd';
+  $inst = new $className;
+  $inst->show();
+  
+  $className = 'RssReader';
+  $inst = new $className;
+  $inst->show();
   
   print('</div>
   

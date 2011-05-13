@@ -3,7 +3,7 @@
 class TransfersourceTorrent
 {
 
-	static function getPluginUi() {
+	static function show() {
 		$pluginName = "transmission-daemon"; // TODO: can probably be removed as plugins in this context are not linked to a client
 	
 		print("\n

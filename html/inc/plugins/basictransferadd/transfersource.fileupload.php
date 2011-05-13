@@ -3,7 +3,7 @@
 class TransfersourceFileupload
 {
 
-	static function getPluginUi() {
+	static function show() {
 		print("
 <form name=uploadmetafile method=post action=dispatcher.php enctype=\"multipart/form-data\">Metafile upload
 	<input type=file name=metafile>
