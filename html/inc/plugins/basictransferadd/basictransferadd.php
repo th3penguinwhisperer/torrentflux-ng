@@ -1,5 +1,6 @@
 <?php
 
+require_once("inc/generalfunctions.php");
 require_once("inc/plugins/basictransferadd/transfersource.torrent.php");
 require_once("inc/plugins/basictransferadd/transfersource.fileupload.php");
 
@@ -12,6 +13,10 @@ class BasicTransferAdd
 	
 	function show()
 	{
+		getClientSelection();
+		getActionSelection();
+		print('<br>');
+		
 		$fileUpload = new TransfersourceFileupload();
 		$transfersource = new TransfersourceTorrent();
 		

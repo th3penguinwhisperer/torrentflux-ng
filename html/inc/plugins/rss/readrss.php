@@ -169,6 +169,10 @@ class RssReader
 	
 	function show()
 	{
+		getClientSelection();
+		getActionSelection();
+		print('<br>');
+		
 		$this->buildRssItemsArray(); // TODO: not sure were exactly is the best place for this
 		
 		// TODO: should this javascript be seperated?

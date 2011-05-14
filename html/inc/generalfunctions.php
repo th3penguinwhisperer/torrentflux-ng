@@ -219,6 +219,34 @@ function checkDirectory($dir, $mode = 0755, $depth = 0) {
 	return @mkdir($dir, $mode);
 }
 
+function getClientSelection()
+{
+	$clients = array("transmission-daemon");
+	$clientNames = array("Transmission-daemon");
+	$clienthtmlcode = "";
+	foreach ( $clientNames as $clientName ) {
+		$clienthtmlcode .= "\t\t<option value=" . array_shift($clients) . ">".$clientName."</option>\n";
+	}
 
+	print("
+	<select name=client id=client>
+$clienthtmlcode	</select>");	
+}
+
+function getActionSelection()
+{
+	$actions = array("Add");
+	array_push($actions, "Add+Start");
+	$actionsnames = array("add");
+	array_push($actionsnames, "addstart");
+	$actionhtmlcode = "";
+	foreach ( $actions as $action ) {
+		$actionhtmlcode .= "\t<option value=" . array_shift($actionsnames) . ">" . $action . "</option>\n";
+	}
+	
+	print("		<select name=subaction id=subaction>
+$actionhtmlcode
+		</select>");
+}
 
 ?>
