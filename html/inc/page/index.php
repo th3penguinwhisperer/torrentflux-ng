@@ -51,7 +51,6 @@ $actionhtmlcode
 		</select>");
 }
 
-require_once('inc/plugins/PluginHandler.php');
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
 
@@ -71,29 +70,18 @@ pp = new Popup;
 	</script>
 	<script type="text/javascript" src="js/transferlist.js"></script>
 </head>
-<body onload="javascript:gettransferlist(); reloadtransferlist();">');
+<body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">');
 
   getClientSelection();
   getActionSelection();
 
-  print('<img onclick="javascript:gettransfersource();"> <img onclick="javascript:gettransfersource();">
-<div id=transfersources>');
+  print('
+<div id=transfersources></div>
 
-  $ph = new PluginHandler();
-  $pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_TRANSFERSOURCE);
-  foreach( $pluginNames as $plugin ) {
-  	$ph->getPlugin($plugin[0]);
-  }
-  
-  print('</div>
-  
-<img onclick="javascript:gettransferlist();">
-<div id=transferlist>
-</div>');
-
-  print( "
+<img onclick="javascript:gettransferlist(\'transferlist\');">
+<div id=transferlist></div>
 </body>
-</html>" );
+</html>');
 }
 
 printHtml();
