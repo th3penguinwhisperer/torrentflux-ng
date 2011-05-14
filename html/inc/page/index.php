@@ -41,11 +41,12 @@ pp = new Popup;
 	<script type="text/javascript" src="js/transferlist.js"></script>
 </head>
 <body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
+<div id="status_message"></div>
 <img onclick="javascript:pp.url(\'index.php?page=transfersources\'); reposition();">
 ');
 
   print('
-<img onclick="javascript:gettransferlist(\'transferlist\');">
+<img src=images/refresh.png onclick="javascript:gettransferlist(\'transferlist\');">
 <div id=transferlist></div>
 </body>
 </html>');
