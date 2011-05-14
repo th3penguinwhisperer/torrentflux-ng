@@ -31,7 +31,7 @@ class PluginHandler
 	
 	function getAvailablePlugins($plugintype)
 	{
-		$sql = "SELECT pluginname, plugindisplayname FROM tf_plugins WHERE `plugintype`='" . $plugintype . "' AND `pluginenabled`='1' AND `pluginconfigured`='1'";
+		$sql = "SELECT pluginname, plugindisplayname FROM tf_plugins WHERE `plugintype`='" . $plugintype . "' AND `pluginenabled`='1' AND `pluginconfigured`='1' ORDER BY pluginorder";
 		$rs = $this->db->Execute($sql);
 		if ($this->db->ErrorNo() != 0) print("THERE WAS AN ERROR WITH THIS QUERY: " . $sql); // TODO: Copy over dbError($sql) method 
 		$pluginNames = array();
