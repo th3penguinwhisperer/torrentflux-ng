@@ -42,7 +42,7 @@ $actionhtmlcode
 	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_TRANSFERSOURCE);
 	
 	foreach( $pluginNames as $plugin ) {
-		print("<img onclick='gettransfersources(\"transfersources\",\"&source=" . $plugin[0] . "\");'>" . $plugin[1] . " ");
+		print("<a href='#' onclick='gettransfersources(\"transfersources\",\"&source=" . $plugin[0] . "\");'>" . $plugin[1] . "</a> ");
 	}
 	print('<br>');
 	
