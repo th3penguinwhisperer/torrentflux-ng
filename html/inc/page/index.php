@@ -21,36 +21,6 @@
 *******************************************************************************/
 
 
-function getClientSelection()
-{
-	$clients = array("transmission-daemon");
-	$clientNames = array("Transmission-daemon");
-	$clienthtmlcode = "";
-	foreach ( $clientNames as $clientName ) {
-		$clienthtmlcode .= "\t\t<option value=" . array_shift($clients) . ">".$clientName."</option>\n";
-	}
-
-	print("
-	<select name=client id=client>
-$clienthtmlcode	</select>");	
-}
-
-function getActionSelection() 
-{
-	$actions = array("Add");
-	array_push($actions, "Add+Start");
-	$actionsnames = array("add");
-	array_push($actionsnames, "addstart");
-	$actionhtmlcode = "";
-	foreach ( $actions as $action ) {
-		$actionhtmlcode .= "\t<option value=" . array_shift($actionsnames) . ">" . $action . "</option>\n";
-	}
-	
-	print("		<select name=subaction id=subaction>
-$actionhtmlcode
-		</select>");
-}
-
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
 
@@ -70,14 +40,11 @@ pp = new Popup;
 	</script>
 	<script type="text/javascript" src="js/transferlist.js"></script>
 </head>
-<body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">');
-
-  getClientSelection();
-  getActionSelection();
+<body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
+<img onclick="javascript:pp.url(\'index.php?page=transfersources\'); reposition();">
+');
 
   print('
-<div id=transfersources></div>
-
 <img onclick="javascript:gettransferlist(\'transferlist\');">
 <div id=transferlist></div>
 </body>

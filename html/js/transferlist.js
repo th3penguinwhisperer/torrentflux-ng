@@ -13,7 +13,7 @@ function gettransferlist(divname) {
 
 function gettransfersources(divname, parameters) {
 	if (parameters == null) parameters = "";
-    loadcontent(divname, 'index.php?page=transfersources' + parameters, "Loading transfer source plugins ...");
+    loadcontent(divname, 'index.php?page=transfersources' + parameters, "Loading transfer source plugin ...");
 };
 
 function reloadtransferlist(divname) {
