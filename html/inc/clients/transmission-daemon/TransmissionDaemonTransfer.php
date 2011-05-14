@@ -108,12 +108,11 @@ $cfg['user'] = "administrator";
 	}
 
 	function getActions() {
-		$actions =  "<a href=\"dispatcher.php?client=transmission-daemon&action=delete&transfer=" . $this->data['hashString'] . "\">Delete</a> ";
-		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=start&transfer=" . $this->data['hashString'] . "\">Start</a> ";
-		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "\">Stop</a> ";
-		$actions .= "<a href=\"dispatcher.php?client=transmission-daemon&action=deletewithdata&transfer=" . $this->data['hashString'] . "\">Delete with data</a>";
+		$actions =  "<img onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=delete&transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted');\"> ";
+		$actions .= "<img onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=start&transfer=" . $this->data['hashString'] . "', true, 'Torrent started');\"> ";
+		$actions .= "<img onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');\"> ";
+		$actions .= "<img onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=deletewithdata&transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');\"> ";
 
-	
 		return $actions;
 	}
 

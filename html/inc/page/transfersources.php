@@ -17,7 +17,7 @@ function getClientSelection()
 $clienthtmlcode	</select>");	
 }
 
-function getActionSelection() 
+function getActionSelection()
 {
 	$actions = array("Add");
 	array_push($actions, "Add+Start");
