@@ -306,7 +306,10 @@ function deleteTransmissionTransferFromDB($uid,$tid) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
-	$sql = "DELETE FROM tf_transmission_user WHERE uid='$uid' AND tid='$tid'";
+	if ($uid == 1)
+		$sql = "DELETE FROM tf_transmission_user WHERE tid='$tid'";
+	else
+		$sql = "DELETE FROM tf_transmission_user WHERE uid='$uid' AND tid='$tid'";
 	$recordset = $db->Execute($sql);
 	if ($db->ErrorNo() != 0) dbError($sql);
 	/*return $retVal;*/
