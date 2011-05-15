@@ -42,7 +42,7 @@ pp = new Popup;
 </head>
 <body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
 <div id="status_message"></div>
-<img onclick="javascript:pp.url(\'index.php?page=transfersources\'); reposition();">
+<img src=images/add.png onclick="javascript:pp.url(\'index.php?page=transfersources\'); pp.reposition();">
 ');
 
   print('
