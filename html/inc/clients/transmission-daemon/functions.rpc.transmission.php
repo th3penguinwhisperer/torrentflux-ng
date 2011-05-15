@@ -142,7 +142,7 @@ function isTransmissionTransfer($transfer) {
  * TODO: make it return a correct value
  */
 function getRunningTransmissionTransferCount() {
-	$result = getUserTransmissionTransfers(0);
+	$result = getUserTransmissionTransfers(1);
 	$count = 0;
 
 	// Note that this also counts the downloads that are not added through torrentflux
