@@ -176,12 +176,15 @@ function getUserTransmissionTransferArrayFromDB($uid = 0) {
  * TODO: check if $tid is filled in and return error
  * TODO: check that uid being zero cannot lead to security breach (information disclosure)
  */
-function isValidTransmissionTransfer($uid = 0,$tid) {
+function isValidTransmissionTransfer($uid,$tid) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
-	$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid' AND uid='$uid'";
-	$recordset = $db->Execute($sql);
+	if ($uid == 1)
+		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid'";
+	else
+		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid' AND uid='$uid'";
+	$recordset = $db->GetRow($sql);
 	if ($db->ErrorNo() != 0) dbError($sql);
 	if ( sizeof($recordset)!=0 ) return true;
 	else return false;
