@@ -28,7 +28,7 @@ class TransmissionDaemonClient implements ClientInterface
 	
 	function fileUploaded($fullfilename) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		$hash = addTransmissionTransfer( $cfg['uid'], $fullfilename, $cfg['path'].$cfg['user'] );
+		$hash = addTransmissionTransfer( $_SESSION['uid'], $fullfilename, $cfg['path'].$cfg['user'] );
 		
 		unlink($fullfilename);
 	}
@@ -43,12 +43,12 @@ class TransmissionDaemonClient implements ClientInterface
 	
 	function delete($transfer) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		deleteTransmissionTransfer($cfg['uid'], $transfer);
+		deleteTransmissionTransfer($_SESSION['uid'], $transfer);
 	}
 	
 	function deletewithdata($transfer) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		deleteTransmissionTransferWithData($cfg['uid'], $transfer);
+		deleteTransmissionTransferWithData($_SESSION['uid'], $transfer);
 	}
 	
 	function add($url, $paused) {
