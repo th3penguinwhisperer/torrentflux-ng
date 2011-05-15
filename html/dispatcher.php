@@ -1,5 +1,7 @@
 <?php
 
+@session_start();
+
 require_once('inc/singleton/Configuration.php');
 require_once('inc/generalfunctions.php');
 
