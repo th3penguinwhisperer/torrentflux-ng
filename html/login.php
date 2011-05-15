@@ -21,8 +21,9 @@
 *******************************************************************************/
 
 // Requires //
-require_once("inc/singleton/db.php");
-
+require_once('inc/singleton/db.php');
+require_once('inc/singleton/Configuration.php');
+require_once('inc/generalfunctions.php');
 
 // Functions //
 $rowArray = array();
@@ -69,6 +70,26 @@ function checkSession() {
 
 }
 
+function getRealIpAddr()
+{
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+    {
+      $ip=$_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+    {
+      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else
+    {
+      $ip=$_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
+// Start session
+@session_start();
+
 function loginUser($user, $pass) {
 	$db = DB::get_db()->get_handle();
 	
@@ -81,16 +102,20 @@ function loginUser($user, $pass) {
   if (sizeof($rs) > 0) {
     $_SESSION['user'] = $user;
     $_SESSION['uid'] = $rs['uid'];
+    $_SESSION['ip'] = getRealIpAddr();
+    $_SESSION['ip_resolved'] = @gethostbyaddr($_SESSION['ip']);
+    $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+    
+    $cfg = Configuration::get_instance()->get_cfg();
+    AuditAction($cfg["constants"]["info"], $cfg["constants"]["info"], "Successful login", $_SERVER['PHP_SELF']);
+  } else {
+  	$cfg = Configuration::get_instance()->get_cfg();
+    AuditAction($cfg["constants"]["error"], $cfg["constants"]["error"], "Unsuccessful login", $_SERVER['PHP_SELF'], $user);
   }
 }
 
 // General Logic //
 
-// Start session
-@session_start();
-
-  //unset($_SESSION['user']);
-  //exit();
 
 
 // already got a session ?

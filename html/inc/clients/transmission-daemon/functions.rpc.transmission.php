@@ -24,8 +24,10 @@ require_once('inc/singleton/db.php');
 require_once('inc/lang/transferstatus.php');
 
 function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
-	global $cfg;
-	#AuditAction($cfg["constants"]["error"], "Transmission RPC : $errorstr - $response");
+	require_once('inc/singleton/Configuration.php');
+	$cfg = Configuration::get_instance()->get_cfg();
+	
+	AuditAction($cfg["constants"]["error"], "Transmission RPC : $errorstr - $response");
 	#@error($errorstr, "", "", $response);
 	#addGrowlMessage('transmission-rpc',$errorstr.$response);
 	//dbError($errorstr);

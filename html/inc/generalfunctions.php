@@ -249,4 +249,40 @@ $actionhtmlcode
 		</select>");
 }
 
+/**
+ * Audit Action
+ *
+ * @param $action
+ * @param $file
+ */
+function AuditAction($action, $level, $message, $file = "", $user = "") {
+	require_once('inc/singleton/Configuration.php');
+	require_once('inc/singleton/db.php');
+	$cfg = Configuration::get_instance()->get_cfg();
+	$db = DB::get_db()->get_handle();
+	
+	if ($user == "") {
+		$user = $cfg['user'];
+	}
+	
+    // add entry to the log
+    $db->Execute("INSERT INTO tf_log (user_id,file,action,ip,ip_resolved,user_agent,time,level,message)"
+        ." VALUES ("
+        . $db->qstr($user).","
+        . $db->qstr($file).","
+        . $db->qstr(($action != "") ? $action : "unset").","
+        . $db->qstr($cfg['ip']).","
+        . $db->qstr($cfg['ip_resolved']).","
+        . $db->qstr($cfg['user_agent']).","
+        . $db->qstr(time()).","
+        . $db->qstr($level).","
+        . $db->qstr($message)
+        .")"
+    );  
+    //if ($action != 'HIT')
+    //    addGrowlMessage('Audit',"$action $file");
+}
+
+
+
 ?>
