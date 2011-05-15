@@ -263,9 +263,8 @@ function deleteTransmissionTransfer($uid, $hash, $deleteData = false) {
 		$response = $trans->remove($transmissionId,$deleteData);
 		if ( $response['result'] != "success" )
 			rpc_error("Delete failed", "", "", $response['result']);
+		deleteTransmissionTransferFromDB($uid, $hash);
 	}
-
-	deleteTransmissionTransferFromDB($uid, $hash);
 }
 
 /**
@@ -308,7 +307,7 @@ function deleteTransmissionTransferFromDB($uid,$tid) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
-	if ($uid == 1)
+	if ($uid == 1) // TODO this shouldn't be here actually, function isValidTransmissionTransfer should make sure deletion is save. THe second query can then be deleted
 		$sql = "DELETE FROM tf_transmission_user WHERE tid='$tid'";
 	else
 		$sql = "DELETE FROM tf_transmission_user WHERE uid='$uid' AND tid='$tid'";
