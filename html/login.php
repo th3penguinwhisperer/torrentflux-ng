@@ -74,16 +74,13 @@ function loginUser($user, $pass) {
 	
   $md5_pass = md5($pass);
   $sql = "select * from tf_users WHERE user_id='" . strtolower($user) . "' AND password='$md5_pass'";
-  $rs = $db->Execute($sql);
+  //$rs = $db->Execute($sql);
+  $rs = $db->GetRow($sql);
   addRow("Hash is $md5_pass"); // TODO delete this
 
-  if ($rs->_numOfRows == '1') {
+  if (sizeof($rs) > 0) {
     $_SESSION['user'] = $user;
-  } else {
-    foreach ($rs as $row) {
-      $printableRow = print_r($row, true);
-      addRow($printableRow);
-    }
+    $_SESSION['uid'] = $rs['uid'];
   }
 }
 
