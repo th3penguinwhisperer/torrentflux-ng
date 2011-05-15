@@ -200,10 +200,9 @@ function getTransmissionTransferOwner($transfer) {
 
 	$retVal = array();
 	$sql = "SELECT user_id FROM tf_users u join tf_transmission_user t on (t.uid = u.uid) WHERE t.tid = '$transfer';";
-	$recordset = $db->Execute($sql);
+	$row = $db->GetRow($sql);
 	if ($db->ErrorNo() != 0) dbError($sql);
-	if ( sizeof($recordset)!=0 ) {
-		$row = $recordset->FetchRow();
+	if ( sizeof($row)!=0 ) {
 		return $row['user_id'];
 	}
 	else return "Unknown";
