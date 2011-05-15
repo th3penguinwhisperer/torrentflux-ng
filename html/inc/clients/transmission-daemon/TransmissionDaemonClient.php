@@ -53,7 +53,7 @@ class TransmissionDaemonClient implements ClientInterface
 	
 	function add($url, $paused) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		addTransmissionTransfer($cfg['uid'], $url, $cfg['path'].$cfg['user'], $paused);
+		addTransmissionTransfer($_SESSION['uid'], $url, $cfg['path'].$cfg['user'], $paused);
 	}
 	
 	function gettabs($tabname = "") {

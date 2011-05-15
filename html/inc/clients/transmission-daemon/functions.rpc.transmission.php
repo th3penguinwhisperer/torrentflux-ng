@@ -212,11 +212,11 @@ function getTransmissionTransferOwner($transfer) {
  * @return void
  */
 function startTransmissionTransfer($hash,$startPaused=false) {
-	global $cfg;
+	$uid = $_SESSION['uid'];
 	require_once('inc/clients/transmission-daemon/Transmission.class.php');
 	$trans = new Transmission();
 
-	if ( isValidTransmissionTransfer($cfg['uid'],$hash) ) {
+	if ( isValidTransmissionTransfer($uid,$hash) ) {
 		$transmissionId = getTransmissionTransferIdByHash($hash);
 		$response = $trans->start($transmissionId);
 		if ( $response['result'] != "success" ) {
@@ -236,11 +236,11 @@ function startTransmissionTransfer($hash,$startPaused=false) {
  * @return void
  */
 function stopTransmissionTransfer($hash) {
-	global $cfg;
+	$uid = $_SESSION['uid'];
 	require_once('inc/clients/transmission-daemon/Transmission.class.php');
 	$trans = new Transmission();
 
-	if ( isValidTransmissionTransfer($cfg['uid'],$hash) ) {
+	if ( isValidTransmissionTransfer($uid,$hash) ) {
 		$transmissionId = getTransmissionTransferIdByHash($hash);
 		$response = $trans->stop($transmissionId);
 		if ( $response['result'] != "success" ) rpc_error("Stop failed", "", "", $response['result']);
@@ -302,7 +302,7 @@ function getTransmissionTransferIdByHash($hash) {
  * @return void
  * TODO: return error if deletion from db does fail
  */
-function deleteTransmissionTransferFromDB($uid = 0,$tid) {
+function deleteTransmissionTransferFromDB($uid,$tid) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
@@ -318,7 +318,7 @@ function deleteTransmissionTransferFromDB($uid = 0,$tid) {
  * @return array with uid and transmission transfer hash
  * TODO: check if $tid is filled in and return error
  */
-function addTransmissionTransferToDB($uid = 0,$tid) {
+function addTransmissionTransferToDB($uid,$tid) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
@@ -334,7 +334,7 @@ function addTransmissionTransferToDB($uid = 0,$tid) {
  * @return array with uid and transmission transfer hash
  * TODO: generate an error when adding does fail
  */
-function addTransmissionTransfer($uid = 0, $url, $path, $paused=true) {
+function addTransmissionTransfer($uid, $url, $path, $paused=true) {
 	// $path holds the download path
 
 	require_once('inc/clients/transmission-daemon/Transmission.class.php');
@@ -355,9 +355,9 @@ function addTransmissionTransfer($uid = 0, $url, $path, $paused=true) {
  *
  * @return array with uid and transmission transfer hash
  */
-function getUserTransmissionTransfers($uid = 0) {
+function getUserTransmissionTransfers($uid) {
 	$retVal = array();
-	if ( $uid!=0 ) {
+	if ( $uid!=1 ) {
 		$userTransferHashes = getUserTransmissionTransferArrayFromDB($uid);
 		if ( empty($userTransferHashes) ) return $retVal;
 	}
@@ -369,7 +369,7 @@ function getUserTransmissionTransfers($uid = 0) {
 
 	if ($result['result']!=="success") rpc_error("Transmission RPC could not get transfers : ".$result['result']);
 	foreach ( $result['arguments']['torrents'] as $transfer ) {
-		if ( $uid==0 || in_array ( $transfer['hashString'], $userTransferHashes ) ) {
+		if ( $uid==1 || in_array ( $transfer['hashString'], $userTransferHashes ) ) {
 			array_push($retVal, $transfer);
 		}
 	}
