@@ -50,7 +50,7 @@ function handleFileUpload($files) {
 	// check if files exist
 	if (empty($files)) {
 		// log
-		//AuditAction($cfg["constants"]["error"], "no file in file-upload"); //TODO enable logging
+		AuditAction($cfg["constants"]["error"], "no file in file-upload"); //TODO enable logging
 		print("No file in file-upload");
 		// return
 		return;
