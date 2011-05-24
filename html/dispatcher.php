@@ -27,6 +27,6 @@ if ( isset($action) ) {
 	if ($action == "metafileupload") 	handleFileUpload($_FILES);
 }
 
-header('Location: index.php');
+//header('Location: index.php'); // TODO: probably can be removed as actions are not shown
 
 ?>
