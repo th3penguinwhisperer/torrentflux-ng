@@ -283,6 +283,19 @@ function AuditAction($action, $level, $message, $file = "", $user = "") {
     //    addGrowlMessage('Audit',"$action $file");
 }
 
-
+/**
+ * Returns the drive space used as a percentage i.e 85 or 95
+ *
+ * @param $drive
+ * @return int
+ */
+function getDriveSpace($drive) {
+	if (@is_dir($drive)) {
+		$dt = disk_total_space($drive);
+		$df = disk_free_space($drive);
+		return round((($dt - $df) / $dt) * 100);
+	}
+	return 0;
+}
 
 ?>
