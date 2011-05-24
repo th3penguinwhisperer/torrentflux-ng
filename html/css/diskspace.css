@@ -1,0 +1,22 @@
+  div.smallish-progress-wrapper {
+    /* Don't change the following lines. */
+    position: relative;
+    border: 1px solid black;
+height:12px;
+  }
+
+  div.smallish-progress-bar {
+    /* Don't change the following lines. */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  div.smallish-progress-text {
+    /* Don't change the following lines. */
+    text-align: center;
+    position: relative;
+    /* Add your customizations after this line. */
+    font-size: 10px;
+  }

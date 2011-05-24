@@ -24,6 +24,7 @@ class Configuration
 		//$this->handle['user_agent'] = 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.16) Gecko/20110330 Gentoo Firefox/3.6.16 '; // TODO get this removed
 		$this->handle['user'] = $_SESSION['user']; // TODO: Should be removed -> is in $_SESSION['user']
 		$this->handle['uid'] = $_SESSION['uid']; // TODO: Should be removed -> is in $_SESSION['uid']
+		$this->handle['diskusagewarninglevel'] = 90;
 		
 		$this->handle['constants'] = array(
 			'error' => 'ERROR',

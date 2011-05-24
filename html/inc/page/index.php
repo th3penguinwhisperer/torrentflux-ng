@@ -24,9 +24,10 @@
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
 
-$cfg = Configuration::get_instance()->get_cfg();
+
 
 function printHtml() {
+  $cfg = Configuration::get_instance()->get_cfg();
   global $rowArray;
 
 //	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
@@ -41,6 +42,17 @@ pp = new Popup;
 	<script type="text/javascript" src="js/transferlist.js"></script>
 </head>
 <body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
+');
+
+$diskspaceusage = getDriveSpace( $cfg['path'] . $cfg['user'] );
+if ( $diskspaceusage > $cfg['diskusagewarninglevel'] ) $diskspacecolor = "#ff0000";
+else $diskspacecolor = '#33cc33';
+print( $diskspaceusage . '% disk usage' );
+print( '<script type="text/javascript" src="js/diskspace.js"></script>' );
+print( '<script type="text/javascript">drawProgressBar(\'' . $diskspacecolor . '\', 200, ' . $diskspaceusage . ');</script>');
+print( '<link rel="stylesheet" type="text/css" href="css/diskspace.css" />' );
+
+  print('
 <div id="status_message"></div>
 <img src=images/add.png onclick="javascript:pp.url(\'index.php?page=transfersources\'); pp.reposition();">
 ');
