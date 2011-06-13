@@ -1,0 +1,39 @@
+
+/**********************************************************************
+TorrentFlux-NG Upgrade file
+**********************************************************************/
+
+    Contents:
+    =========
+    1. Introduction
+    2. Notes
+    3. Upgrade Procedure
+
+/**********************************************************************
+1. Introduction
+**********************************************************************/
+
+    This is a procedure for updating your database schema if you are 
+    already running TorrentFlux-ng from the Epsylon3 repository.
+
+
+/**********************************************************************
+2. Notes
+**********************************************************************/
+
+    Note that although it is possible to use the upgraded database both
+    for a epsylon3/torrentflux(https://github.com/epsylon3/torrentflux) 
+    and a th3penguinwhisperer/torrentflux-ng 
+    (https://github.com/th3penguinwhisperer/torrentflux-ng)installation.
+    However there might be differences in the transferlist that is being
+    displayed.
+
+
+/**********************************************************************
+3. Upgrade Procedure
+**********************************************************************/
+
+    The upgrade procedure is simple:
+    mysql -u dbuser -h iporhostname dbname < sql/upgrade-tf-ng.sql
+    This will execute the the sql statements on your database.
+
