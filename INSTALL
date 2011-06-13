@@ -1,0 +1,41 @@
+
+/**********************************************************************
+TorrentFlux-NG Upgrade file
+**********************************************************************/
+
+    Contents:
+    =========
+    1. Introduction
+    2. Notes
+    3. Install Procedure
+
+/**********************************************************************
+1. Introduction
+**********************************************************************/
+
+    This is a procedure for installing from the full code rewrite repo
+    aka th3penguinwhisperer/torrentflux-ng.
+
+
+/**********************************************************************
+2. Notes
+**********************************************************************/
+
+    None
+
+
+/**********************************************************************
+3. Installation Procedure
+**********************************************************************/
+
+    1. Getting the files
+    # git clone https://github.com/th3penguinwhisperer/torrentflux-ng.git
+
+    2. Creating the database:
+    # mysql -u dbuser -h iporhostname
+    > create database tfng
+    
+    3. Creating the tables:
+    # mysql -u dbuser -h iporhostname tfng < sql/install.sql
+    This will execute the the sql statements on your database.
+    
