@@ -44,12 +44,13 @@ pp = new Popup;
 <body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
 ');
 
-$diskspaceusage = getDriveSpace( $cfg['path'] . $cfg['user'] );
+$userpath = $cfg['path'] . $cfg['user'];
+$diskspaceusage = getDriveSpace( $userpath );
 if ( $diskspaceusage > $cfg['diskusagewarninglevel'] ) $diskspacecolor = "#ff0000";
 else $diskspacecolor = '#33cc33';
-print( $diskspaceusage . '% disk usage' );
+print( $diskspaceusage . '% disk usage (' . formatBytesTokBMBGBTB( disk_free_space($userpath) ) . "/" . formatBytesTokBMBGBTB( disk_total_space($userpath) ) . ")" );
 print( '<script type="text/javascript" src="js/diskspace.js"></script>' );
-print( '<script type="text/javascript">drawProgressBar(\'' . $diskspacecolor . '\', 200, ' . $diskspaceusage . ');</script>');
+print( '<script type="text/javascript">drawProgressBar(\'' . $diskspacecolor . '\', 300, ' . $diskspaceusage . ');</script>');
 print( '<link rel="stylesheet" type="text/css" href="css/diskspace.css" />' );
 
   print('
