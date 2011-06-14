@@ -38,4 +38,13 @@ TorrentFlux-NG Upgrade file
     3. Creating the tables:
     # mysql -u dbuser -h iporhostname tfng < sql/install.sql
     This will execute the the sql statements on your database.
-    
+
+    4. Configure the download path
+    mysql -u dbuser -h iporhostname tfng
+    > UPDATE tf_settings SET tf_value='/yourpath/' WHERE tf_key='path'
+
+    5. Log in
+    There is a default account:
+    username: administrator
+    password: test
+
