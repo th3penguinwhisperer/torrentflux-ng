@@ -6,6 +6,7 @@ class PluginHandler
 {
 	const PLUGINTYPE_TRANSFERSOURCE = 'transfersource';
 	const PLUGINTYPE_TRANSFERCLIENT = 'transferclient';
+	const PLUGINTYPE_INFO = 'info';
 	
 	private $db;
 	
