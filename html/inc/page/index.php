@@ -44,14 +44,13 @@ pp = new Popup;
 <body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
 ');
 
-$userpath = $cfg['path'] . $cfg['user'];
-$diskspaceusage = getDriveSpace( $userpath );
-if ( $diskspaceusage > $cfg['diskusagewarninglevel'] ) $diskspacecolor = "#ff0000";
-else $diskspacecolor = '#33cc33';
-print( $diskspaceusage . '% disk usage (' . formatBytesTokBMBGBTB( disk_free_space($userpath) ) . "/" . formatBytesTokBMBGBTB( disk_total_space($userpath) ) . ")" );
-print( '<script type="text/javascript" src="js/diskspace.js"></script>' );
-print( '<script type="text/javascript">drawProgressBar(\'' . $diskspacecolor . '\', 300, ' . $diskspaceusage . ');</script>');
-print( '<link rel="stylesheet" type="text/css" href="css/diskspace.css" />' );
+  //  Show plugins of type 'info' here
+  require_once('inc/plugins/PluginHandler.php');
+  $ph = new PluginHandler();
+  $pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_INFO);
+  foreach( $pluginNames as $plugin ) {
+    $ph->getPlugin($plugin[0]);
+  }
 
   print('
 <div id="status_message"></div>
