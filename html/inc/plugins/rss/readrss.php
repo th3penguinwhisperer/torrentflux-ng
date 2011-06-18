@@ -247,7 +247,7 @@ class RssReader
 		if ($db->ErrorNo() != 0) dbError($sql);
 
 		foreach ( $link_array as $id => $url ) {
-			print("<a href=\"configure.php?action=set&subaction=delete&plugin=rss-transfers&rid=$id\"><img></a>$url<br>");
+			print("<a href=\"configure.php?action=set&subaction=delete&plugin=rss-transfers&rid=$id\"><img src=images/delete.png></a>$url<br>");
 		}
 	}
 	

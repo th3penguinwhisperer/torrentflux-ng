@@ -30,9 +30,9 @@ function getConfigurationUi($ph, $plugin)
     print("$plugin[1] ");
     
     if ($plugin[4] == 1) // TODO: if enabled
-      print("<a href=\"configure.php?action=disable&plugin=$plugin[0]\"><img></a><br>");
+      print("<a href=\"configure.php?action=disable&plugin=$plugin[0]\"><img src=images/disable.png></a><br>");
     else
-      print("<a href=\"configure.php?action=enable&plugin=$plugin[0]\"><img></a><br>");
+      print("<a href=\"configure.php?action=enable&plugin=$plugin[0]\"><img src=images/enable.png></a><br>");
 
     if( $plugin[0] == "rss-transfers" ) { // TODO: this is only temporarily until other plugins are implementing from PluginInterface as well
       $pi = $ph->getPlugin($plugin[0]);
