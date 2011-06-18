@@ -26,7 +26,8 @@ class PluginHandler
 				require_once($arr[0]);
 				$className = $arr[1];
 		  		$inst = new $className;
-		  		$inst->show();
+		  		//$inst->show();
+				return $inst;
 			}
 	}
 	

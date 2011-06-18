@@ -18,7 +18,8 @@ require_once('inc/plugins/PluginHandler.php');
 	else
 		$plugintoload = $_REQUEST['source'];
 	
-	$ph->getPlugin($plugintoload);
+	$pi = $ph->getPlugin($plugintoload);
+	$pi->show();
 
 	print('</div>');
 ?>

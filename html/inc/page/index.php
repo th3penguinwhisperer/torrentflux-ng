@@ -23,6 +23,7 @@
 
 require_once("inc/generalfunctions.php");
 require_once('inc/singleton/Configuration.php');
+require_once('inc/plugins/PluginHandler.php');
 
 
 
@@ -45,11 +46,11 @@ pp = new Popup;
 ');
 
   //  Show plugins of type 'info' here
-  require_once('inc/plugins/PluginHandler.php');
   $ph = new PluginHandler();
   $pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_INFO);
   foreach( $pluginNames as $plugin ) {
-    $ph->getPlugin($plugin[0]);
+    $pi = $ph->getPlugin($plugin[0]);
+    $pi->show();
   }
 
   print('
