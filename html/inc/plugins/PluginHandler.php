@@ -44,6 +44,21 @@ class PluginHandler
 		}
 		return $pluginNames;
 	}
+
+	function getEnabledPlugins()
+	{
+		$sql = "SELECT pluginname, plugindisplayname, plugininclude, pluginclass FROM tf_plugins WHERE `pluginenabled`='1' AND `pluginconfigured`='1' ORDER BY pluginorder";
+		$rs = $this->db->Execute($sql);
+		if ($this->db->ErrorNo() != 0) print("THERE WAS AN ERROR WITH THIS QUERY: " . $sql); // TODO: Copy over dbError($sql) method 
+		$pluginNames = array();
+		if ($rs) {
+			while ($arr = $rs->FetchRow()) {
+				array_push($pluginNames, $arr);
+			}
+		}
+
+		return $pluginNames;
+	}
 }
 
 ?>
