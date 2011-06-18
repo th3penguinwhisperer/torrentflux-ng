@@ -1,6 +1,8 @@
 <?php
 
-class DiskspaceInfo
+require_once('inc/plugins/PluginInterface.php');
+
+class DiskspaceInfo implements PluginInterface
 {
 
 	function __construct()
@@ -12,10 +14,20 @@ class DiskspaceInfo
 	{
 		print( $this->getDiskspaceUi() );
 	}
+
+	function getConfiguration()
+	{
+		;
+	}
 	
+	function setConfiguration($configArray)
+	{
+		;
+	}
+
 	function getDiskspaceUi() {
 		$cfg = Configuration::get_instance()->get_cfg();
-
+		
 		$output = "";
 		$userpath = $cfg['path'] . $cfg['user'];
 		$diskspaceusage = getDriveSpace( $userpath );
