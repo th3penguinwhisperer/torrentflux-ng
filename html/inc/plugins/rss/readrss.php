@@ -227,6 +227,52 @@ class RssReader
 	
 	}
 
+	function getConfiguration()
+	{
+		print("<form method=post action=configure.php>
+  <input type=hidden name=plugin value=rss-transfers>
+  <input type=hidden name=action value=set>
+  <input type=hidden name=subaction value=add>
+  <input type=text name=url>
+  <input type=submit text=Add>
+</form>");
+
+		require_once('inc/singleton/db.php');
+		$db = DB::get_db()->get_handle();
+		
+		$link_array = array();
+		$sql = "SELECT rid, url FROM tf_rss ORDER BY rid";
+		$link_array = $db->GetAssoc($sql);
+		
+		if ($db->ErrorNo() != 0) dbError($sql);
+
+		foreach ( $link_array as $id => $url ) {
+			print("<a href=\"configure.php?action=set&subaction=delete&plugin=rss-transfers&rid=$id\"><img></a>$url<br>");
+		}
+	}
+	
+	function setConfiguration($configArray)
+	{
+		require_once('inc/singleton/db.php');
+		$db = DB::get_db()->get_handle();
+		
+		if ( $_REQUEST['subaction'] == "delete" ) {
+			$sql = "DELETE FROM tf_rss WHERE rid=" . $_REQUEST['rid'];
+			$result = $db->Execute($sql);
+		
+			if ($db->ErrorNo() != 0) dbError($sql);
+		}
+		
+		if ( $_REQUEST['subaction'] == "add" ) {
+			print("Nieuwe rss");
+			$sql = "INSERT INTO tf_rss (url) VALUES ('" . $_REQUEST['url'] . "')";
+			$result = $db->Execute($sql);
+		
+			print($sql);
+			if ($db->ErrorNo() != 0) dbError($sql);
+		}
+	}
+
 
 }
 
