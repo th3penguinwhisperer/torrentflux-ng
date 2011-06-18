@@ -45,9 +45,9 @@ class PluginHandler
 		return $pluginNames;
 	}
 
-	function getEnabledPlugins()
+	function getPlugins($pluginstate=1) // Replace 1 with constant ENABLED/DISABLED or something
 	{
-		$sql = "SELECT pluginname, plugindisplayname, plugininclude, pluginclass FROM tf_plugins WHERE `pluginenabled`='1' AND `pluginconfigured`='1' ORDER BY pluginorder";
+		$sql = "SELECT pluginname, plugindisplayname, plugininclude, pluginclass, pluginenabled FROM tf_plugins WHERE pluginenabled='$pluginstate' AND `pluginconfigured`='1' ORDER BY pluginorder";
 		$rs = $this->db->Execute($sql);
 		if ($this->db->ErrorNo() != 0) print("THERE WAS AN ERROR WITH THIS QUERY: " . $sql); // TODO: Copy over dbError($sql) method 
 		$pluginNames = array();
@@ -59,6 +59,34 @@ class PluginHandler
 
 		return $pluginNames;
 	}
+
+	function getEnabledPlugins()
+	{
+		return $this->getPlugins(1);
+	}
+
+	function getDisabledPlugins()
+	{
+		return $this->getPlugins(0);
+	}
+
+	function toggleEnabledPlugin($plugin, $enabledstate)
+	{
+		$sql = "UPDATE tf_plugins SET pluginenabled=$enabledstate WHERE `pluginname`='" . $plugin . "'";
+		$rs = $this->db->Execute($sql);
+		if ($this->db->ErrorNo() != 0) print("THERE WAS AN ERROR WITH THIS QUERY: " . $sql); // TODO: Copy over dbError($sql) method 
+	}
+
+	function disablePlugin($plugin)
+	{
+		$this->toggleEnabledPlugin($plugin, 0); // TODO: make constant from literal 1
+	}
+
+	function enablePlugin($plugin)
+	{
+		$this->toggleEnabledPlugin($plugin, 1); // TODO: make constant from literal 1
+	}
+
 }
 
 ?>
