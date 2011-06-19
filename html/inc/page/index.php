@@ -63,6 +63,9 @@ pp = new Popup;
 <div id=transferlist></div>
 </body>
 </html>');
+
+  if ( $_SESSION['uid'] == 1 ) // if administrator
+    print("<a href=configure.php>Configure</a>");
 }
 
 printHtml();
