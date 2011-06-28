@@ -508,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `tf_users` (
 --
 
 INSERT INTO `tf_users` (`uid`, `user_id`, `password`, `hits`, `last_visit`, `time_created`, `user_level`, `hide_offline`, `theme`, `language_file`, `state`) VALUES
-(1, 'administrator', '098f6bcd4621d373cade4e832627b4f6', 145637, '1305661955', '1276626795', 2, 0, 'default', 'lang-english.php', 1),
+(1, 'administrator', '098f6bcd4621d373cade4e832627b4f6', 145637, '1305661955', '1276626795', 2, 0, 'default', 'lang-english.php', 1);
 
 -- --------------------------------------------------------
 
