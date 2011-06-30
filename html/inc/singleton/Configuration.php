@@ -25,6 +25,12 @@ class Configuration
 		$this->handle['user'] = $_SESSION['user']; // TODO: Should be removed -> is in $_SESSION['user']
 		$this->handle['uid'] = $_SESSION['uid']; // TODO: Should be removed -> is in $_SESSION['uid']
 		$this->handle['diskusagewarninglevel'] = 90;
+
+		$this->handle['enable_home_dirs'] = '1';
+		if ( $this->handle['enable_home_dirs'] == '1' )
+			$this->handle['download_path'] = $this->handle['path'] . $this->handle['user'];
+		else
+			$this->handle['download_path'] = $this->handle['path'] . 'incoming';
 		
 		$this->handle['constants'] = array(
 			'error' => 'ERROR',

@@ -28,7 +28,7 @@ class TransmissionDaemonClient implements ClientInterface
 	
 	function fileUploaded($fullfilename) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		$hash = addTransmissionTransfer( $_SESSION['uid'], $fullfilename, $cfg['path'].$cfg['user'] );
+		$hash = addTransmissionTransfer( $_SESSION['uid'], $fullfilename, $cfg['download_path'] );
 		
 		unlink($fullfilename);
 	}
@@ -53,7 +53,7 @@ class TransmissionDaemonClient implements ClientInterface
 	
 	function add($url, $paused) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		addTransmissionTransfer($_SESSION['uid'], $url, $cfg['path'].$cfg['user'], $paused);
+		addTransmissionTransfer($_SESSION['uid'], $url, $cfg['download_path'], $paused);
 	}
 	
 	function gettabs($tabname = "") {
