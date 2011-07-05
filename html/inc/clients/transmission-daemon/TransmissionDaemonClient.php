@@ -151,9 +151,9 @@ Array
 		print("<input type=hidden name=plugin value=transmission-daemon>");
 		print("<input type=hidden name=action value=set>");
 		print("Upload-rate <input type=text name=speed-limit-up value=".$sessiondata['speed-limit-up'].">");
-		print("<input type=checkbox name=speed-limit-up-enabled>Enable upload rate limit<BR>");
+		print("<input type=checkbox name=speed-limit-up-enabled " . ($sessiondata['speed-limit-up-enabled'] ? "checked" : "") . ">Enable upload rate limit<BR>");
 		print("Download-rate <input type=text name=speed-limit-down value=". $sessiondata['speed-limit-down'] .">");
-		print("<input type=checkbox name=speed-limit-down-enabled>Enable download rate limit<BR>");
+		print("<input type=checkbox name=speed-limit-down-enabled " . ($sessiondata['speed-limit-down-enabled'] ? "checked" : "") . ">Enable download rate limit<BR>");
 		print("<input type=submit text=Configure>");
 		print("</form>");
 
@@ -169,7 +169,18 @@ Array
 			$changedParameters['speed-limit-up'] = (int)$_REQUEST['speed-limit-up'];
 		if ( $sessiondata['speed-limit-down'] != $_REQUEST['speed-limit-down'] )
 			$changedParameters['speed-limit-down'] = (int)$_REQUEST['speed-limit-down'];
-		//$_REQUEST['speed-limit-down'];
+
+		if( ! isset($_REQUEST['speed-limit-up-enabled']) ) $uplimitenabled = false;
+		if( $_REQUEST['speed-limit-up-enabled'] == "on" ) $uplimitenabled = true; else $uplimitenabled = false;
+		if ( $sessiondata['speed-limit-up-enabled'] != $uplimitenabled )
+			$changedParameters['speed-limit-up-enabled'] = $uplimitenabled;
+
+		if( ! isset($_REQUEST['speed-limit-down-enabled']) ) $downlimitenabled = false;
+		if( $_REQUEST['speed-limit-down-enabled'] == "on" ) $downlimitenabled = true; else $downlimitenabled = false;
+		if ( $sessiondata['speed-limit-down-enabled'] != $downlimitenabled )
+			$changedParameters['speed-limit-down-enabled'] = $downlimitenabled;
+
+
 		//$_REQUEST['speed-limit-up-enabled'];
 		//$_REQUEST['speed-limit-down-enabled'];
 
