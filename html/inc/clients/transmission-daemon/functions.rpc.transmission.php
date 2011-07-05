@@ -42,7 +42,7 @@ function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
  * @param $seconds
  * @return common time-delta-string
  */
-function convertTime($seconds) {
+function convertTime($seconds) { // TODO: put this in generalfunctions.php
 	// sanity-check
 	if ($seconds < 0) return '?';
 	// one week is enough
