@@ -376,6 +376,12 @@ class Transmission
 		$this->session = $req;
 		return $this->session;
 	}
+
+	public function session_set($request) {
+		$req = $this->request('session-set',$request);
+		$this->session = $req;
+		return $this->session;
+	}
 	
 	//Transmission::getInstance()
 	public function getInstance() {
