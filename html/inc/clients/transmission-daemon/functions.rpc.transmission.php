@@ -413,4 +413,21 @@ function getTransmissionSeederCount($transfer) {
 	return $seeds;
 }
 
+function getSessionInfo() {
+	require_once('inc/clients/transmission-daemon/Transmission.class.php');
+
+	$rpc = new Transmission ();
+	$result = $rpc->session_get();
+	
+	return $result['arguments'];
+}
+
+function setSessionParameter($parametername, $value) {
+	require_once('inc/clients/transmission-daemon/Transmission.class.php');
+
+	$request = array( $parametername => $value );
+	$rpc = new Transmission();
+	$result = $rpc->session_set($request);
+}
+
 ?>
