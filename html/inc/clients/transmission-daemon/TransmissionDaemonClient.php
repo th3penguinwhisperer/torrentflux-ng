@@ -97,6 +97,88 @@ class TransmissionDaemonClient implements ClientInterface
 		return new TransmissionDaemonTransfer( getTransmissionTransfer($hash, $fields) );
 	}
 */
+
+	function getConfiguration() {
+		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
+		$sessiondata = getSessionInfo();
+	
+/*
+Array
+        (
+            [alt-speed-down] => 50
+            [alt-speed-enabled] => 
+            [alt-speed-time-begin] => 540
+            [alt-speed-time-day] => 127
+            [alt-speed-time-enabled] => 
+            [alt-speed-time-end] => 1020
+            [alt-speed-up] => 50
+            [blocklist-enabled] => 
+            [blocklist-size] => 0
+            [config-dir] => /usr/local/transmission
+            [dht-enabled] => 1
+            [download-dir] => /usr/home/torrentflux/transmission/home/Downloads
+            [encryption] => preferred
+            [incomplete-dir] => /root/Downloads
+            [incomplete-dir-enabled] => 
+            [lpd-enabled] => 
+            [peer-limit-global] => 240
+            [peer-limit-per-torrent] => 60
+            [peer-port] => 51413
+            [peer-port-random-on-start] => 0
+            [pex-enabled] => 1
+            [port-forwarding-enabled] => 1
+            [rename-partial-files] => 1
+            [rpc-version] => 9
+            [rpc-version-minimum] => 1
+            [script-torrent-done-enabled] => 1
+            [script-torrent-done-filename] => /usr/local/www/data-dist/nonssl/git/torrentflux/html/bin/transmissionfinished.php &
+            [seedRatioLimit] => 2
+            [seedRatioLimited] => 
+            [speed-limit-down] => 16
+            [speed-limit-down-enabled] => 
+            [speed-limit-up] => 20
+            [speed-limit-up-enabled] => 1
+            [start-added-torrents] => 1
+            [trash-original-torrent-files] => 
+            [version] => 2.04 (11151)
+        )
+
+*/
+		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
+		$sessiondata = getSessionInfo();
+	
+		print("<form method=post action=configure.php>");
+		print("<input type=hidden name=plugin value=transmission-daemon>");
+		print("<input type=hidden name=action value=set>");
+		print("Upload-rate <input type=text name=speed-limit-up value=".$sessiondata['speed-limit-up'].">");
+		print("<input type=checkbox name=speed-limit-up-enabled>Enable upload rate limit<BR>");
+		print("Download-rate <input type=text name=speed-limit-down value=". $sessiondata['speed-limit-down'] .">");
+		print("<input type=checkbox name=speed-limit-down-enabled>Enable download rate limit<BR>");
+		print("<input type=submit text=Configure>");
+		print("</form>");
+
+	}
+
+	function setConfiguration($configArray) {
+		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
+		$sessiondata = getSessionInfo();
+
+		print_r($_REQUEST);
+		$changedParameters = array();
+		if ( $sessiondata['speed-limit-up'] != $_REQUEST['speed-limit-up'] )
+			$changedParameters['speed-limit-up'] = (int)$_REQUEST['speed-limit-up'];
+		if ( $sessiondata['speed-limit-down'] != $_REQUEST['speed-limit-down'] )
+			$changedParameters['speed-limit-down'] = (int)$_REQUEST['speed-limit-down'];
+		//$_REQUEST['speed-limit-down'];
+		//$_REQUEST['speed-limit-up-enabled'];
+		//$_REQUEST['speed-limit-down-enabled'];
+
+		foreach ( $changedParameters as $parametername => $parametervalue ) {
+			//print("I found a parameter: " . $parametername . " with value " . $parametervalue);
+			setSessionParameter($parametername, $parametervalue);
+		}
+	}
+
 }
 
 ?>
