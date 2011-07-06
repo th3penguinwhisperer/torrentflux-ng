@@ -146,7 +146,7 @@ Array
 */
 		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
 		$sessiondata = getSessionInfo();
-	
+print_r($sessiondata);	
 		print("<form method=post action=configure.php>");
 		print("<input type=hidden name=plugin value=transmission-daemon>");
 		print("<input type=hidden name=action value=set>");
@@ -154,6 +154,13 @@ Array
 		print("<input type=checkbox name=speed-limit-up-enabled " . ($sessiondata['speed-limit-up-enabled'] ? "checked" : "") . ">Enable upload rate limit<BR>");
 		print("Download-rate <input type=text name=speed-limit-down value=". $sessiondata['speed-limit-down'] .">");
 		print("<input type=checkbox name=speed-limit-down-enabled " . ($sessiondata['speed-limit-down-enabled'] ? "checked" : "") . ">Enable download rate limit<BR>");
+		print("Encryption <select name=encryption>");
+		print("		<option value=required " . ($sessiondata['encryption'] == "required" ? "selected=selected" : "") . ">required</option>");
+		print("		<option value=preferred " . ($sessiondata['encryption'] == "preferred" ? "selected=selected" : "") . ">preferred</option>");
+		print("		<option value=tolerated " . ($sessiondata['encryption'] == "tolerated" ? "selected=selected" : "") . ">tolerated</option>");
+		print("</select><br>");
+		print("Pex: <input type=checkbox name=pex-enabled " . ($sessiondata['pex-enabled'] ? "checked" : "") . "><BR>");
+		print("DHT: <input type=checkbox name=dht-enabled " . ($sessiondata['dht-enabled'] ? "checked" : "") . "><BR>");
 		print("<input type=submit text=Configure>");
 		print("</form>");
 
@@ -169,25 +176,33 @@ Array
 			$changedParameters['speed-limit-up'] = (int)$_REQUEST['speed-limit-up'];
 		if ( $sessiondata['speed-limit-down'] != $_REQUEST['speed-limit-down'] )
 			$changedParameters['speed-limit-down'] = (int)$_REQUEST['speed-limit-down'];
-
-		if( ! isset($_REQUEST['speed-limit-up-enabled']) ) $uplimitenabled = false;
-		if( $_REQUEST['speed-limit-up-enabled'] == "on" ) $uplimitenabled = true; else $uplimitenabled = false;
-		if ( $sessiondata['speed-limit-up-enabled'] != $uplimitenabled )
-			$changedParameters['speed-limit-up-enabled'] = $uplimitenabled;
-
-		if( ! isset($_REQUEST['speed-limit-down-enabled']) ) $downlimitenabled = false;
-		if( $_REQUEST['speed-limit-down-enabled'] == "on" ) $downlimitenabled = true; else $downlimitenabled = false;
-		if ( $sessiondata['speed-limit-down-enabled'] != $downlimitenabled )
-			$changedParameters['speed-limit-down-enabled'] = $downlimitenabled;
+		if ( $sessiondata['encryption'] != $_REQUEST['encryption'] )
+			$changedParameters['encryption'] = $_REQUEST['encryption'];
 
 
-		//$_REQUEST['speed-limit-up-enabled'];
-		//$_REQUEST['speed-limit-down-enabled'];
+		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'speed-limit-up-enabled');
+		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'speed-limit-down-enabled');
+		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'pex-enabled');
+		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'dht-enabled');
 
+print_r($changedParameters);
 		foreach ( $changedParameters as $parametername => $parametervalue ) {
 			//print("I found a parameter: " . $parametername . " with value " . $parametervalue);
 			setSessionParameter($parametername, $parametervalue);
 		}
+exit();
+	}
+	
+	function getChangedBooleanParameter($sessiondata, &$changedParameters, $parametername) {
+		if( ! isset($_REQUEST[$parametername]) ) {
+			$enabled = false;
+			$parametervalue = "off";
+		} else {
+			$parametervalue = $_REQUEST[$parametername];
+		}
+		if( $parametervalue == "on" ) $enabled = true; else $enabled = false;
+		if ( $sessiondata[$parametername] != $enabled )
+			$changedParameters[$parametername] = $enabled;
 	}
 
 }
