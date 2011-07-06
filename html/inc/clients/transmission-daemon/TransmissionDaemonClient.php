@@ -146,7 +146,7 @@ Array
 */
 		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
 		$sessiondata = getSessionInfo();
-print_r($sessiondata);	
+		//print_r($sessiondata); // For debugging
 		print("<form method=post action=configure.php>");
 		print("<input type=hidden name=plugin value=transmission-daemon>");
 		print("<input type=hidden name=action value=set>");
@@ -161,6 +161,7 @@ print_r($sessiondata);
 		print("</select><br>");
 		print("Pex: <input type=checkbox name=pex-enabled " . ($sessiondata['pex-enabled'] ? "checked" : "") . "><BR>");
 		print("DHT: <input type=checkbox name=dht-enabled " . ($sessiondata['dht-enabled'] ? "checked" : "") . "><BR>");
+		print("Rename partial files: <input type=checkbox name=rename-partial-files " . ($sessiondata['rename-partial-files'] ? "checked" : "") . "><BR>");
 		print("<input type=submit text=Configure>");
 		print("</form>");
 
@@ -172,25 +173,30 @@ print_r($sessiondata);
 
 		print_r($_REQUEST);
 		$changedParameters = array();
-		if ( $sessiondata['speed-limit-up'] != $_REQUEST['speed-limit-up'] )
-			$changedParameters['speed-limit-up'] = (int)$_REQUEST['speed-limit-up'];
-		if ( $sessiondata['speed-limit-down'] != $_REQUEST['speed-limit-down'] )
-			$changedParameters['speed-limit-down'] = (int)$_REQUEST['speed-limit-down'];
-		if ( $sessiondata['encryption'] != $_REQUEST['encryption'] )
-			$changedParameters['encryption'] = $_REQUEST['encryption'];
-
+		$this->getChangedTextfieldParameter($sessiondata, $changedParameters, 'speed-limit-up');
+		$this->getChangedTextfieldParameter($sessiondata, $changedParameters, 'speed-limit-down');
+		$this->getChangedTextfieldParameter($sessiondata, $changedParameters, 'encryption');
 
 		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'speed-limit-up-enabled');
 		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'speed-limit-down-enabled');
 		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'pex-enabled');
 		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'dht-enabled');
+		$this->getChangedBooleanParameter($sessiondata, $changedParameters, 'rename-partial-files');
 
-print_r($changedParameters);
 		foreach ( $changedParameters as $parametername => $parametervalue ) {
 			//print("I found a parameter: " . $parametername . " with value " . $parametervalue);
 			setSessionParameter($parametername, $parametervalue);
 		}
-exit();
+	}
+
+	function getChangedTextfieldParameter($sessiondata, &$changedParameters, $parametername) {
+		$parametervalue = $_REQUEST[$parametername];
+		if ( $sessiondata[$parametername] != $parametervalue ) {
+			if( is_numeric($parametervalue) )
+				$changedParameters[$parametername] = (int)$parametervalue;
+			else
+				$changedParameters[$parametername] = $parametervalue;
+		}
 	}
 	
 	function getChangedBooleanParameter($sessiondata, &$changedParameters, $parametername) {
