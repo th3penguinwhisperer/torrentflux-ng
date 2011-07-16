@@ -24,7 +24,7 @@ if ( isset($action) ) {
 	if ($action == "deletewithdata")	$client->deletewithdata($transfer);
 	if ($action == "add") { 			$client->add($url, ($subaction == "add" ? true : false)); exit(); }
 	if ($action == "transfertabs") {	$client->gettabs(); exit(); }
-	if ($action == "metafileupload") 	handleFileUpload($_FILES);
+	if ($action == "metafileupload") {	handleFileUpload($_FILES, $client, ($subaction == "add" ? true : false)); }
 }
 
 //header('Location: index.php'); // TODO: probably can be removed as actions are not shown

@@ -54,8 +54,10 @@ $(function() {
 <div id=\"status_message\">
 </div>
 <form name=addurl action=\"\">Torrent URL: 
-	<input type=text name=url id=url>
-	<input type=submit class=\"add_url_button\">
+	<input type=text name=url id=url>");
+	getClientSelection();
+	getActionSelection();
+	print("<input type=submit class=\"add_url_button\">
 	<input type=hidden name=action id=action value=add>
 </form>");
 

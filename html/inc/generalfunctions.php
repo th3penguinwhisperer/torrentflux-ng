@@ -46,7 +46,7 @@ function tfb_cleanFileName($inName) {
 /**
  * processUpload
  */
-function handleFileUpload($files) {
+function handleFileUpload($files, $client, $paused) {
 	// check if files exist
 	if (empty($files)) {
 		// log
@@ -69,14 +69,14 @@ function handleFileUpload($files) {
 				if ($size > 0) {
 					_dispatcher_processUpload(
 						$upload['name'][$id], $upload['tmp_name'][$id], $size,
-						$actionId, $uploadMessages, $tStack);
+						$actionId, $uploadMessages, $tStack, $client, $paused);
 				}
 			}
 		} else {
 			if ($upload['size'] > 0) {
 				_dispatcher_processUpload(
 					$upload['name'], $upload['tmp_name'], $upload['size'],
-					$actionId, $uploadMessages, $tStack);
+					$actionId, $uploadMessages, $tStack, $client, $paused);
 			}
 		}
 	}
@@ -124,7 +124,7 @@ function getTransferClient($transfer) {
  * @param &$tStack
  * @return bool
  */
-function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadMessages, &$tStack) {
+function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadMessages, &$tStack, $client, $paused) {
 	$cfg = Configuration::get_instance()->get_cfg();
 	
 	$filename = tfb_cleanFileName(stripslashes($name));
@@ -175,8 +175,8 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					@chmod($fullfilename, 0644);
 					//AuditAction($cfg["constants"]["file_upload"], $filename);
 
-					$client = ClientHandler::getInstance();
-					$client->fileUploaded($fullfilename);
+					//$client = ClientHandler::getInstance();
+					$hash = $client->fileUploaded($fullfilename);
 					
 					//if ( $actionId > 1 ) {
 						//startTransmissionTransfer( $hash );
@@ -184,9 +184,13 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					//}
 					//return true;
 					// instant action ?
-					if ($actionId > 1)
-						array_push($tStack,$filename);
+					//if ($actionId > 1)
+					//	array_push($tStack,$filename);
 					// return
+					
+					if (!$paused)
+						$client->start($hash);
+
 					return true;
 				} else {
 					array_push($uploadMessages, "File not uploaded, file could not be found or could not be moved: ".$cfg["transfer_file_path"].$filename);
