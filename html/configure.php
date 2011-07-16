@@ -34,7 +34,7 @@ function getConfigurationUi($ph, $plugin)
     else
       print("<a href=\"configure.php?action=enable&plugin=$plugin[0]\"><img src=images/enable.png></a><br>");
 
-    if( $plugin[0] == "rss-transfers" || $plugin[0] == "transmission-daemon" ) { // TODO: this is only temporarily until other plugins are implementing from PluginInterface as well
+    if( $plugin[0] == "rss-transfers" || $plugin[0] == "transmission-daemon" || $plugin[0] == "torrentfluxng" ) { // TODO: this is only temporarily until other plugins are implementing from PluginInterface as well
       $pi = $ph->getPlugin($plugin[0]);
       if ( is_object($pi) ) {
         $pi->getConfiguration();

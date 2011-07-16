@@ -1,0 +1,2 @@
+ALTER TABLE `tf_plugins` CHANGE `plugintype` `plugintype` ENUM( 'transfersource', 'transferclient', 'info', 'configuration' ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+INSERT INTO `tf_plugins` (`pluginid`, `plugintype`, `pluginname`, `plugindisplayname`, `plugininclude`, `pluginclass`, `pluginenabled`, `pluginconfigured`, `pluginorder`) VALUES (NULL, 'configuration', 'torrentfluxng', 'Torrentflux NG', 'inc/plugins/torrentflux-ng/torrentflux-ng-configuration.php', 'TorrentfluxngConfiguration', '1', '1', '0');
