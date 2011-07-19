@@ -25,9 +25,14 @@ $(function() {
     var action = $(\"#action\").val();
     var subaction = $(\"#subaction\").val();
     var plugin = $(\"#plugin\").val();
+    if ( $('#publictorrent').is(':checked') ) {
+		var publictorrent = 'on';
+	} else {
+		var publictorrent = 'off';
+	}
 
     // validate and process form here
-    var dataString = 'url=' + url + '&client=' + client + '&action=' + action + '&subaction=' + subaction + '&plugin=' + plugin;
+    var dataString = 'url=' + url + '&client=' + client + '&action=' + action + '&subaction=' + subaction + '&plugin=' + plugin + '&publictorrent=' + publictorrent;
 
     $.ajax({
       type: \"POST\",

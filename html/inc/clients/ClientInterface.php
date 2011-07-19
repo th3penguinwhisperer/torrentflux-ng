@@ -18,7 +18,7 @@ interface ClientInterface
 	
 	function deletewithdata($transfer);
 	
-	function add($url, $paused);
+	function add($url, $path, $paused);
 	
 	function gettabs($tabname);
 }
