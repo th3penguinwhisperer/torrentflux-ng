@@ -26,9 +26,8 @@ class TransmissionDaemonClient implements ClientInterface
 		;
 	}
 	
-	function fileUploaded($fullfilename) {
-		$cfg = Configuration::get_instance()->get_cfg();
-		$hash = addTransmissionTransfer( $_SESSION['uid'], $fullfilename, $cfg['download_path'] );
+	function fileUploaded($fullfilename, $path) {
+		$hash = addTransmissionTransfer( $_SESSION['uid'], $fullfilename, $path );
 		
 		unlink($fullfilename);
 		

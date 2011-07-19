@@ -59,7 +59,9 @@ $(function() {
 <div id=\"status_message\">
 </div>
 <form name=addurl action=\"\">Torrent URL: 
-	<input type=text name=url id=url>");
+	<input type=text name=url id=url>
+	<br><input type=checkbox id=publictorrent name=publictorrent checked=checked> Public torrent
+");
 	getClientSelection();
 	getActionSelection();
 	print("<input type=submit class=\"add_url_button\">

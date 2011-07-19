@@ -58,7 +58,7 @@ function tfb_cleanFileName($inName) {
 /**
  * processUpload
  */
-function handleFileUpload($files, $client, $paused) {
+function handleFileUpload($files, $client, $path, $paused) {
 	// check if files exist
 	if (empty($files)) {
 		// log
@@ -81,14 +81,14 @@ function handleFileUpload($files, $client, $paused) {
 				if ($size > 0) {
 					_dispatcher_processUpload(
 						$upload['name'][$id], $upload['tmp_name'][$id], $size,
-						$actionId, $uploadMessages, $tStack, $client, $paused);
+						$actionId, $uploadMessages, $tStack, $client, $path, $paused);
 				}
 			}
 		} else {
 			if ($upload['size'] > 0) {
 				_dispatcher_processUpload(
 					$upload['name'], $upload['tmp_name'], $upload['size'],
-					$actionId, $uploadMessages, $tStack, $client, $paused);
+					$actionId, $uploadMessages, $tStack, $client, $path, $paused);
 			}
 		}
 	}
@@ -136,7 +136,7 @@ function getTransferClient($transfer) {
  * @param &$tStack
  * @return bool
  */
-function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadMessages, &$tStack, $client, $paused) {
+function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadMessages, &$tStack, $client, $path, $paused) {
 	$cfg = Configuration::get_instance()->get_cfg();
 	
 	$filename = tfb_cleanFileName(stripslashes($name));
@@ -188,7 +188,7 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					//AuditAction($cfg["constants"]["file_upload"], $filename);
 
 					//$client = ClientHandler::getInstance();
-					$hash = $client->fileUploaded($fullfilename);
+					$hash = $client->fileUploaded($fullfilename, $path);
 					
 					//if ( $actionId > 1 ) {
 						//startTransmissionTransfer( $hash );
@@ -263,7 +263,6 @@ function getActionSelection()
 	print("		<select name=subaction id=subaction>
 $actionhtmlcode
 		</select>");
-	print("<br><input type=checkbox id=publictorrent checked=checked> Public torrent");
 }
 
 /**

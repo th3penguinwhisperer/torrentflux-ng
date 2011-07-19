@@ -8,7 +8,7 @@ interface ClientInterface
 	
 	function getTransferList($uid);
 	
-	function fileUploaded($fullfilename);
+	function fileUploaded($fullfilename, $path);
 	
 	function start($transfer);
 	
