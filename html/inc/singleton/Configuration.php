@@ -13,7 +13,7 @@ class Configuration
 		$this->handle["file_types_label"] = ".torrent";
 		$this->handle['path'] = "/usr/local/torrentflux/git/"; // make sure it has a trailing slash
 		$this->handle["transfer_file_path"] = $this->handle['path'] . ".transfers/";
-		$this->handle['upload_limit'] = 100000;
+		$this->handle['upload_limit'] = 500000;
 		$this->handle['rss_cache_min'] = 60; // cache time in minutes
 		$this->handle['btclient'] = 'transmission-daemon'; // this represents the default torrent client
 		$this->handle['rss_cache_path'] = $this->handle['path'] . '.rsscache';
