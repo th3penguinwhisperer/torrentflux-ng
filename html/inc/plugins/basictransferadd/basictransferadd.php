@@ -13,8 +13,6 @@ class BasicTransferAdd
 	
 	function show()
 	{
-		getClientSelection();
-		getActionSelection();
 		print('<br>');
 		
 		$fileUpload = new TransfersourceFileupload();

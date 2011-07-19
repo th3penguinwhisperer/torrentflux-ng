@@ -31,6 +31,8 @@ class TransmissionDaemonClient implements ClientInterface
 		$hash = addTransmissionTransfer( $_SESSION['uid'], $fullfilename, $cfg['download_path'] );
 		
 		unlink($fullfilename);
+		
+		return $hash;
 	}
 	
 	function start($transfer) {
