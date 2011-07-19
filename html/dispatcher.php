@@ -22,7 +22,7 @@ if ( isset($action) ) {
 	if ($action == "stop")				$client->stop($transfer);
 	if ($action == "delete")			$client->delete($transfer);
 	if ($action == "deletewithdata")	$client->deletewithdata($transfer);
-	if ($action == "add") { 			$client->add($url, ($subaction == "add" ? true : false)); exit(); }
+	if ($action == "add") { 			$client->add($url, ( isset($_REQUEST['publictorrent']) && $_REQUEST['publictorrent'] == 'on' ?  getDownloadPath(true): getDownloadPath(false) ), ($subaction == "add" ? true : false)); exit(); }
 	if ($action == "transfertabs") {	$client->gettabs(); exit(); }
 	if ($action == "metafileupload") 	handleFileUpload($_FILES);
 }

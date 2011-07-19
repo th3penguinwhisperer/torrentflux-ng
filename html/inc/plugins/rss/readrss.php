@@ -184,9 +184,15 @@ class RssReader
 	    // get other values
 	    var client = $("#client").val();
 	    var subaction = $("#subaction").val();
+	    if ( $("#publictorrent").is(":checked") ) {
+		var publictorrent = "on";
+	    } else {
+		var publictorrent = "off";
+	    }
 	
 	    // validate and process form here
-	    var dataString = \'url=\' + url + \'&client=\' + client + \'&action=add\' + \'&subaction=\' + subaction;
+	    // TODO: all plugins jquery have to be edited/implemented when an option is added, which is error prone and might be fixed in a cleaner way
+	    var dataString = \'url=\' + url + \'&client=\' + client + \'&action=add\' + \'&subaction=\' + subaction + \'&publictorrent=\' + publictorrent;
 	
 	    $.ajax({
 	      type: "POST",

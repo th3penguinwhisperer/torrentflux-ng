@@ -51,9 +51,9 @@ class TransmissionDaemonClient implements ClientInterface
 		deleteTransmissionTransferWithData($_SESSION['uid'], $transfer);
 	}
 	
-	function add($url, $paused) {
+	function add($url, $path, $paused) {
 		$cfg = Configuration::get_instance()->get_cfg();
-		addTransmissionTransfer($_SESSION['uid'], $url, $cfg['download_path'], $paused);
+		addTransmissionTransfer($_SESSION['uid'], $url, $path, $paused);
 	}
 	
 	function gettabs($tabname = "") {

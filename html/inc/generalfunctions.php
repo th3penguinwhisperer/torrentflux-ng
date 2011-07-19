@@ -20,6 +20,18 @@ function formatBytesTokBMBGBTB($inBytes) {
 		return $inBytes . " B";
 }
 
+function getDownloadPath($shared = false)
+{
+	require_once('inc/singleton/Configuration.php');
+	$cfg = Configuration::get_instance()->get_cfg();
+	
+	if ($shared) {
+		return $cfg['path'] . 'incoming';
+	} else {
+		return $cfg['download_path'];
+	}
+}
+
 /**
  * clean file-name, validate extension and make it lower-case
  *
@@ -247,6 +259,7 @@ function getActionSelection()
 	print("		<select name=subaction id=subaction>
 $actionhtmlcode
 		</select>");
+	print("<br><input type=checkbox id=publictorrent checked=checked> Public torrent");
 }
 
 /**
