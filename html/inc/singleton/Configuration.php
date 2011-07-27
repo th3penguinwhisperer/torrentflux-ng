@@ -25,7 +25,13 @@ class Configuration
 		$this->handle['user'] = $_SESSION['user']; // TODO: Should be removed -> is in $_SESSION['user']
 		$this->handle['uid'] = $_SESSION['uid']; // TODO: Should be removed -> is in $_SESSION['uid']
 		$this->handle['diskusagewarninglevel'] = 90;
+		$this->handle['enable_shared_downloads'] = true;
 
+		if ( $this->handle['uid'] == 1 ) // TODO: use other method to define an admin user
+			$this->handle['isAdmin'] = true;
+		else
+			$this->handle['isAdmin'] = false;
+		
 		$this->handle['enable_home_dirs'] = '1';
 		if ( $this->handle['enable_home_dirs'] == '1' )
 			$this->handle['download_path'] = $this->handle['path'] . $this->handle['user'];
@@ -37,6 +43,42 @@ class Configuration
 			'debug' => 'DEBUG',
 			'info' => 'INFO'
 		);
+
+		// Temporarily added for testing dir page through ajax
+		$this->handle['ui_dim_main_w'] = "";
+		$this->handle['theme'] = "RedRound";
+		$this->handle['ui_displayfluxlink'] = "";
+		$this->handle['dir_public_read'] = "";
+		$this->handle['dir_public_write'] = "";
+		$this->handle['enable_tmpl_cache'] = "";
+		$this->handle['enable_dirstats'] = "";
+		$this->handle['enable_view_nfo'] = "";
+		$this->handle['enable_rar'] = "";
+		$this->handle['enable_sfvcheck'] = "";
+		$this->handle['dir_enable_chmod'] = "";
+		$this->handle['enable_rename'] = "";
+		$this->handle['enable_move'] = "";
+		$this->handle['enable_vlc'] = "";
+		$this->handle['enable_file_download'] = "";
+		$this->handle['enable_maketorrent'] = "";
+		$this->handle['drivespacebar'] = "";
+		$this->handle['driveSpace'] = "";
+		$this->handle['_CHARSET'] = "";
+		$this->handle['freeSpaceFormatted'] = "";
+		$this->handle['hit'] = "";
+		$this->handle['_DIRECTORYLIST'] = "";
+		$this->handle['_TORRENTS'] = "";
+		$this->handle['_UPLOADHISTORY'] = "";
+		$this->handle['_MYPROFILE'] = "";
+		$this->handle['_MESSAGES'] = "";
+		$this->handle['_ADMINISTRATION'] = "";
+		$this->handle['_STORAGE'] = "";
+		$this->handle['_RETURNTOTRANSFERS'] = "";
+		$this->handle['_ABOUTTODELETE'] = "";
+		$this->handle['_BACKTOPARRENT'] = "";
+		$this->handle['_DELETE'] = "";
+		$this->handle['pagetitle'] = "";
+		$this->handle['version'] = "";
 	}
    
 	static function get_instance()

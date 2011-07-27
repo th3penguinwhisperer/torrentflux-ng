@@ -1,5 +1,34 @@
 <?php
 
+
+function tfb_getRequestVar($varName, $return = '') {
+        if(array_key_exists($varName, $_REQUEST)){
+                // If magic quoting on, strip magic quotes:
+                /** 
+                * TODO:
+                * Codebase needs auditing to remove any unneeded stripslashes
+                * calls before uncommenting this.  Also using this really means
+                * checking any addslashes() calls to see if they're really needed
+                * when magic quotes is on.
+                if(ini_get('magic_quotes_gpc')){
+                        tfb_strip_quotes($_REQUEST[$varName]);
+                }
+                */
+                $return = htmlentities(trim($_REQUEST[$varName]), ENT_QUOTES);
+                /*  
+                disabled, need to fix deadeye's implementation
+                if ($varName == 'transfer' && isHash($return)) {
+                        $name = getTransferFromHash($return);
+                        if (!empty($name))
+                                return $name;
+                        else
+                                return $return;
+                }
+                */
+        }   
+        return $return;
+}
+
 /**
  * Returns a string in format of TB, GB, MB, or kB depending on the size
  *
