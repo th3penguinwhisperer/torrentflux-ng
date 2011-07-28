@@ -93,24 +93,49 @@ function checkIncomingPath() {
 }
 
 /**
+ * avddelete
+ *
+ * @param $file
+ */
+function avddelete($file) {
+	@chmod($file,0777);
+	if (@is_dir($file)) {
+		$handle = @opendir($file);
+		while($filename = readdir($handle)) {
+			if ($filename != "." && $filename != "..")
+				avddelete($file."/".$filename);
+		}
+		closedir($handle);
+		@rmdir($file);
+	} else {
+		if ( ! @unlink($file) )
+			;
+	}
+}
+
+/**
  * deletes a dir-entry. recursive process via avddelete
  *
  * @param $del entry to delete
  * @return string with current
  */
 function delDirEntry($del) {
-	global $cfg;
+	require_once('inc/singleton/Configuration.php');
+	$cfg = Configuration::get_instance()->get_cfg();
 
 	$current = "";
 
 	if (tfb_isValidPath($del)) {
-		avddelete($cfg["path"].$del);
+		$deleted = avddelete($cfg["path"].$del);
 		$arTemp = explode("/", $del);
 		if (count($arTemp) > 1) {
 			array_pop($arTemp);
 			$current = implode("/", $arTemp);
 		}
-		AuditAction($cfg["constants"]["fm_delete"], $del);
+		if ($deleted)
+			AuditAction($cfg["constants"]["fm_delete"], $cfg["constants"]["fm_delete"], "Deletion of file " . $del);
+		else
+			AuditAction("DELETE", "ERROR", "Deletion of file " . $del . " failed (permission denied?)", $_SERVER['PHP_SELF']);
 	} else {
 		AuditAction($cfg["constants"]["error"], "ILLEGAL DELETE: ".$cfg["user"]." tried to delete ".$del);
 	}

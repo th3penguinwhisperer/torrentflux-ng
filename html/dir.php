@@ -239,7 +239,7 @@ if ($del != "") {
 	if ((isValidEntry(basename($del))) && (hasPermission($del, $cfg["user"], 'w'))) {
 		$current = delDirEntry($del);
 	} else {
-		AuditAction($cfg["constants"]["error"], "ILLEGAL DELETE: ".$cfg["user"]." tried to delete (".$del.")");
+		AuditAction($cfg["constants"]["error"], $cfg["constants"]["error"], "ILLEGAL DELETE: ".$cfg["user"]." tried to delete (".$del.")");
 		$current = $del;
 
 		if (tfb_isValidPath($del)) {
@@ -250,7 +250,7 @@ if ($del != "") {
 			}
 		}
 	}
-	@header("Location: dir.php&dir=".UrlHTMLSlashesEncode($current));
+	@header("Location: dir.php?dir=".UrlHTMLSlashesEncode($current));
 	exit();
 }
 
