@@ -295,6 +295,24 @@ $actionhtmlcode
 }
 
 /**
+ * check if path is valid
+ *
+ * @param $path
+ * @param $ext
+ * @return boolean
+ */
+function tfb_isValidPath($path, $ext = "") {
+        if (preg_match("/\\\/", $path)) return false;
+        if (preg_match("/\.\.\//", $path)) return false;
+        if ($ext != "") {
+                $extLength = strlen($ext);
+                if (strlen($path) < $extLength) return false;
+                if ((strtolower(substr($path, -($extLength)))) !== strtolower($ext)) return false;
+        }   
+        return true;
+}
+
+/**
  * Audit Action
  *
  * @param $action
