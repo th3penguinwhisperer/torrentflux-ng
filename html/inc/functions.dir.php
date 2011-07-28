@@ -106,10 +106,9 @@ function avddelete($file) {
 				avddelete($file."/".$filename);
 		}
 		closedir($handle);
-		@rmdir($file);
+		return @rmdir($file);
 	} else {
-		if ( ! @unlink($file) )
-			;
+		return @unlink($file);
 	}
 }
 
@@ -133,7 +132,7 @@ function delDirEntry($del) {
 			$current = implode("/", $arTemp);
 		}
 		if ($deleted)
-			AuditAction($cfg["constants"]["fm_delete"], $cfg["constants"]["fm_delete"], "Deletion of file " . $del);
+			AuditAction("DELETE", "INFO", "Deletion of file " . $del, $_SERVER['PHP_SELF']);
 		else
 			AuditAction("DELETE", "ERROR", "Deletion of file " . $del . " failed (permission denied?)", $_SERVER['PHP_SELF']);
 	} else {
