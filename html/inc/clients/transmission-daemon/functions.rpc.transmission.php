@@ -22,6 +22,7 @@
 
 require_once('inc/singleton/db.php');
 require_once('inc/lang/transferstatus.php');
+require_once('inc/generalfunctions.php');
 
 function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
 	require_once('inc/singleton/Configuration.php');
@@ -266,6 +267,9 @@ function deleteTransmissionTransfer($uid, $hash, $deleteData = false) {
 		if ( $response['result'] != "success" )
 			rpc_error("Delete failed", "", "", $response['result']);
 		deleteTransmissionTransferFromDB($uid, $hash);
+		AuditAction("DELETE", "INFO", "Transfer deleted: uid=$uid hash=$hash", $_SERVER['PHP_SELF']);
+	} else {
+		AuditAction("DELETE", "ERROR", "Attempt to delete transfer with other owner: uid=$uid hash=$hash", $_SERVER['PHP_SELF']);
 	}
 }
 
