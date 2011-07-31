@@ -183,8 +183,8 @@ function isValidTransmissionTransfer($uid,$tid) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
-	if ($uid == 1)
-		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid'";
+	if ($uid == 1) // if admin
+		return true;
 	else
 		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid' AND uid='$uid'";
 	$recordset = $db->GetRow($sql);
