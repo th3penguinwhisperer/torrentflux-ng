@@ -60,6 +60,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 
 	function addUser($username, $password)
 	{
+		$cfg = Configuration::get_instance()->get_cfg();
 		$db = DB::get_db()->get_handle();
 		$user = mysql_real_escape_string($username);
 		$pass = md5($password);
