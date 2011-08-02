@@ -113,7 +113,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 				if( !rmdir($cfg['rewrite_path'].$user) ) {
 					$cfg = Configuration::get_instance()->get_cfg();
 					AuditAction($cfg["constants"]["error"], $cfg['constants']['error'], "User with ID 1 cannot be deleted", $_SERVER['PHP_SELF'], $_SESSION['uid']);
-					print("User with ID 1 download directory cannot be deleted or it didn't exist!"); // TODO: this should have its own method for showing errors
+					print("User with ID $uid download directory cannot be deleted or it didn't exist!"); // TODO: this should have its own method for showing errors
 					exit();
 				}
 			}
