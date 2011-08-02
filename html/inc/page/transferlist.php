@@ -4,7 +4,7 @@ require_once('inc/singleton/Configuration.php');
 
 $cfg = Configuration::get_instance()->get_cfg();
 
-if ($cfg["transmission_rpc_enable"]) {
+if ($cfg["rewrite_transmission_rpc_enable"]) {
 	require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');
 	$td = new TransmissionDaemonClient();
 	$arUserTorrent = $td->getTransferList($_SESSION['uid']);

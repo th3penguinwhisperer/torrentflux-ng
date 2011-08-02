@@ -60,15 +60,15 @@ class RssReader
 		$rss = new lastRSS();
 		
 		// setup transparent cache
-		$cacheDir = $this->cfg['rss_cache_path'];
+		$cacheDir = $this->cfg['rewrite_rss_cache_path'];
 		
 		if (!checkDirectory($cacheDir, 0777)) {
 			//@error("Error with rss-cache-dir", "index.php?page=index", "", array($cacheDir));
-			print("The rss_cache_path does not exist: " . $this->cfg['rss_cache_path']);
+			print("The rss_cache_path does not exist: " . $this->cfg['rewrite_rss_cache_path']);
 			exit();
 		}
 		$rss->cache_dir = $cacheDir;
-		$rss->cache_time = $this->cfg["rss_cache_min"] * 60; // 1200 = 20 min.  3600 = 1 hour
+		$rss->cache_time = $this->cfg["rewrite_rss_cache_min"] * 60; // 1200 = 20 min.  3600 = 1 hour
 		$rss->strip_html = false; // don't remove HTML from the description
 		$rss->CDATA = 'strip'; // TODO: these variables should be defined by default in lastRSS. Some of them are used in the code but not initialized by the class
 		

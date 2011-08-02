@@ -20,7 +20,7 @@ class ClientHandler
 			break;
 		default:
 			$cfg = Configuration::get_instance()->get_cfg();
-			$handler = ClientHandler::getInstance($cfg["btclient"]);
+			$handler = ClientHandler::getInstance($cfg["rewrite_btclient"]);
 		}
 		return $handler;
 		

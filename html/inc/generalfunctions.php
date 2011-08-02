@@ -25,10 +25,10 @@ function getDownloadPath($shared = false)
 	require_once('inc/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 	
-	if ($shared) {
-		return $cfg['path'] . 'incoming';
+	if ($shared || ! $cfg['rewrite_enable_home_dirs']) {
+		return $cfg['rewrite_path'] . $cfg['rewrite_shared_download_dir'];
 	} else {
-		return $cfg['download_path'];
+		return $cfg['rewrite_download_path'];
 	}
 }
 
@@ -46,7 +46,7 @@ function tfb_cleanFileName($inName) {
         $outName = preg_replace("/[^0-9a-zA-Z\.\-]+/",'_', $outName);
         $outName = str_replace("_-_", "-", $outName);
         $stringLength = strlen($outName);
-        foreach ($cfg['file_types_array'] as $ftype) {
+        foreach ($cfg['rewrite_file_types_array'] as $ftype) {
                 $extLength = strlen($ftype);
                 $extIndex = 0 - $extLength;
                 if (($stringLength > $extLength) && (strtolower(substr($outName, $extIndex)) === ($ftype)))
@@ -144,7 +144,7 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 		// invalid file
 		array_push($uploadMessages, "The type of file ".stripslashes($name)." is not allowed.");
 		array_push($uploadMessages, "\nvalid file-extensions: ");
-		array_push($uploadMessages, $cfg["file_types_label"]);
+		array_push($uploadMessages, $cfg["rewrite_file_types_label"]);
 		return false;
 	} else {
 		// file is valid
@@ -175,14 +175,14 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 				}
 			}
 		}*/
-		if ($size <= $cfg["upload_limit"] && $size > 0) {
+		if ($size <= $cfg["rewrite_upload_limit"] && $size > 0) {
 			//FILE IS BEING UPLOADED
-			if (@is_file($cfg["transfer_file_path"].$filename)) {
+			if (@is_file($cfg["rewrite_transfer_file_path"].$filename)) {
 				// Error
 				array_push($uploadMessages, "the file ".$filename." already exists on the server.");
 				return false;
 			} else {
-				$fullfilename = $cfg["transfer_file_path"].$filename;
+				$fullfilename = $cfg["rewrite_transfer_file_path"].$filename;
 				if (@move_uploaded_file($tmp_name, $fullfilename)) {
 					@chmod($fullfilename, 0644);
 					//AuditAction($cfg["constants"]["file_upload"], $filename);
@@ -205,12 +205,12 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 
 					return true;
 				} else {
-					array_push($uploadMessages, "File not uploaded, file could not be found or could not be moved: ".$cfg["transfer_file_path"].$filename);
+					array_push($uploadMessages, "File not uploaded, file could not be found or could not be moved: ".$cfg["rewrite_transfer_file_path"].$filename);
 					return false;
 			  	}
 			}
 		} else {
-			array_push($uploadMessages, "File not uploaded, file size limit is ".$cfg["upload_limit"].". file has ".$size);
+			array_push($uploadMessages, "File not uploaded, file size limit is ".$cfg["rewrite_upload_limit"].". file has ".$size);
 			return false;
 		}
 	}
