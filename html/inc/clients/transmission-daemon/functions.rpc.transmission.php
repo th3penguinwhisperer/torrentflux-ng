@@ -27,7 +27,7 @@ function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
 	require_once('inc/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 	
-	AuditAction($cfg["constants"]["error"], "Transmission RPC : $errorstr - $response");
+	AuditAction("TRANSMISSION_DAEMON", $cfg["constants"]["error"], "Transmission RPC : $errorstr - $response");
 	#@error($errorstr, "", "", $response);
 	#addGrowlMessage('transmission-rpc',$errorstr.$response);
 	//dbError($errorstr);
@@ -183,7 +183,8 @@ function isValidTransmissionTransfer($uid,$tid) {
 
 	$retVal = array();
 	if ($uid == 1)
-		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid'";
+		//$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid'";
+		return true;
 	else
 		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid' AND uid='$uid'";
 	$recordset = $db->GetRow($sql);

@@ -101,7 +101,10 @@ $cfg['user'] = "administrator";
 			'is_no_file' => 1,
 			'show_run' => 1,
 			'entry' => $this->data['name'],
-			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] )
+			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
+			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&action=start&transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
+			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
+			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&action=deletewithdata&transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');"
 		);
 
 		return $tArray;

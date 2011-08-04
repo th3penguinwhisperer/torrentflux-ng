@@ -122,6 +122,24 @@ $tmpl->setvar('_USERS', "Users");
 // username
 $tmpl->setvar('user', $cfg["user"]);
 
+print('
+<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/popup.js"></script>
+	<script type="text/javascript">
+pp = new Popup;
+
+	// TODO (re)move this to an appropriate place. It is here solely to get the transfer listing working
+	function actionClick(showlabel,labeltext) {
+        if (actionInProgress) {
+                actionRequestError();
+                return false;
+        }   
+        actionRequest(showlabel,labeltext);
+        return true;
+	}
+	</script>
+	<script type="text/javascript" src="js/transferlist.js"></script>
+');
 
 $arUserTorrent = array();
 $arListTorrent = array(); // TODO where is this array needed for?

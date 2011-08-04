@@ -140,7 +140,7 @@ Your Transfers
 							</a>
 							<tmpl_if name="transferRunning" value="1">
 								<img src="themes/<tmpl_var name="theme">/images/index/TransferList/blank.png" style="width:16px;height:16px;" alt="" />
-								<a href="dispatcher.php?action=stop&amp;transfer=<tmpl_var name="url_entry">" onclick="return actionClick(true,'Stopping Transfer')">
+								<a href="#" onclick="<tmpl_var name="stop_action">; return actionClick(true,'Stopping Transfer')">
 									<img src="themes/<tmpl_var name="theme">/images/index/TransferList/trans_stop.png" title="<tmpl_var name="_STOPTRANSFER">" alt="" />
 								</a>
 								<img src="themes/<tmpl_var name="theme">/images/index/TransferList/delete_off.png" alt="" />
@@ -177,8 +177,8 @@ Your Transfers
 												</tmpl_if>
 											</tmpl_if>
 											<tmpl_if name="show_run" value="1">
-												<a href="dispatcher.php?action=start&amp;transfer=<tmpl_var name="url_entry">" onclick="return actionClick(true,'Starting Transfer')">
-													<img src="themes/<tmpl_var name="theme">/images/index/TransferList/trans_fast.png"title="<tmpl_var name="_RUNTRANSFER">" alt="" />
+												<a href="#" onclick="<tmpl_var name="start_action">;return actionClick(true,'Starting Transfer')">
+													<img src="themes/<tmpl_var name="theme">/images/index/TransferList/trans_fast.png" title="<tmpl_var name="_RUNTRANSFER">" alt="" />
 												</a>
 											<tmpl_else>
 												<tmpl_if name="upload_support_enabled" value="1">
@@ -196,7 +196,7 @@ Your Transfers
 									</tmpl_if>
 								</tmpl_if>
 								<tmpl_if name="is_no_file">
-									<a href="dispatcher.php?action=deleteWithData&amp;transfer=<tmpl_var name="url_entry">" onclick="return actionConfirm('Delete <tmpl_var name="entry"> (and data) ?','Deleting Transfer')">
+									<a href="#" onclick="<tmpl_var name="delete_with_data_action">; return actionConfirm('Delete <tmpl_var name="entry"> (and data) ?','Deleting Transfer')">
 										<img src="themes/<tmpl_var name="theme">/images/index/TransferList/delete_on.png" title="<tmpl_var name="_DELETE">" alt="" />
 									</a>
 								<tmpl_else>
