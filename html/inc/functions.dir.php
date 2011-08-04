@@ -148,7 +148,9 @@ function delDirEntry($del) {
  * @return string with current
  */
 function downloadFile($down) {
-	global $cfg;
+	require_once('inc/singleton/Configuration.php');
+	$cfg = Configuration::get_instance()->get_cfg();
+	
 	$current = "";
 	// we need to strip slashes twice in some circumstances
 	// Ex.	If we are trying to download test/tester's file/test.txt
