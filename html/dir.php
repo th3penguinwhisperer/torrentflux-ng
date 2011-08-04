@@ -284,7 +284,7 @@ if ($down != "") {
 			}
 		}
 	}
-	@header("Location: dir.php&dir=".UrlHTMLSlashesEncode($current));
+	@header("Location: dir.php?dir=".UrlHTMLSlashesEncode($current));
 	exit();
 }
 
@@ -313,7 +313,7 @@ if ($tar != "") {
 			}
 		}
 	}
-	@header("Location: dir.php=".UrlHTMLSlashesEncode($current));
+	@header("Location: dir.php?dir=".UrlHTMLSlashesEncode($current));
 	exit();
 }
 
