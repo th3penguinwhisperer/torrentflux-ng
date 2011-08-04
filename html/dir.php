@@ -488,7 +488,6 @@ unset($tDirPs);
 
 // dir-name
 $dirName = $cfg["path"].$dir;
-print("Dirname is: " . $dirName);
 
 // dir-check
 if (!(@is_dir($dirName))) {
