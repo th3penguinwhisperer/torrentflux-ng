@@ -260,7 +260,7 @@ if ($del != "") {
 if ($down != "") {
 	// is enabled ?
 	if ($cfg["enable_file_download"] != 1) {
-		AuditAction($cfg["constants"]["error"], "ILLEGAL ACCESS: ".$cfg["user"]." tried to use download (".$down.")");
+		AuditAction("DOWNLOAD_FILE", $cfg["constants"]["error"], "ILLEGAL ACCESS: ".$cfg["user"]." tried to use download (".$down.")");
 		@error("download is disabled", "index.php?iid=index", "");
 	}
 	// only valid entry with permission
@@ -268,7 +268,7 @@ if ($down != "") {
 		@ ini_set("zlib.output_compression","Off");
 		$current = downloadFile($down);
 	} else {
-		AuditAction($cfg["constants"]["error"], "ILLEGAL DOWNLOAD: ".$cfg["user"]." tried to download ".$down);
+		AuditAction("DOWNLOAD_FILE", $cfg["constants"]["error"], "ILLEGAL DOWNLOAD: ".$cfg["user"]." tried to download ".$down);
 		$current = $down;
 
 		if (tfb_isValidPath($down)) {
