@@ -1,15 +1,13 @@
 <tmpl_include name="inc.LayoutHeader.tmpl">
 
-<tmpl_if name="enable_bigboldwarning" value="1">
 <table id="indexStatsBarWarning">
 	<tr>
 		<td>
-			<img src="themes/<tmpl_var name="theme">/images/index/SpaceWarning/emblem.png">
-			Warning! <tmpl_var name="drivespace">% drivespace is used! You have <tmpl_var name="freeSpaceFormatted"> left!
+			<div id="status_message" />
 		</td>
 	</tr>
 </table>
-</tmpl_if>
+
 <!-- Meta Page Refresh -->
 <!-- This table CANNOT be moved to the content it's showing inc.indexRefreshOptions.tmpl because Opera 9 breaks layout -->
 
