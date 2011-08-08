@@ -124,6 +124,19 @@ $tmpl->setvar('_USERS', "Users");
 // username
 $tmpl->setvar('user', $cfg["user"]);
 
+$tmpl->setvar('settings_0', '1');
+$tmpl->setvar('settings_1', '1');
+$tmpl->setvar('settings_2', '1');
+$tmpl->setvar('settings_3', '1');
+$tmpl->setvar('settings_4', '1');
+$tmpl->setvar('settings_5', '1');
+$tmpl->setvar('settings_6', '1');
+$tmpl->setvar('settings_7', '1');
+$tmpl->setvar('settings_8', '1');
+$tmpl->setvar('settings_9', '1');
+$tmpl->setvar('settings_10', '1');
+$tmpl->setvar('settings_11', '1');
+
 
 // Enabling AJAX update -> this generates the function call
 // ajax_initialize(10000,';',0,1,'torrentflux-b4rt',1,'1:1:1:1:1:1',1,0,1,1,0,1,1,'tf',1,'tf');
@@ -233,11 +246,10 @@ $tmpl->setloop('arListTorrent', $arListTorrent);
 if (sizeof($arUserTorrent) > 0) 
         $tmpl->setvar('are_user_transfer', 1);
 $boolCond = true;
-$cfg['enable_restrictivetview'] = 1; // TODO should be removed/modified later
+$cfg['enable_restrictivetview'] = 0; // TODO should be removed/modified later
 if ($cfg['enable_restrictivetview'] == 1)
         $boolCond = $cfg['isAdmin']; // TODO Err... what does this do? :)
 $tmpl->setvar('are_transfer', (($boolCond) && (sizeof($arListTorrent) > 0)) ? 1 : 0);
-
 
 
 // =============================================================================
