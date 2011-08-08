@@ -80,7 +80,9 @@ if (isset($_REQUEST['ajax_update'])) {
         $isAjaxUpdate = false;
         // init template-instance
         tmplInitializeInstance($cfg["theme"], "page.index.tmpl");
+        printJavascriptHtml(); // TODO should be fixed in another way
 }
+
 
 // language
 /*
@@ -122,24 +124,97 @@ $tmpl->setvar('_USERS', "Users");
 // username
 $tmpl->setvar('user', $cfg["user"]);
 
-print('
-<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/popup.js"></script>
-	<script type="text/javascript">
-pp = new Popup;
 
-	// TODO (re)move this to an appropriate place. It is here solely to get the transfer listing working
-	function actionClick(showlabel,labeltext) {
-        if (actionInProgress) {
-                actionRequestError();
-                return false;
-        }   
-        actionRequest(showlabel,labeltext);
-        return true;
-	}
-	</script>
-	<script type="text/javascript" src="js/transferlist.js"></script>
-');
+// Enabling AJAX update -> this generates the function call
+// ajax_initialize(10000,';',0,1,'torrentflux-b4rt',1,'1:1:1:1:1:1',1,0,1,1,0,1,1,'tf',1,'tf');
+$_SESSION['settings']['index_ajax_update'] = 10;
+$cfg['index_ajax_update'] = 10;
+$cfg['enable_index_ajax_update_silent'] = 0;
+$cfg['enable_index_ajax_update_title'] = 1;
+$cfg['pagetitle'] = 'pagetitle';
+$cfg['index_page_stats'] = 0;
+$cfg['enable_goodlookstats'] = 0;
+$cfg['enable_xfer'] = 0;
+$cfg['xfer_realtime'] = 0;
+$cfg['ui_displayusers'] = 0;
+$cfg['stats_txt_delim'] = ';';
+$cfg['enable_index_ajax_update_users'] = 0;
+$cfg["hide_offline"] = 0;
+$cfg["enable_index_ajax_update_list"] = 1;
+$cfg['enable_sorttable'] = 0;
+$cfg['drivespacebar'] = 'tf';
+$cfg['ui_displaybandwidthbars'] = 0;
+$cfg['bandwidthbar'] = 'tf';
+if ($_SESSION['settings']['index_ajax_update'] != 0) {
+        $tmpl->setvar('index_ajax_update', $cfg["index_ajax_update"]);
+        $ajaxInit = "ajax_initialize(";
+        $ajaxInit .= (intval($cfg['index_ajax_update']) * 1000);
+        $ajaxInit .= ",'".$cfg['stats_txt_delim']."'";
+        $ajaxInit .= ",".$cfg["enable_index_ajax_update_silent"];
+        $ajaxInit .= ",".$cfg["enable_index_ajax_update_title"];
+        $ajaxInit .= ",'".$cfg['pagetitle']."'";
+        $ajaxInit .= ",".$cfg["enable_goodlookstats"];
+        if ($cfg["enable_goodlookstats"] != "0") 
+                $ajaxInit .= ",'".$settingsHackStats[0].':'.$settingsHackStats[1].':'.$settingsHackStats[2].':'.$settingsHackStats[3].':'.$settingsHackStats[4].':'.$settingsHackStats[5]."'";
+        else 
+                $ajaxInit .= ",'0:0:0:0:0:0'";
+        $ajaxInit .= ",".$cfg["index_page_stats"];
+        //if (FluxdQmgr::isRunning())
+        //        $ajaxInit .= ",1";
+        //else 
+                $ajaxInit .= ",0";
+        if (($cfg['enable_xfer'] == 1) && ($cfg['xfer_realtime'] == 1))
+                $ajaxInit .= ",1";
+        else 
+                $ajaxInit .= ",0";
+        if (($cfg['ui_displayusers'] == 1) && ($cfg['enable_index_ajax_update_users'] == 1))
+                $ajaxInit .= ",1";
+        else 
+                $ajaxInit .= ",0";
+        $ajaxInit .= ",".$cfg["hide_offline"];
+        $ajaxInit .= ",".$cfg["enable_index_ajax_update_list"];
+        $ajaxInit .= ",".$cfg["enable_sorttable"];
+        $ajaxInit .= ",'".$cfg['drivespacebar']."'";
+        $ajaxInit .= ",".$cfg["ui_displaybandwidthbars"];
+        $ajaxInit .= ",'".$cfg['bandwidthbar']."'";
+        $ajaxInit .= ");onbeforeunload = ajax_unload;";
+     
+        $onLoad = $ajaxInit;
+} 
+
+// onLoad
+$cfg['_SECONDS'] = 'Seconds';
+$cfg['_TURNOFFREFRESH'] = 'Turn off refresh';
+if ($onLoad != "") {
+        $tmpl->setvar('onLoad', $onLoad);
+        $tmpl->setvar('_SECONDS', $cfg['_SECONDS']);
+        $tmpl->setvar('_TURNOFFREFRESH', $cfg['_TURNOFFREFRESH']);
+}
+
+
+function printJavascriptHtml()
+{
+	print('
+	<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
+		<script type="text/javascript">
+	pp = new Popup;
+	
+		// TODO (re)move this to an appropriate place. It is here solely to get the transfer listing working
+		function actionClick(showlabel,labeltext) {
+	        if (actionInProgress) {
+	                actionRequestError();
+	                return false;
+	        }   
+	        actionRequest(showlabel,labeltext);
+	        return true;
+		}
+		</script>
+		<script type="text/javascript" src="js/transferlist.js"></script>
+		<script type="text/javascript" src="js/ajax.js"></script>
+		<script type="text/javascript" src="js/ajax_index.js"></script>
+	');
+}
 
 $arUserTorrent = array();
 $arListTorrent = array(); // TODO where is this array needed for?
@@ -158,9 +233,116 @@ $tmpl->setloop('arListTorrent', $arListTorrent);
 if (sizeof($arUserTorrent) > 0) 
         $tmpl->setvar('are_user_transfer', 1);
 $boolCond = true;
+$cfg['enable_restrictivetview'] = 1; // TODO should be removed/modified later
 if ($cfg['enable_restrictivetview'] == 1)
         $boolCond = $cfg['isAdmin']; // TODO Err... what does this do? :)
 $tmpl->setvar('are_transfer', (($boolCond) && (sizeof($arListTorrent) > 0)) ? 1 : 0);
+
+
+
+// =============================================================================
+// ajax-index
+// =============================================================================
+
+if ($isAjaxUpdate) {
+	$ajax_delim = "|#|";
+	$content = "";
+	$isFirst = true;
+	//$ajaxUpdateParams{3} = 1; // TODO this should be deleted later: just for testing
+	// server stats
+	$ajaxUpdateParams{0} = "0";
+	if ($ajaxUpdateParams{0} == "1") {
+		$isFirst = false;
+		$serverStats = getServerStats();
+		$serverCount = count($serverStats);
+		for ($i = 0; $i < $serverCount; $i++) {
+			$content .= $serverStats[$i];
+			if ($i < ($serverCount - 1))
+				$content .= $cfg['stats_txt_delim'];
+		}
+	}
+	// xfer
+	if ($ajaxUpdateParams{1} == "1") {
+		if ($isFirst)
+			$isFirst = false;
+		else
+			$content .= $ajax_delim;
+		$xferStats = Xfer::getStatsFormatted();
+		$xferCount = count($xferStats);
+		for ($i = 0; $i < $xferCount; $i++) {
+			$content .= $xferStats[$i];
+			if ($i < ($xferCount - 1))
+				$content .= $cfg['stats_txt_delim'];
+		}
+	}
+	// users
+	if ($ajaxUpdateParams{2} == "1") {
+		if ($isFirst)
+			$isFirst = false;
+		else
+			$content .= $ajax_delim;
+		$countUsers = count($cfg['users']);
+		$arOnlineUsers = array();
+		$arOfflineUsers = array();
+		for ($i = 0; $i < $countUsers; $i++) {
+			if (IsOnline($cfg['users'][$i]))
+				array_push($arOnlineUsers, $cfg['users'][$i]);
+			else
+				array_push($arOfflineUsers, $cfg['users'][$i]);
+		}
+		$countOnline = count($arOnlineUsers);
+		for ($i = 0; $i < $countOnline; $i++) {
+			$content .= $arOnlineUsers[$i];
+			if ($i < ($countOnline - 1))
+				$content .= $cfg['stats_txt_delim'];
+		}
+		if ($cfg["hide_offline"] == 0) {
+			$content .= "+";
+			$countOffline = count($arOfflineUsers);
+			for ($i = 0; $i < $countOffline; $i++) {
+				$content .= $arOfflineUsers[$i];
+				if ($i < ($countOffline - 1))
+					$content .= $cfg['stats_txt_delim'];
+			}
+		}
+	}
+	// transfer list
+	if ($ajaxUpdateParams{3} == "1") {
+		if ($isFirst)
+			$isFirst = false;
+		else
+			$content .= $ajax_delim;
+		$content .= $tmpl->grab();
+	}
+	// javascript
+	if (true) {
+		if ($isFirst)
+			$isFirst = false;
+		else
+			$content .= $ajax_delim;
+			//$content .= $ajax_delim . "test" . $ajax_delim . "test2" . $ajax_delim . "test3" . $ajax_delim . "test4";
+
+		//Messages jGrowl
+		$jGrowls = "";
+		if (!empty($cfg['growl'])) {
+			$jGrowls .= getGrowlMessages();
+			clearGrowlMessages();
+		}
+		//Growl message on ajax refresh
+		if (!empty($msgGrowl)) {
+			$jGrowls .= "jQuery.jGrowl('".addslashes($msgGrowl)."',{sticky:".($msgSticky ?'true':'false')."});";
+		}
+		$content .= $jGrowls;
+
+	}
+	// send and out
+	@header("Cache-Control: no-cache");
+	@header("Pragma: no-cache");
+	@header("Content-Type: text/plain");
+	echo $content;
+	exit();
+}
+
 
 
 $tmpl->pparse();
