@@ -80,7 +80,7 @@ class TransmissionDaemonClient implements ClientInterface
 	
 	function getTransfer($hash) {
 		require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
-		$fields = array("id", "name", "eta", "downloadedEver", "hashString", "fileStats", "totalSize", "percentDone", 
+		$fields = array("uploadedEver", "id", "name", "eta", "downloadedEver", "hashString", "fileStats", "totalSize", "percentDone", 
 			"metadataPercentComplete", "rateDownload", "rateUpload", "status", "files", "wanted", "trackerStats" );
 
 		return new TransmissionDaemonTransfer( getTransmissionTransfer($hash, $fields) );
