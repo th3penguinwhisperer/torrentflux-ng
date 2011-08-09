@@ -1,5 +1,20 @@
 <?php
 
+function startTimer() {
+	$time = microtime();
+	$time = explode(' ', $time);
+	$time = $time[1] + $time[0];
+	return $time;
+}
+
+function getTimeTaken($start) {
+	$time = microtime();
+	$time = explode(' ', $time);
+	$time = $time[1] + $time[0];
+	$finish = $time;
+	$total_time = round(($finish - $start), 4);
+	echo 'Time taken until now: '.$total_time.' seconds.'."\n";
+}
 
 function tfb_getRequestVar($varName, $return = '') {
         if(array_key_exists($varName, $_REQUEST)){
