@@ -119,20 +119,24 @@ class RssReader
 						$rs["items"][$i]["link"] = rawurlencode(html_entity_decode($rs["items"][$i]["link"]));
 					}
 					$stat = 1;
+					$message = "";
 				} else {
 					// feed URL is valid and active, but no feed items were found:
 					$stat = 2;
+					$message = "Feed $url has no items";
 				}
 			} else {
 				// Unable to grab RSS feed, must of timed out
 				$stat = 3;
+				$message = "Feed $url was not available";
 			}
 			array_push($rss_list, array(
 				'stat' => $stat,
 				'rid' => $rid,
 				'title' => (isset($rs["title"]) ? $rs["title"] : ""),
 				'url' => $url,
-				'feedItems' => $rs['items']
+				'feedItems' => $rs['items'],
+				'message' => $message
 				)
 			);
 		}
@@ -216,19 +220,22 @@ class RssReader
 	
 	</script>
 	'); // get this in a seperate javascript file
-		
 		foreach($this->rss_list as $rss_source)
 		{
 			print("<img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "<br>\n");
 		
-			print('<table>');
-			foreach($rss_source['feedItems'] as $feedItem)
-			{
-				print("<tr>");
-				print("<td><img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">".$feedItem['title']."</td>");
-				print("</tr>");
+			if(isset($rss_source['feedItems'])) {
+				print('<table>');
+				foreach($rss_source['feedItems'] as $feedItem)
+				{
+					print("<tr>");
+					print("<td><img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">".$feedItem['title']."</td>");
+					print("</tr>");
+				}
+				print('</table>');
 			}
-			print('</table>');
+			if ($rss_source['message'] != '')
+				print($rss_source['message'].'<br>');
 		}
 	
 	}
