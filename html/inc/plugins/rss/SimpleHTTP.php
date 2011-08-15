@@ -33,7 +33,7 @@ class SimpleHTTP
 	// public fields
 
 	// timeout
-	var $timeout = 20;
+	var $timeout = 10;
 
 	/**
 	 * Temporarily use HTTP/1.0 until chunked encoding is sorted out
