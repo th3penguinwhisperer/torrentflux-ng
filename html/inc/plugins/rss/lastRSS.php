@@ -142,7 +142,7 @@ class lastRSS {
 			// log
 			global $cfg;
 			$msgs = SimpleHTTP::getMessages();
-			AuditAction($cfg["constants"]["error"], "lastRSS: could not download feed-data from url ".$rss_url." (".implode("; ", $msgs).")");
+			AuditAction("RSS retrieve", $cfg["constants"]["error"], "lastRSS: could not download feed-data from url ".$rss_url." (".implode("; ", $msgs).")");
 			// return false
 			return false;
 		}
