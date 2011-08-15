@@ -50,7 +50,8 @@ class Configuration
 		$this->handle['ui_displayfluxlink'] = "";
 		$this->handle['dir_public_read'] = "";
 		$this->handle['dir_public_write'] = "";
-		$this->handle['enable_tmpl_cache'] = "";
+		$this->handle['enable_tmpl_cache'] = "1";
+		$this->handle['tmpl_cache_path'] = "/tmp/";
 		$this->handle['enable_dirstats'] = "";
 		$this->handle['enable_view_nfo'] = "";
 		$this->handle['enable_rar'] = "";

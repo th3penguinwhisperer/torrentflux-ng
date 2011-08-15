@@ -27,7 +27,10 @@
  * @param $template
  */
 function tmplInitializeInstance($theme, $template) {
-	global $cfg, $tmpl;
+	global $tmpl;
+	$cfg = Configuration::get_instance()->get_cfg();
+	$options = array('CACHE_DIRECTORY' => $cfg['tmpl_cache_path']);
+
 	// theme-switch
 	$path = ((strpos($theme, '/')) === false)
 		? "themes/".$theme."/tmpl/"
@@ -35,7 +38,7 @@ function tmplInitializeInstance($theme, $template) {
 
 	// template-cache-switch
 	$tmpl = ($cfg['enable_tmpl_cache'] != 0)
-		? new vlibTemplateCache($path.$template)
+		? new vlibTemplateCache($path.$template, $options)
 		: new vlibTemplate($path.$template);
 
 	//  set common template-vars
