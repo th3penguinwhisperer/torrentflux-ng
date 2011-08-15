@@ -124,18 +124,18 @@ $tmpl->setvar('_USERS', "Users");
 // username
 $tmpl->setvar('user', $cfg["user"]);
 
-$tmpl->setvar('settings_0', '1');
+$tmpl->setvar('settings_0', '0');
 $tmpl->setvar('settings_1', '1');
-$tmpl->setvar('settings_2', '1');
-$tmpl->setvar('settings_3', '1');
+$tmpl->setvar('settings_2', '0');
+$tmpl->setvar('settings_3', '0');
 $tmpl->setvar('settings_4', '1');
 $tmpl->setvar('settings_5', '1');
 $tmpl->setvar('settings_6', '1');
 $tmpl->setvar('settings_7', '1');
-$tmpl->setvar('settings_8', '1');
-$tmpl->setvar('settings_9', '1');
+$tmpl->setvar('settings_8', '0');
+$tmpl->setvar('settings_9', '0');
 $tmpl->setvar('settings_10', '1');
-$tmpl->setvar('settings_11', '1');
+$tmpl->setvar('settings_11', '0');
 
 
 // Enabling AJAX update -> this generates the function call
@@ -251,7 +251,6 @@ if ($cfg['enable_restrictivetview'] == 1)
         $boolCond = $cfg['isAdmin']; // TODO Err... what does this do? :)
 $tmpl->setvar('are_transfer', (($boolCond) && (sizeof($arListTorrent) > 0)) ? 1 : 0);
 
-
 // =============================================================================
 // ajax-index
 // =============================================================================
@@ -356,8 +355,9 @@ if ($isAjaxUpdate) {
 }
 
 
-
+$start = startTimer();
 $tmpl->pparse();
+getTimeTaken($start);
 
 //printHtml();
 
