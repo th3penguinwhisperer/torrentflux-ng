@@ -22,7 +22,7 @@
 
 
 require_once("inc/generalfunctions.php");
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/Configuration.php');
 require_once('inc/plugins/PluginHandler.php');
 require_once('inc/lib/vlib/vlibTemplate.php');
 require_once('inc/functions.core.tmpl.php');

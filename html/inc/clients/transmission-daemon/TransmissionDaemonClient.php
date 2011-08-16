@@ -3,7 +3,7 @@
 require_once("inc/clients/ClientInterface.php");
 require_once("inc/clients/transmission-daemon/TransmissionDaemonTransfer.php");
 require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
-require_once("inc/singleton/Configuration.php");
+require_once("inc/classes/singleton/Configuration.php");
 
 class TransmissionDaemonClient implements ClientInterface
 {

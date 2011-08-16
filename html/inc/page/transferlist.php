@@ -1,6 +1,6 @@
 <?php
 
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/Configuration.php');
 
 $cfg = Configuration::get_instance()->get_cfg();
 

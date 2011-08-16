@@ -1,9 +1,9 @@
 <?php
 
-require_once('inc/singleton/db.php');
+require_once('inc/classes/singleton/db.php');
 require_once('inc/plugins/PluginInterface.php');
 require_once('inc/generalfunctions.php');
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/Configuration.php');
 
 class TorrentfluxngConfiguration implements PluginInterface
 {
@@ -21,7 +21,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 	function getConfiguration()
 	{
 		// show users
-		require_once('inc/singleton/db.php');
+		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
 		
 		$sql = "SELECT * FROM tf_users ORDER BY uid";

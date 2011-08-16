@@ -31,7 +31,7 @@ require_once('inc/plugins/rss/functions.readrss.php');
 // require
 require_once("inc/plugins/rss/lastRSS.php");
 
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/Configuration.php');
 $cfg = Configuration::get_instance()->get_cfg();
 
 // Just to be safe ;o)
@@ -46,7 +46,7 @@ class RssReader
 	
 	function __construct() 
 	{
-		require_once('inc/singleton/Configuration.php');
+		require_once('inc/classes/singleton/Configuration.php');
 		$this->cfg = Configuration::get_instance()->get_cfg();
 	}
 	
@@ -243,7 +243,7 @@ class RssReader
   <input type=submit text=Add>
 </form>");
 
-		require_once('inc/singleton/db.php');
+		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
 		
 		$link_array = array();
@@ -259,7 +259,7 @@ class RssReader
 	
 	function setConfiguration($configArray)
 	{
-		require_once('inc/singleton/db.php');
+		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
 		
 		if ( $_REQUEST['subaction'] == "delete" ) {

@@ -2,7 +2,7 @@
 
 require_once("inc/clients/TransferInterface.php");
 require_once("inc/generalfunctions.php");
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/Configuration.php');
 
 class TransmissionDaemonTransfer implements TransferInterface
 {

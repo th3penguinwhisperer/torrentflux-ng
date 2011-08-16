@@ -77,7 +77,7 @@ function ScrubDescription($desc, $title) {
  * @return array
  */
 function GetRSSLinks() {
-	require_once('inc/singleton/db.php');
+	require_once('inc/classes/singleton/db.php');
 	$db = DB::get_db()->get_handle();
 	
 	$link_array = array();

@@ -21,8 +21,8 @@
 *******************************************************************************/
 
 // Requires //
-require_once('inc/singleton/db.php');
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/db.php');
+require_once('inc/classes/singleton/Configuration.php');
 require_once('inc/generalfunctions.php');
 
 // Functions //

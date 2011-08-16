@@ -66,7 +66,7 @@ function formatBytesTokBMBGBTB($inBytes) {
 
 function getDownloadPath($shared = false)
 {
-	require_once('inc/singleton/Configuration.php');
+	require_once('inc/classes/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 	
 	if ($shared) {
@@ -334,8 +334,8 @@ function tfb_isValidPath($path, $ext = "") {
  * @param $file
  */
 function AuditAction($action, $level, $message, $file = "", $user = "") {
-	require_once('inc/singleton/Configuration.php');
-	require_once('inc/singleton/db.php');
+	require_once('inc/classes/singleton/Configuration.php');
+	require_once('inc/classes/singleton/db.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 	$db = DB::get_db()->get_handle();
 	

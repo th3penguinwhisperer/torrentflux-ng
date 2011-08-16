@@ -81,9 +81,9 @@ $dir = UrlHTMLSlashesDecode(tfb_getRequestVar('dir'));
  * log history
  ******************************************************************************/
 function getDownloadLogs($path) {
-	require_once('inc/singleton/Configuration.php');
+	require_once('inc/classes/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
-	require_once('inc/singleton/db.php');
+	require_once('inc/classes/singleton/db.php');
 	$db = DB::get_db()->get_handle();
 	
 	$srchAction = "File Download";
@@ -444,7 +444,7 @@ $tDirPs=array();
 $tRunning=array();
 $tSeeding=array();
 
-require_once('inc/singleton/Configuration.php');
+require_once('inc/classes/singleton/Configuration.php');
 $cfg = Configuration::get_instance()->get_cfg();
 
 // check dir-var

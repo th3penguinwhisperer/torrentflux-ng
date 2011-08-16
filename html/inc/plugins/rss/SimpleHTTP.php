@@ -286,7 +286,7 @@ class SimpleHTTP
 		// user-agent
 		
 		// TODO get rid of this dirty hack
-		require_once('inc/singleton/Configuration.php');
+		require_once('inc/classes/singleton/Configuration.php');
 		$cfg = Configuration::get_instance()->get_cfg();
 		
 		$this->userAgent = $cfg['user_agent'];
@@ -366,9 +366,9 @@ class SimpleHTTP
 		$this->getcmd .= (!empty($domain["query"])) ? "?" . $domain["query"] : "";
 		
 		// TODO: fix this dirty hack to have db access
-		require_once('inc/singleton/db.php');
+		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
-		require_once('inc/singleton/db.php');
+		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
 		
 		// Check to see if cookie required for this domain:

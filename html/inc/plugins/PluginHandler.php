@@ -1,6 +1,6 @@
 <?php
 
-require_once('inc/singleton/db.php');
+require_once('inc/classes/singleton/db.php');
 
 class PluginHandler
 {

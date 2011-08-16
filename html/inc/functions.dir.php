@@ -30,7 +30,7 @@ require_once('inc/generalfunctions.php');
  * @param $permission
  */
 function hasPermission($object, $user, $permission) {
-	require_once('inc/singleton/Configuration.php');
+	require_once('inc/classes/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 	
 	// if homedirs disabled return true
@@ -119,7 +119,7 @@ function avddelete($file) {
  * @return string with current
  */
 function delDirEntry($del) {
-	require_once('inc/singleton/Configuration.php');
+	require_once('inc/classes/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 
 	$current = "";
@@ -148,7 +148,7 @@ function delDirEntry($del) {
  * @return string with current
  */
 function downloadFile($down) {
-	require_once('inc/singleton/Configuration.php');
+	require_once('inc/classes/singleton/Configuration.php');
 	$cfg = Configuration::get_instance()->get_cfg();
 	
 	$current = "";
