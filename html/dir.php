@@ -40,14 +40,8 @@ session_start();
 
 /******************************************************************************/
 
-// common functions
-require_once('inc/functions.common.php');
-
 // dir functions
 require_once('inc/functions.dir.php');
-
-// transfer functions (to know running)
-require_once('inc/functions.transfer.php');
 
 // 
 require_once('inc/lib/vlib/vlibTemplate.php');
