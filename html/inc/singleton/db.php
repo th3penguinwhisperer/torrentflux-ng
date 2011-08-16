@@ -9,7 +9,7 @@ class DB
 	private $handle;
 
 	private function __construct() {
-		require_once('inc/adodb/adodb.inc.php');
+		require_once('inc/lib/adodb/adodb.inc.php');
 		$dbinst = NewADOConnection('mysql');
 		try {
 			$dbinst->Connect(DbSettings::$server, DbSettings::$user, DbSettings::$pwd, DbSettings::$database);
