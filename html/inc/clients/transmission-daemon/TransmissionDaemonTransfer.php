@@ -2,7 +2,7 @@
 
 require_once("inc/clients/TransferInterface.php");
 require_once("inc/generalfunctions.php");
-
+require_once('inc/singleton/Configuration.php');
 
 class TransmissionDaemonTransfer implements TransferInterface
 {
@@ -13,6 +13,8 @@ class TransmissionDaemonTransfer implements TransferInterface
 	}
 
 	function getTransferListItem() {
+		$cfg = Configuration::get_instance()->get_cfg();
+		
 // TODO: get this moved to a settings class
 $cfg['user'] = "administrator";
 		// fill in eta
@@ -96,8 +98,8 @@ $cfg['user'] = "administrator";
 			'clientType' => 'torrent',
 			'upload_support_enabled' => 1,
 			'client' => 'transmissionrpc',
-			'url_path' => urlencode( $cfg['user'] . '/' . $this->data['name'] ),
-			'datapath' => htmlspecialchars($this->data['name']),
+			'url_path' => urlencode( str_replace($cfg['path'], '', $this->data['downloadDir']) . '/' . $this->data['name'] ),
+			'datapath' => htmlspecialchars( $this->data['downloadDir'] . '/' . $this->data['name'] ),
 			'is_no_file' => 1,
 			'show_run' => 1,
 			'entry' => htmlspecialchars($this->data['name']),
