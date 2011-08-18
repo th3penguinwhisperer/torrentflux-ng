@@ -22,6 +22,7 @@
 
 require_once('inc/classes/singleton/db.php');
 require_once('inc/lang/transferstatus.php');
+require_once('inc/generalfunctions.php');
 
 function rpc_error($errorstr,$dummy="",$dummy="",$response="") {
 	require_once('inc/classes/singleton/Configuration.php');
@@ -183,7 +184,6 @@ function isValidTransmissionTransfer($uid,$tid) {
 
 	$retVal = array();
 	if ($uid == 1)
-		//$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid'";
 		return true;
 	else
 		$sql = "SELECT tid FROM tf_transmission_user WHERE tid='$tid' AND uid='$uid'";
@@ -267,6 +267,9 @@ function deleteTransmissionTransfer($uid, $hash, $deleteData = false) {
 		if ( $response['result'] != "success" )
 			rpc_error("Delete failed", "", "", $response['result']);
 		deleteTransmissionTransferFromDB($uid, $hash);
+		AuditAction("DELETE", "INFO", "Transfer deleted: uid=$uid hash=$hash", $_SERVER['PHP_SELF']);
+	} else {
+		AuditAction("DELETE", "ERROR", "Attempt to delete transfer with other owner: uid=$uid hash=$hash", $_SERVER['PHP_SELF']);
 	}
 }
 

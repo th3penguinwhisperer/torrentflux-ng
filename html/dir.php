@@ -190,7 +190,7 @@ function getDownloadWebLogUsers($srchFile,$is_dir) {
 	$userlist=array();
 
 	//$srchFile=str_replace('/var/cache/torrentflux/','',$srchFile);
-	$srchFile=str_replace($cfg["path"],'',$srchFile);
+	$srchFile=str_replace($cfg["rewrite_path"],'',$srchFile);
 
 	foreach ($dlLog as $row) {
 		$downloaded = ($row->file == $srchFile);
@@ -481,7 +481,7 @@ unset($tDirPs);
 
 
 // dir-name
-$dirName = $cfg["path"].$dir;
+$dirName = $cfg["rewrite_path"].$dir;
 
 // dir-check
 if (!(@is_dir($dirName))) {

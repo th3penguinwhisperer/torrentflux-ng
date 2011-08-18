@@ -231,7 +231,7 @@ function printJavascriptHtml()
 
 $arUserTorrent = array();
 $arListTorrent = array(); // TODO where is this array needed for?
-if ($cfg["transmission_rpc_enable"]) {
+if ($cfg["rewrite_transmission_rpc_enable"]) {
 	require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');
 	$td = new TransmissionDaemonClient();
 	$transfers = $td->getTransferList($_SESSION['uid']);

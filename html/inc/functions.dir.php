@@ -34,7 +34,7 @@ function hasPermission($object, $user, $permission) {
 	$cfg = Configuration::get_instance()->get_cfg();
 	
 	// if homedirs disabled return true
-	if ($cfg["enable_home_dirs"] == 0)
+	if ($cfg["rewrite_enable_home_dirs"] == 0)
 		return true;
 	// check permission
 	switch ($permission) {

@@ -27,6 +27,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 */
 
+require_once('inc/classes/singleton/Configuration.php');
+
 if (!defined('vlibIniClassLoaded')) {
     define('vlibIniClassLoaded', 1);
 
@@ -44,10 +46,10 @@ if (!defined('vlibIniClassLoaded')) {
 
         /** config vars for vlibTemplate */
         function vlibTemplate () {
-            global $cfg;
+	    $cfg = Configuration::get_instance()->get_cfg();
 
-            $cache_dir = $cfg["path"].'.templateCache';
-            if ( !is_writable($cfg["path"]) )
+            $cache_dir = $cfg["rewrite_path"].'.templateCache';
+            if ( !is_writable($cfg["rewrite_path"]) )
                 $cache_dir = '/tmp/.templateCache';
 
             return array(

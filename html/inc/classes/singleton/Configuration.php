@@ -1,5 +1,7 @@
 <?php
 
+require_once('inc/classes/singleton/db.php');
+
 class Configuration
 {
 	static private $cfg;
@@ -8,7 +10,17 @@ class Configuration
 	private $handle;
 
 	private function __construct() {
-		$this->handle['transmission_rpc_enable'] = true;
+		$db = DB::get_db()->get_handle();
+
+		$sql = "SELECT * FROM tf_settings WHERE tf_key LIKE 'rewrite_%'";
+		$settings_array = $db->GetAssoc($sql);
+		if ($db->ErrorNo() != 0) dbError($sql);
+		
+		foreach ($settings_array as $key => $value) {
+			$this->handle[$key] = unserialize($value);
+		}
+
+/*		$this->handle['transmission_rpc_enable'] = true;
 		$this->handle['file_types_array'] = array('.torrent');
 		$this->handle["file_types_label"] = ".torrent";
 		$this->handle['path'] = "/usr/local/torrentflux/git/"; // make sure it has a trailing slash
@@ -17,6 +29,7 @@ class Configuration
 		$this->handle['rss_cache_min'] = 60; // cache time in minutes
 		$this->handle['btclient'] = 'transmission-daemon'; // this represents the default torrent client
 		$this->handle['rss_cache_path'] = $this->handle['path'] . '.rsscache';
+*/
 		$this->handle['db_type'] = 'mysql';
 		$this->handle['ip'] = $_SESSION['ip'];
 		$this->handle['ip_resolved'] = $_SESSION['ip_resolved'];
@@ -32,11 +45,11 @@ class Configuration
 		else
 			$this->handle['isAdmin'] = false;
 		
-		$this->handle['enable_home_dirs'] = '1';
-		if ( $this->handle['enable_home_dirs'] == '1' )
-			$this->handle['download_path'] = $this->handle['path'] . $this->handle['user'];
+		$this->handle['rewrite_enable_home_dirs'] = '1';
+		if ( $this->handle['rewrite_enable_home_dirs'] == '1' )
+			$this->handle['rewrite_download_path'] = $this->handle['rewrite_path'] . $this->handle['user'];
 		else
-			$this->handle['download_path'] = $this->handle['path'] . 'incoming';
+			$this->handle['rewrite_download_path'] = $this->handle['rewrite_path'] . 'incoming';
 		
 		$this->handle['constants'] = array(
 			'error' => 'ERROR',
@@ -50,7 +63,7 @@ class Configuration
 		$this->handle['ui_displayfluxlink'] = "";
 		$this->handle['dir_public_read'] = "";
 		$this->handle['dir_public_write'] = "";
-		$this->handle['enable_tmpl_cache'] = "1";
+		$this->handle['enable_tmpl_cache'] = "0";
 		$this->handle['tmpl_cache_path'] = "/tmp/";
 		$this->handle['enable_dirstats'] = "";
 		$this->handle['enable_view_nfo'] = "";

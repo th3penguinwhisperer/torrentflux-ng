@@ -60,15 +60,15 @@ class RssReader
 		$rss = new lastRSS();
 		
 		// setup transparent cache
-		$cacheDir = $this->cfg['rss_cache_path'];
+		$cacheDir = $this->cfg['rewrite_rss_cache_path'];
 		
 		if (!checkDirectory($cacheDir, 0777)) {
 			//@error("Error with rss-cache-dir", "index.php?page=index", "", array($cacheDir));
-			print("The rss_cache_path does not exist: " . $this->cfg['rss_cache_path']);
+			print("The rss_cache_path does not exist: " . $this->cfg['rewrite_rss_cache_path']);
 			exit();
 		}
 		$rss->cache_dir = $cacheDir;
-		$rss->cache_time = $this->cfg["rss_cache_min"] * 60; // 1200 = 20 min.  3600 = 1 hour
+		$rss->cache_time = $this->cfg["rewrite_rss_cache_min"] * 60; // 1200 = 20 min.  3600 = 1 hour
 		$rss->strip_html = false; // don't remove HTML from the description
 		$rss->CDATA = 'strip'; // TODO: these variables should be defined by default in lastRSS. Some of them are used in the code but not initialized by the class
 		
@@ -119,20 +119,24 @@ class RssReader
 						$rs["items"][$i]["link"] = rawurlencode(html_entity_decode($rs["items"][$i]["link"]));
 					}
 					$stat = 1;
+					$message = "";
 				} else {
 					// feed URL is valid and active, but no feed items were found:
 					$stat = 2;
+					$message = "Feed $url has no items";
 				}
 			} else {
 				// Unable to grab RSS feed, must of timed out
 				$stat = 3;
+				$message = "Feed $url was not available";
 			}
 			array_push($rss_list, array(
 				'stat' => $stat,
 				'rid' => $rid,
 				'title' => (isset($rs["title"]) ? $rs["title"] : ""),
 				'url' => $url,
-				'feedItems' => $rs['items']
+				'feedItems' => $rs['items'],
+				'message' => $message
 				)
 			);
 		}
@@ -216,19 +220,22 @@ class RssReader
 	
 	</script>
 	'); // get this in a seperate javascript file
-		
 		foreach($this->rss_list as $rss_source)
 		{
 			print("<img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "<br>\n");
 		
-			print('<table>');
-			foreach($rss_source['feedItems'] as $feedItem)
-			{
-				print("<tr>");
-				print("<td><img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">".$feedItem['title']."</td>");
-				print("</tr>");
+			if(isset($rss_source['feedItems'])) {
+				print('<table>');
+				foreach($rss_source['feedItems'] as $feedItem)
+				{
+					print("<tr>");
+					print("<td><img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">".$feedItem['title']."</td>");
+					print("</tr>");
+				}
+				print('</table>');
 			}
-			print('</table>');
+			if ($rss_source['message'] != '')
+				print($rss_source['message'].'<br>');
 		}
 	
 	}

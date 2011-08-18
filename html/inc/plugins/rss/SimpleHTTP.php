@@ -33,7 +33,7 @@ class SimpleHTTP
 	// public fields
 
 	// timeout
-	var $timeout = 20;
+	var $timeout = 10;
 
 	/**
 	 * Temporarily use HTTP/1.0 until chunked encoding is sorted out
@@ -373,7 +373,7 @@ class SimpleHTTP
 		
 		// Check to see if cookie required for this domain:
 		$sql = "SELECT c.data AS data FROM tf_cookies AS c LEFT JOIN tf_users AS u ON ( u.uid = c.uid ) WHERE u.user_id = ".$db->qstr($cfg["user"]);
-		if ($cfg["db_type"] != "sqlite")
+		if ($cfg["rewrite_db_type"] != "sqlite")
 			$sql .= " AND ".$db->qstr($domain['host'])." LIKE CONCAT('%',c.host)";
 		else
 			$sql .= " AND ".$db->qstr($domain['host'])." LIKE PHP('sprintf','%%%s',c.host)";

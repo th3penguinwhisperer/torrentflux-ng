@@ -60,6 +60,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 
 	function addUser($username, $password)
 	{
+		$cfg = Configuration::get_instance()->get_cfg();
 		$db = DB::get_db()->get_handle();
 		$user = mysql_real_escape_string($username);
 		$pass = md5($password);
@@ -70,7 +71,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 
 		//create download dir
 		$cfg = Configuration::get_instance()->get_cfg();
-		$newuserdir = $cfg['path'] . $user;
+		$newuserdir = $cfg['rewrite_path'] . $user;
 		if( !is_dir($newuserdir) && !is_file($newuserdir) )
 		{
 			if( !mkdir($newuserdir, 755) ) // TODO check what appropriate mode would be
@@ -109,10 +110,10 @@ class TorrentfluxngConfiguration implements PluginInterface
 			if ($user != "")
 			{
 				$cfg = Configuration::get_instance()->get_cfg();
-				if( !rmdir($cfg['path'].$user) ) {
+				if( !rmdir($cfg['rewrite_path'].$user) ) {
 					$cfg = Configuration::get_instance()->get_cfg();
-					AuditAction($cfg["constants"]["error"], $cfg['constants']['error'], "User with ID 1 cannot be deleted", $_SERVER['PHP_SELF'], $_SESSION['uid']);
-					print("User with ID 1 download directory cannot be deleted or it didn't exist!"); // TODO: this should have its own method for showing errors
+					AuditAction($cfg["constants"]["error"], $cfg['constants']['error'], "User with ID $uid download directory cannot be deleted or it didn't exist!", $_SERVER['PHP_SELF'], $_SESSION['uid']);
+					print("User with ID $uid download directory cannot be deleted or it didn't exist!"); // TODO: this should have its own method for showing errors
 					exit();
 				}
 			}
