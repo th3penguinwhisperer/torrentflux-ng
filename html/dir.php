@@ -557,6 +557,7 @@ $list = array();
 // files downloaded (from log)
 $dlLog = getDownloadLogs($dir);
 
+$format = '%1$03d';
 foreach ($entrys as $entry) {
 	$slink="";
 	$dlInfos="";
@@ -679,6 +680,7 @@ foreach ($entrys as $entry) {
 		for($i=0;$i<=2;$i++)
 		{
 			$permission_bin = decbin($permission_oct[$i]);
+			$permission_bin = sprintf($format, $permission_bin);
 			$permission .= ($permission_bin[0] == 1)? "r":"-";
 			$permission .= ($permission_bin[1] == 1)? "w":"-";
 			$permission .= ($permission_bin[2] == 1)? "x":"-";
