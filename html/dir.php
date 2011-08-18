@@ -680,8 +680,8 @@ foreach ($entrys as $entry) {
 		{
 			$permission_bin = decbin($permission_oct[$i]);
 			$permission .= ($permission_bin[0] == 1)? "r":"-";
-			$permission .= ($permission_bin[1] == 1)? "w":"-";
-			$permission .= ($permission_bin[2] == 1)? "x":"-";
+			$permission .= (isset($permission_bin[1]) && $permission_bin[1] == 1)? "w":"-";
+			$permission .= (isset($permission_bin[2]) && $permission_bin[2] == 1)? "x":"-";
 		}
 		$permission .= " (0".$permission_oct.")";
 	}
