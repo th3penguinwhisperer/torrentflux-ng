@@ -295,10 +295,10 @@ $clienthtmlcode	</select>");
 
 function getActionSelection()
 {
-	$actions = array("Add");
-	array_push($actions, "Add+Start");
-	$actionsnames = array("add");
-	array_push($actionsnames, "addstart");
+	$actions = array("Add+Start");
+	array_push($actions, "Add");
+	$actionsnames = array("addstart");
+	array_push($actionsnames, "add");
 	$actionhtmlcode = "";
 	foreach ( $actions as $action ) {
 		$actionhtmlcode .= "\t<option value=" . array_shift($actionsnames) . ">" . $action . "</option>\n";
