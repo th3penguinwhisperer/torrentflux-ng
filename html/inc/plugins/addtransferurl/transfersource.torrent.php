@@ -1,12 +1,20 @@
 <?php
 
+require_once("inc/generalfunctions.php");
+
 class TransfersourceTorrent
 {
+	
+	function __construct()
+	{
+		;
+	}
 
-	static function show() {
+	function show() {
 		$pluginName = "transmission-daemon"; // TODO: can probably be removed as plugins in this context are not linked to a client
 	
 		print("\n
+<form name=addurl action=\"\">Torrent URL: 
 <script type=\"text/javascript\">
 $(function() {
   $(\".add_url_button\").click( function() {
@@ -56,9 +64,7 @@ $(function() {
   });
 });
 </script>
-<div id=\"status_message\">
-</div>
-<form name=addurl action=\"\">Torrent URL: 
+
 	<input type=text name=url id=url>
 	<br><input type=checkbox id=publictorrent name=publictorrent checked=checked> Public torrent
 ");

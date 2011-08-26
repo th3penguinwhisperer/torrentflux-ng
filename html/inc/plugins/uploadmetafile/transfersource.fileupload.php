@@ -1,5 +1,7 @@
 <?php
 
+require_once("inc/generalfunctions.php");
+
 class TransfersourceFileupload
 {
 
