@@ -104,21 +104,13 @@ $cfg['user'] = "administrator";
 			'show_run' => 1,
 			'entry' => htmlspecialchars($this->data['name']),
 			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
+			'details_action' => "loadcontent('popup_foreground', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
 			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
 			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
 			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');"
 		);
 
 		return $tArray;
-	}
-
-	function getActions() {
-		$actions =  "<img src=images/delete.png onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=delete&transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted');\"> ";
-		$actions .= "<img src=images/start.png onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=start&transfer=" . $this->data['hashString'] . "', true, 'Torrent started');\"> ";
-		$actions .= "<img src=images/stop.png onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=stop&transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');\"> ";
-		$actions .= "<img src=images/deletewithdata.png onclick=\"headlessaction('dispatcher.php?client=transmission-daemon&action=deletewithdata&transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');\"> ";
-
-		return $actions;
 	}
 
 	function getData() {
