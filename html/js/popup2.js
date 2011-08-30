@@ -69,13 +69,10 @@ function centerPopup(){
 	var popupHeight = $("#" + popfg).height();
 	var popupWidth = $("#" + popfg).width();
 	
-	if (popupHeight > windowHeight - 70) {
-		popupHeight = windowHeight - 70;
-		$("#" + popfg).css({
-			"max-height": windowHeight - 200
-		});
-		popupHeight = $("#" + popfg).height(); // Re-set this to the value that is in use after changing max-height
-	}
+	$("#" + popfg).css({
+		"max-height": windowHeight - 200
+	});
+	popupHeight = $("#" + popfg).height(); // Re-set this to the value that is in use after changing max-height
 	
 	//centering
 	$("#" + popfg).css({
