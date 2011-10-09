@@ -102,7 +102,7 @@ $cfg['user'] = "administrator";
 			'datapath' => htmlspecialchars( $this->data['downloadDir'] . '/' . $this->data['name'] ),
 			'is_no_file' => 1,
 			'show_run' => 1,
-			'entry' => htmlspecialchars($this->data['name']),
+			'entry' => htmlspecialchars($this->data['name'], ENT_QUOTES),
 			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
 			'details_action' => "loadcontent('popup_foreground', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
 			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
