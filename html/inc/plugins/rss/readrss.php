@@ -203,17 +203,8 @@ class RssReader
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
-	        $("#status_message").html("New transfer is added");
-	        $("#status_message").show();
-	        var refreshId = setTimeout(
-	            function() {
-	                $("#status_message").val("");
-					$("#status_message").hide();
-	                $("#url").val("");
-	            }, 
-	            5000
-	        );
-	        gettransferlist();
+		showmessage("Transfer added");
+	      	gettransferlist();
 	      }
 	    });
 	}
