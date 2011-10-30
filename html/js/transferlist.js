@@ -24,15 +24,26 @@ function reloadtransferlist(divname) {
 
 function headlessaction(action, reload, message) {
 	$.get(action, function(data) {
+		$("#status_message").hide();
 		$('#status_message').html(message);
-		        $("#status_message").show();
-		        var refreshId = setTimeout(
-		            function() {
-		                $("#status_message").val("");
-		                $("#status_message").hide();
-		            }, 
-		            5000
-		        );
-    });
+		$("#status_message").css("background", "green");
+		$('#status_message').fadeIn('slow', function() {
+			// Animation complete
+		});
+
+		//$("#status_message").show();
+		var refreshId = setTimeout(
+		    function() {
+			//$("#status_message").val("");
+			$('#status_message').fadeOut('slow', function() {
+				// Animation complete
+			});
+			//$('#status_message').html('');
+			//$("#status_message").css("background", "");
+			//$("#status_message").hide();
+		    },
+		    5000
+		);
+	});
 	if (reload == true) reloadtransferlist("transferlist");
 };
