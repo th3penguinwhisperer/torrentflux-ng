@@ -25,7 +25,7 @@ function reloadtransferlist(divname) {
 function showmessage(message) {
 	$("#status_message").hide();
 	$('#status_message').html(message);
-	$("#status_message").css("background", "green");
+	$("#status_message").css("background", "#33CC33");
 	$('#status_message').fadeIn('slow', function() {
 		// Animation complete
 	});
