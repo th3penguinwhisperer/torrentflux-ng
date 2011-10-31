@@ -31,6 +31,7 @@
 	</style>
 </tmpl_if>
 
+<script type="text/javascript" src="js/popupmove.js"></script>
 <script type="text/javascript" src="themes/<tmpl_var name='theme'>/scripts/jspack.php?p=layout-header"></script>
 <!--
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -89,7 +90,7 @@
 </tmpl_if>
 
 </head>
-<body <tmpl_if name="onLoad">onload="<tmpl_var name="onLoad">"</tmpl_if>>
+<body onMouseDown="checkSelection();" onMouseUp="deselectAll();" onMouseMove="mouseMoved(event.pageX,event.pageY,event.clientX,event.clientY);" <tmpl_if name="onLoad">onload="<tmpl_var name="onLoad">"</tmpl_if>>
 	<div id="center_wrap">
 		<div id="header" style="margin-top: -40px;">
 			<div id="UserBar"><tmpl_include name="inc.LayoutUserBar.tmpl"></div>
