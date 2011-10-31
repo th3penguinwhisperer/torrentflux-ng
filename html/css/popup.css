@@ -61,13 +61,32 @@ padding-bottom:2px;
 margin-bottom:20px;
 }
 
-#popup_close{
+#popup_titlebar{
 font-size:14px;
-line-height:14px;
-right:6px;
-top:4px;
+line-height:20px;
+background:gray;
+height:20px;
+left:1px;
+top:1px;
+margin:1px;
+margin-bottom:20px;
 position:absolute;
 color:#6fa5fd;
 font-weight:700;
 display:block;
+width:99%;
+}
+
+#popup_close{
+font-size:14px;
+margin:1px;
+line-height:14px;
+right:1px;
+top:4px;
+position:absolute;
+margin:1px;
+color:#6fa5fd;
+font-weight:700;
+display:block;
+cursor: hand; cursor: pointer;
 }

@@ -3,7 +3,8 @@
 
 require_once('inc/plugins/PluginHandler.php');
 
-	print('<div id=transfersources><a id="popup_close" onclick="disablePopup()">x</a>');
+	print('<div id=transfersources>');
+	//print('<div id=transfersources><a id="popup_close" onclick="disablePopup()">x</a>');
 
 	$ph = new PluginHandler();
 	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_TRANSFERSOURCE);

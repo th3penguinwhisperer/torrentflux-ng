@@ -2,7 +2,7 @@ function loadcontent(divname, url, loadingmsg) {
 	if (loadingmsg != null)
 		$('#' + divname).html(loadingmsg);
     $.get(url, function(data) {
-        $('#' + divname).html(data);
+        $('#' + divname).html("<div id=popup_titlebar>Window<div id=popup_close onclick='disablePopup()' >x</div></div><div>" + data + "</div>");
         //window.setTimeout(update, 10000);
     });
 }
