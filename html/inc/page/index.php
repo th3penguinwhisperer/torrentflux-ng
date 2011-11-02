@@ -167,8 +167,8 @@ function printJavascriptHtml()
 	print('
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/popup2.js"></script>
+		<script type="text/javascript" src="js/popupmove2.js"></script>
 		<script type="text/javascript">
-	pp = new Popup;
 	
 		// TODO (re)move this to an appropriate place. It is here solely to get the transfer listing working
 		function actionClick(showlabel,labeltext) {

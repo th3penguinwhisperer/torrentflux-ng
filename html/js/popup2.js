@@ -31,6 +31,24 @@ function loadPopup(){
 	popfg = "popup_foreground";
 	popbg = "popup_background";
 	popld = "popup_loading";
+
+	var fgdiv = document.getElementById(popfg);
+        fgdiv.style.left = "100px";
+        fgdiv.style.top = "100px";
+
+        // IE doesn't support addEventListener, so check for its presence
+        if (fgdiv.addEventListener) {
+            // firefox, etc.
+            fgdiv.addEventListener("mousemove", function(e) { return mouseMove(e) }, true);
+            fgdiv.addEventListener("mousedown", function(e) { return mouseDown(e) }, true);
+            fgdiv.addEventListener("mouseup", function(e) { return mouseUp(e) }, true);
+        }
+        else {
+            // IE
+            fgdiv.attachEvent("onmousemove", function(e) { return mouseMove(e) });
+            fgdiv.attachEvent("onmousedown", function(e) { return mouseDown(e) });
+            fgdiv.attachEvent("onmouseup", function(e) { return mouseUp(e) });
+        }
 	
 	//loads popup only if it is disabled
 	if(popupStatus==0){
