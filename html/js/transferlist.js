@@ -1,3 +1,5 @@
+var currentactions = 0;
+
 function loadcontent(divname, url, loadingmsg) {
 	if (loadingmsg != null)
 		$('#' + divname).html(loadingmsg);
@@ -17,10 +19,12 @@ function gettransfersources(divname, parameters) {
     loadcontent(divname, 'index.php?page=transfersources' + parameters, "Loading transfer source plugin ...<br><img src=images/ajax-loader.gif>");
 };
 
-function reloadtransferlist(divname) {
-    var refreshId = setInterval(
-        function() { gettransferlist(divname); },
-        9000);
+function reloadtransferlist() {
+    if (indexTimer) clearTimeout(indexTimer); // Stop countdown timer
+
+    setTimeout(ajax_update,500); // wait 300msec to reload the transferlist
+
+    indexTimer = setTimeout(ajax_pageUpdate, 1000); // Start the countdown timer again
 };
 
 function showmessage(message) {
@@ -47,8 +51,10 @@ function showmessage(message) {
 }
 
 function headlessaction(action, reload, message) {
+	currentactions++;
 	$.get(action, function(data) {
 		showmessage(message);
+		currentactions--;
+		if (reload == true && currentactions < 1) reloadtransferlist();
 	});
-	if (reload == true) reloadtransferlist("transferlist");
 };
