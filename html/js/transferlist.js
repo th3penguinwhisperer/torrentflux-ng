@@ -2,14 +2,14 @@ function loadcontent(divname, url, loadingmsg) {
 	if (loadingmsg != null)
 		$('#' + divname).html(loadingmsg);
 		centerPopup();
-    $.get(url, function(data) {
-        $('#' + divname).html("<div id=popup_titlebar><div id=popup_windowtitle>Window</div><div id=popup_close onclick='disablePopup()' >x</div></div><div id=popup_body>" + data + "</div>");
+    	$.get(url, function(data) {
+        	$('#' + divname).html("<div id=popup_titlebar><div id=popup_windowtitle>Window</div><div id=popup_close onclick='disablePopup()' >x</div></div><div id=popup_body>" + data + "</div>");
         //window.setTimeout(update, 10000);
     });
 }
 
 function gettransferlist(divname) {
-    loadcontent(divname, 'index.php?page=transferlist');
+	loadcontent(divname, 'index.php?page=transferlist');
 };
 
 function gettransfersources(divname, parameters) {
