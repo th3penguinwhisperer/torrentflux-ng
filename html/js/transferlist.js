@@ -5,7 +5,7 @@ function loadcontent(divname, url, loadingmsg) {
 		$('#' + divname).html(loadingmsg);
 		centerPopup();
     	$.get(url, function(data) {
-        	$('#' + divname).html("<div id=popup_titlebar><div id=popup_windowtitle>Window</div><div id=popup_close onclick='disablePopup()' >x</div></div><div id=popup_body>" + data + "</div>");
+        	$('#' + divname).html("" + data + "");
         //window.setTimeout(update, 10000);
     });
 }

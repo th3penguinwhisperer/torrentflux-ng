@@ -12,14 +12,16 @@ var popupStatus = 0;
 popfg = "popup_foreground";
 popbg = "popup_background";
 popld = "popup_loading";
+poptitle = "popup_title";
+popbody = "popup_body";
 
 function initPopup(){
 	if($("#"+popbg).length==0) {
 		$("body").append('<div id="'+popbg+'"></div>');
 	}
 	if($("#"+popfg).length==0) {
-		$("body").append('<div id="'+popfg+'"></div>');
-		$("#"+popfg).html('<img src="images/loading.gif"/>');
+		$("body").append('<div id="'+popfg+'"><div id="popup_windowtitle"><div id="'+poptitle+'">Window</div></div><div id="'+popbody+'">Body</div></div>');
+		//$("#"+popfg).html('<img src="images/loading.gif"/>'); // This should stay disabled as it overwrites the contents
 		$("#"+popbg).click(function(){
 			disablePopup();
 		});
@@ -27,20 +29,23 @@ function initPopup(){
 
 	var fgdiv = document.getElementById(popfg);
         fgdiv.style.left = "100px";
-        fgdiv.style.top = "100px";
+
+	var titlediv = document.getElementById(poptitle);
+        titlediv.style.left = "100px";
+        titlediv.style.top = "100px";
 
         // IE doesn't support addEventListener, so check for its presence
-        if (fgdiv.addEventListener) {
+        if (titlediv.addEventListener) {
             // firefox, etc.
-            fgdiv.addEventListener("mousemove", mouseMove, true);
-            fgdiv.addEventListener("mousedown", mouseDown, true);
-            fgdiv.addEventListener("mouseup", mouseUp, true);
+            titlediv.addEventListener("mousemove", mouseMove, true);
+            titlediv.addEventListener("mousedown", mouseDown, true);
+            titlediv.addEventListener("mouseup", mouseUp, true);
         }
         else {
             // IE
-            fgdiv.attachEvent("onmousemove", function(e) { return mouseMove(e) });
-            fgdiv.attachEvent("onmousedown", function(e) { return mouseDown(e) });
-            fgdiv.attachEvent("onmouseup", function(e) { return mouseUp(e) });
+            titlediv.attachEvent("onmousemove", function(e) { return mouseMove(e) });
+            titlediv.attachEvent("onmousedown", function(e) { return mouseDown(e) });
+            titlediv.attachEvent("onmouseup", function(e) { return mouseUp(e) });
         }
 }
 
@@ -53,6 +58,8 @@ function loadPopup(){
 		});
 		$("#" + popbg).fadeIn("slow");
 		$("#" + popfg).fadeIn("slow");
+		$("#" + poptitle).fadeIn("slow");
+		$("#" + popbody).fadeIn("slow");
 		popupStatus = 1;
 	}
 }
@@ -63,6 +70,8 @@ function disablePopup(){
 	if(popupStatus==1){
 		$("#" + popbg).fadeOut("slow");
 		$("#" + popfg).fadeOut("slow");
+		$("#" + poptitle).fadeOut("slow");
+		$("#" + popbody).fadeOut("slow");
 		popupStatus = 0;
 	}
 }
