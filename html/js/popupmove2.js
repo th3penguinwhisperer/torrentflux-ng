@@ -188,7 +188,7 @@ function mouseDown(e) {
     // These first two lines are written to handle both FF and IE
     var curElem = e.srcElement || e.target;
     //var dragTitle = e.currentTarget || findParentDiv(curElem);
-    var dragTitle = document.getElementById("popup_foreground");
+    var dragTitle = document.getElementById(popfg);
     //if (dragTitle) {
     //    if (dragTitle.className != 'divDragTitle') {
     //        return;
