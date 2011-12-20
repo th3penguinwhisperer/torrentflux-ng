@@ -16,6 +16,7 @@ class TransfersourceTorrent
 		print("\n
 <form name=addurl action=\"\">Torrent URL: 
 <script type=\"text/javascript\">
+
 $(function() {
   $(\".add_url_button\").click( function() {
     // Copy this part as much as necessary
@@ -47,17 +48,12 @@ $(function() {
       url: \"dispatcher.php\",
       data: dataString,
       success: function() {
-        $('#status_message').html(\"New transfer is added\");
-        $(\"#status_message\").show();
 	$(\"#url\").val(\"\");
-        var refreshId = setTimeout(
-            function() {
-                $(\"#status_message\").val(\"\");
-		$(\"#status_message\").hide();
-            }, 
-            5000
-        );
+        showstatusmessage(\"New transfer is added\");
         gettransferlist();
+      },
+      error: function() {
+        showstatusmessage(\"Adding the transfer was not successful\");
       }
     });
     return false;

@@ -27,7 +27,7 @@ function reloadtransferlist() {
     indexTimer = setTimeout(ajax_pageUpdate, 1000); // Start the countdown timer again
 };
 
-function showmessage(message) {
+function showstatusmessage(message) {
 	$("#status_message").hide();
 	$('#status_message').html(message);
 	$("#status_message").css("background", "#33CC33");
@@ -35,16 +35,11 @@ function showmessage(message) {
 		// Animation complete
 	});
 
-	//$("#status_message").show();
 	var refreshId = setTimeout(
 	    function() {
-		//$("#status_message").val("");
 		$('#status_message').fadeOut('slow', function() {
 			// Animation complete
 		});
-		//$('#status_message').html('');
-		//$("#status_message").css("background", "");
-		//$("#status_message").hide();
 	    },
 	    5000
 	);
@@ -53,7 +48,7 @@ function showmessage(message) {
 function headlessaction(action, reload, message) {
 	currentactions++;
 	$.get(action, function(data) {
-		showmessage(message);
+		showstatusmessage(message);
 		currentactions--;
 		if (reload == true && currentactions < 1) reloadtransferlist();
 	});

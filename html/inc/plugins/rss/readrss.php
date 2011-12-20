@@ -203,7 +203,7 @@ class RssReader
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
-		showmessage("Transfer added");
+		showstatusmessage("Transfer added");
 		reloadtransferlist();
 	      }
 	    });
