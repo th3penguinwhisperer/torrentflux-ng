@@ -24,13 +24,6 @@ function initPopup(){
 			disablePopup();
 		});
 	}
-}
-
-//loading popup with jQuery magic!
-function loadPopup(){
-	popfg = "popup_foreground";
-	popbg = "popup_background";
-	popld = "popup_loading";
 
 	var fgdiv = document.getElementById(popfg);
         fgdiv.style.left = "100px";
@@ -39,9 +32,9 @@ function loadPopup(){
         // IE doesn't support addEventListener, so check for its presence
         if (fgdiv.addEventListener) {
             // firefox, etc.
-            fgdiv.addEventListener("mousemove", function(e) { return mouseMove(e) }, true);
-            fgdiv.addEventListener("mousedown", function(e) { return mouseDown(e) }, true);
-            fgdiv.addEventListener("mouseup", function(e) { return mouseUp(e) }, true);
+            fgdiv.addEventListener("mousemove", mouseMove, true);
+            fgdiv.addEventListener("mousedown", mouseDown, true);
+            fgdiv.addEventListener("mouseup", mouseUp, true);
         }
         else {
             // IE
@@ -49,7 +42,14 @@ function loadPopup(){
             fgdiv.attachEvent("onmousedown", function(e) { return mouseDown(e) });
             fgdiv.attachEvent("onmouseup", function(e) { return mouseUp(e) });
         }
-	
+}
+
+//loading popup with jQuery magic!
+function loadPopup(){
+	popfg = "popup_foreground";
+	popbg = "popup_background";
+	popld = "popup_loading";
+
 	//loads popup only if it is disabled
 	if(popupStatus==0){
 		$("#" + popbg).css({
