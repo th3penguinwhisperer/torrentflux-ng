@@ -10,7 +10,7 @@ require_once('inc/plugins/PluginHandler.php');
 	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_TRANSFERSOURCE);
 	
 	foreach( $pluginNames as $plugin ) {
-		print("<a href='#' onclick='gettransfersources(\"popup_foreground\",\"&source=" . $plugin[0] . "\");'>" . $plugin[1] . "</a> ");
+		print("<a href='#' onclick='gettransfersources(popbody,\"&source=" . $plugin[0] . "\");'>" . $plugin[1] . "</a> ");
 	}
 	print('<br>');
 	
