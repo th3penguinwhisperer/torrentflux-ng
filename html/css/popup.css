@@ -70,7 +70,8 @@ margin-bottom:20px;
 }
 
 #popup_close{
-top:4px;
+position:absolute;
+top:2px;
 cursor: hand; cursor: pointer;
 right:4px;
 text-align:right;

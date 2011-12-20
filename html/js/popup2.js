@@ -20,7 +20,7 @@ function initPopup(){
 		$("body").append('<div id="'+popbg+'"></div>');
 	}
 	if($("#"+popfg).length==0) {
-		$("body").append('<div id="'+popfg+'"><div id="popup_windowtitle"><div id="'+poptitle+'">Window</div></div><div id="'+popbody+'">Body</div></div>');
+		$("body").append('<div id="'+popfg+'"><div id="popup_windowtitle"><div id="'+poptitle+'">Window</div><div id=popup_close onclick="javascript:disablePopup();" >x</div></div><div id="'+popbody+'">Body</div></div>');
 		//$("#"+popfg).html('<img src="images/loading.gif"/>'); // This should stay disabled as it overwrites the contents
 		$("#"+popbg).click(function(){
 			disablePopup();
