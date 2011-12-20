@@ -293,9 +293,9 @@ function addDocumentHandlers(addOrRemove) {
     if (addOrRemove) {
         if (document.body.addEventListener) {
             // firefox, etc.
-            document.addEventListener("mousedown", function(e) { return mouseDown(e) }, true);
-            document.addEventListener("mousemove", function(e) { return mouseMove(e) }, true);
-            document.addEventListener("mouseup", function(e) { return mouseUp(e) }, true);
+            document.addEventListener("mousedown", mouseDown, true);
+            document.addEventListener("mousemove", mouseMove, true);
+            document.addEventListener("mouseup", mouseUp, true);
         }
         else {
             // IE
@@ -307,12 +307,9 @@ function addDocumentHandlers(addOrRemove) {
     else {
         if (document.body.addEventListener) {
             // firefox, etc.
-            document.removeEventListener("mousedown", function(e) { return mouseDown(e) }, true);
-            document.removeEventListener("mousemove", function(e) { return mouseMove(e) }, true);
-            document.removeEventListener("mouseup", function(e) { return mouseUp(e) }, true);
-            //remove.addEventListener("mousedown", function(e) { return mouseDown(e) }, true);
-            //remove.addEventListener("mousemove", function(e) { return mouseMove(e) }, true);
-            //remove.addEventListener("mouseup", function(e) { return mouseUp(e) }, true);
+            document.removeEventListener("mousedown", mouseDown, true);
+            document.removeEventListener("mousemove", mouseMove, true);
+            document.removeEventListener("mouseup", mouseUp, true);
         }
         else {
             // IE
