@@ -49,11 +49,11 @@ $(function() {
       success: function() {
         $('#status_message').html(\"New transfer is added\");
         $(\"#status_message\").show();
+	$(\"#url\").val(\"\");
         var refreshId = setTimeout(
             function() {
                 $(\"#status_message\").val(\"\");
 		$(\"#status_message\").hide();
-                $(\"#url\").val(\"\");
             }, 
             5000
         );
