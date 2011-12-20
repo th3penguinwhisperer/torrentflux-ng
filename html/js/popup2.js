@@ -9,11 +9,11 @@
 //0 means disabled; 1 means enabled;
 var popupStatus = 0;
 
-function initPopup(){
-	popfg = "popup_foreground";
-	popbg = "popup_background";
-	popld = "popup_loading";
+popfg = "popup_foreground";
+popbg = "popup_background";
+popld = "popup_loading";
 
+function initPopup(){
 	if($("#"+popbg).length==0) {
 		$("body").append('<div id="'+popbg+'"></div>');
 	}
@@ -46,10 +46,6 @@ function initPopup(){
 
 //loading popup with jQuery magic!
 function loadPopup(){
-	popfg = "popup_foreground";
-	popbg = "popup_background";
-	popld = "popup_loading";
-
 	//loads popup only if it is disabled
 	if(popupStatus==0){
 		$("#" + popbg).css({
@@ -63,10 +59,6 @@ function loadPopup(){
 
 //disabling popup with jQuery magic!
 function disablePopup(){
-	popfg = "popup_foreground";
-	popbg = "popup_background";
-	popld = "popup_loading";
-	
 	//disables popup only if it is enabled
 	if(popupStatus==1){
 		$("#" + popbg).fadeOut("slow");
@@ -77,10 +69,6 @@ function disablePopup(){
 
 //centering popup
 function centerPopup(){
-	popfg = "popup_foreground";
-	popbg = "popup_background";
-	popld = "popup_loading";
-	
 	//request data for centering
 	var windowWidth = document.documentElement.clientWidth;
 	var windowHeight = document.documentElement.clientHeight;
