@@ -166,8 +166,7 @@ function printJavascriptHtml()
 {
 	print('
 		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/popup2.js"></script>
-		<script type="text/javascript" src="js/popupmove2.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
 		<script type="text/javascript">
 	
 		// TODO (re)move this to an appropriate place. It is here solely to get the transfer listing working
