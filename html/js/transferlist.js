@@ -10,13 +10,18 @@ function loadcontent(divname, url, loadingmsg) {
     });
 }
 
+function loadpopup(wintitle, url, loadingmsg) {
+	$("#" + poptitle).html(wintitle);
+	loadcontent(popbody, url, loadingmsg);
+}
+
 function gettransferlist(divname) {
 	loadcontent(divname, 'index.php?page=transferlist');
 };
 
-function gettransfersources(divname, parameters) {
+function gettransfersources(parameters) {
 	if (parameters == null) parameters = "";
-    loadcontent(divname, 'index.php?page=transfersources' + parameters, "Loading transfer source plugin ...<br><img src=images/ajax-loader.gif>");
+	loadpopup("Transfer Sources", 'index.php?page=transfersources' + parameters, "Loading transfer source plugin ...<br><img src=images/ajax-loader.gif>");
 };
 
 function reloadtransferlist() {

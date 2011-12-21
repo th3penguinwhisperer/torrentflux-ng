@@ -104,7 +104,7 @@ $cfg['user'] = "administrator";
 			'show_run' => 1,
 			'entry' => addslashes($this->data['name']),
 			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
-			'details_action' => "loadcontent(popbody, 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
+			'details_action' => "loadpopup('Transfer Details', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
 			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
 			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
 			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');"
