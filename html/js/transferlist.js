@@ -3,9 +3,9 @@ var currentactions = 0;
 function loadcontent(divname, url, loadingmsg) {
 	if (loadingmsg != null)
 		$('#' + divname).html(loadingmsg);
-		centerPopup();
+	centerPopup();
     	$.get(url, function(data) {
-        	$('#' + divname).html("" + data + "");
+	$('#' + divname).html("" + data + "");
         //window.setTimeout(update, 10000);
     });
 }
