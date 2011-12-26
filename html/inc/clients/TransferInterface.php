@@ -9,10 +9,6 @@ interface TransferInterface
 	 */
 	function getTransferListItem();
 	
-	/**
-	 * Returns list with actions specific to this transfer (and transferclient)
-	 */
-	function getActions();
 }
 
 ?>

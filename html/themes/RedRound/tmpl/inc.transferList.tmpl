@@ -33,7 +33,7 @@ Your Transfers
 	<tr class="white">
 	</tmpl_if>
 		<td><!-- STATUS BULLET GREEN/YELLOW/RED/BLACK TO DISPLAY TORRENT STATUS + LINK TO A LIST OF HOSTS -->
-			<a href="JavaScript:showTransfer('index.php?iid=transferHosts&amp;transfer=<tmpl_var name="url_entry">')">
+			<a href="#" onclick="<tmpl_var name="details_action">">
 				<img src="themes/<tmpl_var name='theme'>/images/<tmpl_var name='hd_image'>" alt="" title="<tmpl_var name='hd_title'><tmpl_var name='entry'>" />
 			</a>
 		</td>

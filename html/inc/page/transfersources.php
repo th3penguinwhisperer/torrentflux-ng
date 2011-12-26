@@ -4,12 +4,13 @@
 require_once('inc/plugins/PluginHandler.php');
 
 	print('<div id=transfersources>');
+	//print('<div id=transfersources><a id="popup_close" onclick="disablePopup()">x</a>');
 
 	$ph = new PluginHandler();
 	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_TRANSFERSOURCE);
 	
 	foreach( $pluginNames as $plugin ) {
-		print("<a href='#' onclick='gettransfersources(\"transfersources\",\"&source=" . $plugin[0] . "\");'>" . $plugin[1] . "</a> ");
+		print("<a href='#' onclick='gettransfersources(\"&source=" . $plugin[0] . "\");'>" . $plugin[1] . "</a> ");
 	}
 	print('<br>');
 	
@@ -20,6 +21,7 @@ require_once('inc/plugins/PluginHandler.php');
 	
 	$pi = $ph->getPlugin($plugintoload);
 	$pi->show();
+	print('<script type="text/javascript">centerPopup();</script>');
 
 	print('</div>');
 ?>

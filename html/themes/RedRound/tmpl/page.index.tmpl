@@ -3,7 +3,7 @@
 <table id="indexStatsBarWarning">
 	<tr>
 		<td>
-			<div id="status_message" />
+			<div style="height:20px; font-size:16px; color: black;" ><div id="status_message"/></div>
 		</td>
 	</tr>
 </table>
@@ -12,8 +12,8 @@
 <!-- This table CANNOT be moved to the content it's showing inc.indexRefreshOptions.tmpl because Opera 9 breaks layout -->
 
 <tmpl_include name="inc.indexStatsBar.tmpl">
-<img src=images/add.png onclick="javascript:pp.url('index.php?page=transfersources'); pp.reposition();">
-<img src=images/refresh.png onclick="javascript:gettransferlist('transferlist');">
+<img src=images/add.png onclick="javascript:loadpopup('Transfer Sources', 'index.php?page=transfersources', 'Loading...'); centerPopup(); loadPopup();">
+<img src=images/refresh.png onclick="javascript:reloadtransferlist();">
 <div style="height:5px;"></div>
 
 <div id="tabs">

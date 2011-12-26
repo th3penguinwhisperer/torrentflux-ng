@@ -32,6 +32,7 @@ if ($tab == "" || $tab == "details") {
 } else if ($tab == "files") {
 	require_once('inc/clients/transmission-daemon/tabs/transferfiles.php');
 }
+print("<script type=text/javascript>centerPopup();</script>");
 
 print("</div>");
 

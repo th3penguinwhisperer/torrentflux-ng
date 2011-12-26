@@ -27,49 +27,6 @@ require_once('inc/plugins/PluginHandler.php');
 require_once('inc/lib/vlib/vlibTemplate.php');
 require_once('inc/functions.core.tmpl.php');
 
-function printHtml() {
-  $cfg = Configuration::get_instance()->get_cfg();
-  global $rowArray;
-
-//	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-// TODO: path is now relative... this might have to be changed to an absolute path
-  print( '<html>
-<head>
-	<script type="text/javascript" src="js/jquery.js"></script> 
-	<script type="text/javascript" src="js/popup.js"></script>
-	<script type="text/javascript">
-pp = new Popup;
-	</script>
-	<script type="text/javascript" src="js/transferlist.js"></script>
-</head>
-<body onload="javascript:gettransferlist(\'transferlist\'); reloadtransferlist(\'transferlist\'); gettransfersources(\'transfersources\');">
-');
-
-  //  Show plugins of type 'info' here
-  $ph = new PluginHandler();
-  $pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_INFO);
-  foreach( $pluginNames as $plugin ) {
-    $pi = $ph->getPlugin($plugin[0]);
-    $pi->show();
-  }
-
-  print('
-<div id="status_message"></div>
-<img src=images/add.png onclick="javascript:pp.url(\'index.php?page=transfersources\'); pp.reposition();">
-');
-
-  print('
-<img src=images/refresh.png onclick="javascript:gettransferlist(\'transferlist\');">
-<div id=transferlist></div>
-</body>
-</html>');
-
-  if ( $_SESSION['uid'] == 1 ) // if administrator
-    print("<a href=configure.php>Configure</a>");
-}
-
-
-
 $cfg = Configuration::get_instance()->get_cfg();
 if (isset($_REQUEST['ajax_update'])) {
         $isAjaxUpdate = true;
@@ -208,10 +165,9 @@ if ($onLoad != "") {
 function printJavascriptHtml()
 {
 	print('
-	<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/popup.js"></script>
 		<script type="text/javascript">
-	pp = new Popup;
 	
 		// TODO (re)move this to an appropriate place. It is here solely to get the transfer listing working
 		function actionClick(showlabel,labeltext) {
@@ -226,6 +182,8 @@ function printJavascriptHtml()
 		<script type="text/javascript" src="js/transferlist.js"></script>
 		<script type="text/javascript" src="js/ajax.js"></script>
 		<script type="text/javascript" src="js/ajax_index.js"></script>
+		
+		<link rel="stylesheet" href="css/popup.css" type="text/css" media="screen" />
 	');
 }
 
@@ -358,7 +316,5 @@ if ($isAjaxUpdate) {
 $start = startTimer();
 $tmpl->pparse();
 getTimeTaken($start);
-
-//printHtml();
 
 ?>
