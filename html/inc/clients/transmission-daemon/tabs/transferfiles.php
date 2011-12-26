@@ -122,16 +122,11 @@ $(function() {
       url: \"dispatcher.php\",
       data: dataString,
       success: function() {
-        $('#status_message').html(\"Selected files for transfer have been saved!\");
-	pp.close();
-        $(\"#status_message\").show();
-        var refreshId = setTimeout(
-            function() {
-                $(\"#status_message\").val(\"\");
-       	        $(\"#status_message\").hide();
-            }, 
-            5000
-        );
+        showstatusmessage(\"Selected files have been updated\");
+	disablePopup();
+      },
+      error: function() {
+        showstatusmesage(\"File selection has not been updated\");
       }
     });
     return false;
