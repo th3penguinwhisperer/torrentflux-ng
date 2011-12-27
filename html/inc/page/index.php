@@ -217,8 +217,14 @@ if ($isAjaxUpdate) {
 	$ajax_delim = "|#|";
 	$content = "";
 	$isFirst = true;
+	
+	$content .= "ajaxParseTransferlist\n";
+	$content .= $ajax_delim . "\n";
+	$content .= $tmpl->grab();
+
 	//$ajaxUpdateParams{3} = 1; // TODO this should be deleted later: just for testing
 	// server stats
+	/*
 	$ajaxUpdateParams{0} = "0";
 	if ($ajaxUpdateParams{0} == "1") {
 		$isFirst = false;
@@ -275,7 +281,10 @@ if ($isAjaxUpdate) {
 			}
 		}
 	}
+	*/
+
 	// transfer list
+/*
 	if ($ajaxUpdateParams{3} == "1") {
 		if ($isFirst)
 			$isFirst = false;
@@ -283,6 +292,7 @@ if ($isAjaxUpdate) {
 			$content .= $ajax_delim;
 		$content .= $tmpl->grab();
 	}
+*/
 	// javascript
 	if (true) {
 		if ($isFirst)

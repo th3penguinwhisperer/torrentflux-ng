@@ -154,6 +154,10 @@ function ajax_processXML(content) {
 	alert(content);
 }
 
+function ajaxParseTransferlist(content) {
+	ajax_updateContent('transferList', content);
+}
+
 /**
  * process text-response
  *
@@ -161,7 +165,8 @@ function ajax_processXML(content) {
  */
 function ajax_processText(content) {
 	var aryCount = 0;
-	if ((bottomStatsEnabled == 1) && (xferEnabled == 1))
+	// Diable default handling
+	/*if ((bottomStatsEnabled == 1) && (xferEnabled == 1))
 		aryCount++;
 	if (usersEnabled == 1)
 		aryCount++;
@@ -169,6 +174,17 @@ function ajax_processText(content) {
 		aryCount++;
 	if (ajaxScriptEnabled == 1)
 		aryCount++;
+	*/
+
+	var ajaxBlocDelim = new RegExp('[\|\#]{3}');
+	var tempAry = content.split(ajaxBlocDelim);
+	var strParam = tempAry.pop();
+	var strFun = tempAry.pop();
+	//Create the function call from function name and parameter.
+	var funcCall = strFun + "(strParam);";
+	//Call the function
+	var ret = eval(funcCall);
+	//ajax_updateContent(functionname, transferList);
 	
 	if (aryCount > 0) {
 		var ajaxBlocDelim = new RegExp('[\|\#]{3}');
@@ -201,7 +217,8 @@ function ajax_processText(content) {
 		
 		// update
 		//ajax_updateContent(tempAry.pop(), statsXfer, users, transferList);
-		ajax_updateContent('test', statsXfer, users, transferList);
+		//ajax_updateContent('test', statsXfer, users, transferList);
+		ajax_updateContent(transferList);
 		
 		// theme specific event
 		if (typeof(afterAjaxUpdate) != 'undefined') {
@@ -232,6 +249,7 @@ function ajax_processText(content) {
  * @param usersStr
  * @param transferListStr
  */
+/*
 function ajax_updateContent(statsServerStr, statsXferStr, usersStr, transferListStr) {
 	if (!statsServerStr) {
 		return;
@@ -370,7 +388,34 @@ function ajax_updateContent(statsServerStr, statsXferStr, usersStr, transferList
 			sortables_init();
 	}
 }
+*/
 
+/**
+ * update page contents from response
+ *
+ * @param transferListStr
+ */
+function ajax_updateContent(element, dataStr) {
+	// transfer-list
+	if (element != null) {
+		// update content
+		document.getElementById(element).innerHTML = dataStr;
+		// re-init sort-table
+		if (sortTableEnabled == 1)
+			sortables_init();
+	}
+	// transfer-list
+	// TODO: 2 times same code execution?
+	/*
+	if (ajaxScriptEnabled == 1) {
+		// update content
+		document.getElementById("transferList").innerHTML = transferListStr;
+		// re-init sort-table
+		if (sortTableEnabled == 1)
+			sortables_init();
+	}
+	*/
+}
 
 /**
  * unload
