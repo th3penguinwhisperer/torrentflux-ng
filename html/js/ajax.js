@@ -19,7 +19,8 @@ function ajax_getHttpRequest() {
 	if (window.XMLHttpRequest) { // Mozilla, Safari,...
 		_httpRequest = new XMLHttpRequest();
 		if (_httpRequest.overrideMimeType)
-			_httpRequest.overrideMimeType('text/xml');
+			_httpRequest.overrideMimeType('text/plain'); // TODO: any way of making this accepting text/xml without the error or should I just go to data in XML format?
+			//_httpRequest.overrideMimeType('text/xml');
 	} else if (window.ActiveXObject) { // IE
 		try {
 			_httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
