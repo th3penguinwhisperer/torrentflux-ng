@@ -184,7 +184,6 @@ function ajax_processText(content) {
 	var funcCall = strFun + "(strParam);";
 	//Call the function
 	var ret = eval(funcCall);
-	//ajax_updateContent(functionname, transferList);
 	
 	if (aryCount > 0) {
 		var ajaxBlocDelim = new RegExp('[\|\#]{3}');
