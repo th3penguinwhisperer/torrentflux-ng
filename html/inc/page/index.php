@@ -218,8 +218,8 @@ if ($isAjaxUpdate) {
 	$content = "";
 	$isFirst = true;
 	
-	$content .= "ajaxParseTransferlist\n";
-	$content .= $ajax_delim . "\n";
+	$content .= "ajaxParseTransferlist";
+	$content .= $ajax_delim;
 	$content .= $tmpl->grab();
 
 	//$ajaxUpdateParams{3} = 1; // TODO this should be deleted later: just for testing
