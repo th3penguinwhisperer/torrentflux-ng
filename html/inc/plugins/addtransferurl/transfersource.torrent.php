@@ -50,7 +50,7 @@ $(function() {
       success: function() {
 	$(\"#url\").val(\"\");
         showstatusmessage(\"New transfer is added\");
-        gettransferlist();
+        reloadtransferlist();
       },
       error: function() {
         showstatusmessage(\"Adding the transfer was not successful\");
