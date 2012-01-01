@@ -15,6 +15,11 @@ class DiskspaceInfo implements PluginInterface
 		print( $this->getDiskspaceUi() );
 	}
 
+	function get()
+	{
+		return $this->getDiskspaceUi();
+	}
+
 	function getConfiguration()
 	{
 		;
@@ -34,11 +39,20 @@ class DiskspaceInfo implements PluginInterface
 		else $diskspacecolor = '#33cc33';
 		$diskfreespace = disk_free_space($cfg['rewrite_download_path']);
 		$disktotalspace = disk_total_space($cfg['rewrite_download_path']);
-		$output = $diskspaceusage . '% disk usage (' . formatBytesTokBMBGBTB( $disktotalspace - $diskfreespace ) . "/" . formatBytesTokBMBGBTB( $disktotalspace ) . ")";
 		$output .= '<script type="text/javascript" src="js/diskspace.js"></script>';
-		$output .= '<script type="text/javascript">drawProgressBar(\'' . $diskspacecolor . '\', 300, ' . $diskspaceusage . ');</script>';
+		$output .= '<script type="text/javascript">drawProgressBar(\'' . $diskspacecolor . '\', 300, ' . $diskspaceusage . ',' . $diskfreespace . ',' . $disktotalspace . ');</script>';
 		$output .= '<link rel="stylesheet" type="text/css" href="css/diskspace.css" />';
 		
+		return $output;
+	}
+
+	function getAjaxData() {
+		$cfg = Configuration::get_instance()->get_cfg();
+		$diskfreespace = disk_free_space($cfg['rewrite_download_path']);
+		$disktotalspace = disk_total_space($cfg['rewrite_download_path']);
+
+		$output = "$diskfreespace;$disktotalspace";
+
 		return $output;
 	}
 
