@@ -29,7 +29,7 @@ class DiskspaceInfo implements PluginInterface
 		$cfg = Configuration::get_instance()->get_cfg();
 		
 		$output = "";
-		$diskspaceusage = getDriveSpace( $cfg['rewrite_download_path'] );
+		$diskspaceusage = getDriveSpace( $cfg['rewrite_download_path'] ); // NOTE: in percentage!
 		if ( $diskspaceusage > $cfg['rewrite_diskusagewarninglevel'] ) $diskspacecolor = "#ff0000";
 		else $diskspacecolor = '#33cc33';
 		$diskfreespace = disk_free_space($cfg['rewrite_download_path']);
