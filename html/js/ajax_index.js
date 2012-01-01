@@ -178,12 +178,15 @@ function ajax_processText(content) {
 
 	var ajaxBlocDelim = new RegExp('[\|\#]{3}');
 	var tempAry = content.split(ajaxBlocDelim);
-	var strParam = tempAry.pop();
-	var strFun = tempAry.pop();
-	//Create the function call from function name and parameter.
-	var funcCall = strFun + "(strParam);";
-	//Call the function
-	var ret = eval(funcCall);
+	
+	while(tempAry.length>=2) {
+	  var strParam = tempAry.pop();
+	  var strFun = tempAry.pop();
+	  //Create the function call from function name and parameter.
+	  var funcCall = strFun + "(strParam);";
+	  //Call the function
+	  var ret = eval(funcCall);
+	}
 	
 	if (aryCount > 0) {
 		var ajaxBlocDelim = new RegExp('[\|\#]{3}');
