@@ -209,6 +209,20 @@ if ($cfg['enable_restrictivetview'] == 1)
         $boolCond = $cfg['isAdmin']; // TODO Err... what does this do? :)
 $tmpl->setvar('are_transfer', (($boolCond) && (sizeof($arListTorrent) > 0)) ? 1 : 0);
 
+if (!$isAjaxUpdate) {
+	require_once('inc/plugins/PluginHandler.php');
+	$ph = new PluginHandler();
+	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_INFO);
+	$pluginshtml = "";
+
+	foreach( $pluginNames as $plugin ) {
+		$pi = $ph->getPlugin($plugin[0]);
+		$pluginshtml .= $pi->get();
+	}
+	
+	$tmpl->setvar('generalplugins', $pluginshtml);
+}
+
 // =============================================================================
 // ajax-index
 // =============================================================================
@@ -221,6 +235,19 @@ if ($isAjaxUpdate) {
 	$content .= "ajaxParseTransferlist";
 	$content .= $ajax_delim;
 	$content .= $tmpl->grab();
+
+	require_once('inc/plugins/PluginHandler.php');
+	$ph = new PluginHandler();
+	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_INFO);
+
+	foreach( $pluginNames as $plugin ) {
+		$pi = $ph->getPlugin($plugin[0]);
+		$content .= $ajax_delim;
+		$content .= "ajaxParse" . ucfirst($plugin[0]);
+		$content .= $ajax_delim;
+		$content .= $pi->getAjaxData();
+	}
+
 
 	//$ajaxUpdateParams{3} = 1; // TODO this should be deleted later: just for testing
 	// server stats
