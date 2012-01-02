@@ -37,7 +37,7 @@ function ajaxParseDiskspaceinfo(content) {
 function bytesToSize(bytes, precision) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     var posttxt = 0;
-    if (bytes == 0) return 'n/a';
+     if (bytes == 0) return '0 '+sizes[posttxt];
     while( bytes >= 1024 ) {
 	posttxt++;
 	bytes = bytes / 1024;
