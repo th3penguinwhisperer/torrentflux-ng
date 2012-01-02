@@ -94,7 +94,14 @@ Your Transfers
 			</tmpl_if>
 		</td>
 		</tmpl_if>
-		<tmpl_if name="settings_6"><td><tmpl_var name="down_speed"></td></tmpl_if><!-- DOWNLOAD SPEED -->
+		<tmpl_if name="settings_6"><!-- DOWNLOAD SPEED -->
+				<td>
+					<tmpl_if name="transferRunning" value="1">
+						<tmpl_var name="down_speed"></td></tmpl_if>
+					<tmpl_else>
+						&nbsp;
+					</tmpl_if>
+				</td>
 		<tmpl_if name="settings_7"><!-- UPLOAD SPEED -->
 				<td>
 					<tmpl_if name="transferRunning" value="1">
