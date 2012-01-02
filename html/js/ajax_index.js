@@ -158,6 +158,15 @@ function ajaxParseTransferlist(content) {
 	ajax_updateContent('transferList', content);
 }
 
+function ajaxParseRates(content) {
+	// parsing the data
+	var data = content.split(";");
+	var totaldownrate = data[0];
+	var totaluprate = data[1];
+
+	document.title = 'Down: ' + bytesToSize(totaldownrate,2) + '/s | Up: ' + bytesToSize(totaluprate,2) + '/s';
+}
+
 /**
  * process text-response
  *

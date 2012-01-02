@@ -187,15 +187,22 @@ function printJavascriptHtml()
 	');
 }
 
+$totaluprate = 0;
+$totaldownrate = 0;
 $arUserTorrent = array();
 $arListTorrent = array(); // TODO where is this array needed for?
+
 if ($cfg["rewrite_transmission_rpc_enable"]) {
 	require_once('inc/clients/transmission-daemon/TransmissionDaemonClient.php');
 	$td = new TransmissionDaemonClient();
 	$transfers = $td->getTransferList($_SESSION['uid']);
 	
-	foreach($transfers as $transfer)
+	foreach($transfers as $transfer) {
 		array_push($arUserTorrent, $transfer->getTransferListItem());
+		$torrentdata = $transfer->getData();
+		$totaldownrate += $torrentdata['rateDownload'];
+		$totaluprate += $torrentdata['rateUpload'];
+	}
 }
 
 $tmpl->setloop('arUserTorrent', $arUserTorrent);
@@ -235,6 +242,11 @@ if ($isAjaxUpdate) {
 	$content .= "ajaxParseTransferlist";
 	$content .= $ajax_delim;
 	$content .= $tmpl->grab();
+
+	$content .= $ajax_delim;
+	$content .= "ajaxParseRates";
+	$content .= $ajax_delim;
+	$content .= "$totaldownrate;$totaluprate";
 
 	require_once('inc/plugins/PluginHandler.php');
 	$ph = new PluginHandler();
