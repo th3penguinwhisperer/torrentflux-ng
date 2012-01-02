@@ -42,5 +42,5 @@ function bytesToSize(bytes, precision) {
 	posttxt++;
 	bytes = bytes / 1024;
     }
-    return bytes.toFixed(precision) + " " + sizes[posttxt];
+    return (bytes).toFixed(precision) + " " + sizes[posttxt];
 };
