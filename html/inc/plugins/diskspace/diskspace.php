@@ -48,10 +48,12 @@ class DiskspaceInfo implements PluginInterface
 
 	function getAjaxData() {
 		$cfg = Configuration::get_instance()->get_cfg();
+		$diskspaceusage = getDriveSpace( $cfg['rewrite_download_path'] ); // NOTE: in percentage!
 		$diskfreespace = disk_free_space($cfg['rewrite_download_path']);
 		$disktotalspace = disk_total_space($cfg['rewrite_download_path']);
+		$diskspacecolor = ($diskspaceusage > $cfg['rewrite_diskusagewarninglevel'] ? '#ff0000' : '#33cc33' );
 
-		$output = "$diskfreespace;$disktotalspace";
+		$output = "$diskfreespace;$disktotalspace;$diskspacecolor";
 
 		return $output;
 	}

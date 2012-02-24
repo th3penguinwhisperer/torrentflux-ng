@@ -19,6 +19,7 @@ function ajaxParseDiskspaceinfo(content) {
 	var data = content.split(";");
 	var freespace = data[0];
 	var totalspace = data[1];
+	var color = data[2];
 
 	// calculating the new values
 	var usedspace = totalspace - freespace;
@@ -28,6 +29,7 @@ function ajaxParseDiskspaceinfo(content) {
 	var width = fullbar.style.width;
 	
 	// doing the changes
+	bar.style.backgroundColor = color;
 	bar.style.width = procent.toFixed(0) * (width/100);
 	$('#diskspaceText').html(procent.toFixed(0) + "%");
 	$('#diskspaceTitleText').html(getDiskspaceText(freespace, totalspace));
