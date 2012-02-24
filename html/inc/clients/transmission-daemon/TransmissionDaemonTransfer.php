@@ -28,9 +28,21 @@ $cfg['user'] = "administrator";
 			$eta = convertTime( $this->data['eta'] );
 		}
 
+		// Statuses are described here: https://trac.transmissionbt.com/browser/trunk/libtransmission/transmission.h
+		// typedef enum
+		// {
+		//    TR_STATUS_STOPPED        = 0, /* Torrent is stopped */
+		//    TR_STATUS_CHECK_WAIT     = 1, /* Queued to check files */
+		//    TR_STATUS_CHECK          = 2, /* Checking files */
+		//    TR_STATUS_DOWNLOAD_WAIT  = 3, /* Queued to download */
+		//    TR_STATUS_DOWNLOAD       = 4, /* Downloading */
+		//    TR_STATUS_SEED_WAIT      = 5, /* Queued to seed */
+		//    TR_STATUS_SEED           = 6  /* Seeding */
+		// }
+		// tr_torrent_activity;
 		$status = $this->data['status'];
 		switch ($this->data['status']) {
-		case 16:
+		case 0:
 			$transferRunning = false;
 			if ( $this->data['percentDone'] >= 1 ) {
 				$status = TransferStatus::STATUS_FINISHED;
@@ -56,10 +68,21 @@ $cfg['user'] = "administrator";
 			$status = TransferStatus::STATUS_SEEDING;
 			$transferRunning = true;
 			break;
+		case 6:
+			$status = TransferStatus::STATUS_SEEDING;
+			$transferRunning = true;
+			break;
 		case 2:
-			//$status = "Checking data...";
 			$status = TransferStatus::STATUS_CHECKING;
 			$transferRunning = true;
+			break;
+		case 0:
+			$status = TransferStatus::STATUS_STOPPED;
+			$transferRunning = false;
+			break;
+		default:
+			$status = TransferStatus::STATUS_UNKNOWN;
+			$transferRunning = false;
 			break;
 		}
 
