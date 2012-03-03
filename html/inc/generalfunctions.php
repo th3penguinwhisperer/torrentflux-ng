@@ -138,6 +138,12 @@ function handleFileUpload($files, $client, $path, $paused) {
 			}
 		}
 	}
+	
+	foreach($tStack as $hash) {
+		if (!$paused)
+			$client->start($hash);
+	}
+	
 	// instant action ?
 	// TODO: implement this so transfers can be started right away after uploading
 	/*if (($actionId > 1) && (!empty($tStack))) {
@@ -246,8 +252,10 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					//	array_push($tStack,$filename);
 					// return
 					
-					if (!$paused)
-						$client->start($hash);
+					array_push($tStack, $hash);
+					
+					//if (!$paused)
+					//	$client->start($hash);
 
 					return true;
 				} else {
