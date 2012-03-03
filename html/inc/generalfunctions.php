@@ -113,6 +113,8 @@ function handleFileUpload($files, $client, $path, $paused) {
 	}
 	// action-id
 	//$actionId = tfb_getRequestVar('aid'); // TODO: implement "upload" and "uploadAndStart"
+	$actionId = "";
+	
 	// file upload
 	$uploadMessages = array();
 	// stack
