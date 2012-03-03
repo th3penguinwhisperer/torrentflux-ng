@@ -2,7 +2,7 @@
 
 require_once('inc/classes/singleton/db.php');
 
-class PluginHandler
+class PluginHandler // TODO: make this a singleton
 {
 	const PLUGINTYPE_TRANSFERSOURCE = 'transfersource';
 	const PLUGINTYPE_TRANSFERCLIENT = 'transferclient';
