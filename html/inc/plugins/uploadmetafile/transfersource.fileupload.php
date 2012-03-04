@@ -19,6 +19,7 @@ class TransfersourceFileupload
 	static function printForm() {
 		print("
 <form name=uploadmetafile method=post action=dispatcher.php enctype=\"multipart/form-data\">Metafile upload
+	<input type=hidden name=plugin value=metafileupload>
 	<input type=file name=metafile>
 	<br><input type=checkbox id=publictorrent name=publictorrent checked=checked> Public torrent
 ");
