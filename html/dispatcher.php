@@ -31,8 +31,8 @@ if ( isset($action) ) {
 		}
 			require_once('inc/plugins/PluginHandler.php');
 			$ph = new PluginHandler();
-			$plugin = $ph->getPlugin("metafileupload");
-			$plugin->printForm();
+			$plugin = $ph->getPlugin($plugin);
+			if (is_object($plugin)) $plugin->printForm();
 	}
 }
 

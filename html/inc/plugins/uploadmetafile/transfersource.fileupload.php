@@ -12,7 +12,7 @@ class TransfersourceFileupload
 	/* TODO: check how this issue can be resolved in a more generic way (the upload file form issue) */
 	static function printIframe() {
 		print("
-<iframe width=100% frameborder=0 src=\"dispatcher.php?action=metafileupload\">
+<iframe width=100% frameborder=0 src=\"dispatcher.php?action=metafileupload&plugin=metafileupload\">
 ");
 	}
 	
