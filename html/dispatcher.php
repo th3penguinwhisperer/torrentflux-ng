@@ -28,6 +28,7 @@ if ( isset($action) ) {
 		if ( sizeof($_FILES) > 0 ) { // if a file is actually uploaded
 			handleFileUpload($_FILES, $client, ( isset($_REQUEST['publictorrent']) && $_REQUEST['publictorrent'] == 'on' ?  getDownloadPath(true): getDownloadPath(false) ), ($subaction == "add" ? true : false));
 			print("File was handled");
+			print("<script type=text/javascript>parent.reloadtransferlist();</script>");
 		}
 			require_once('inc/plugins/PluginHandler.php');
 			$ph = new PluginHandler();
