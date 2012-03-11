@@ -54,6 +54,7 @@ if (false) {
 require_once("inc/plugins/searchengines/SearchEngineBase.php");
 
 // init template-instance
+global $tmpl;
 tmplInitializeInstance($cfg["theme"], "page.torrentSearch.tmpl");
 
 // Go get the if this is a search request. go get the data and produce output.
@@ -66,7 +67,8 @@ $hideSeedless = $_SESSION['hideSeedless'];
 $pg = tfb_getRequestVar('pg');
 $searchEngine = tfb_getRequestVar('searchEngine');
 if (empty($searchEngine))
-	$searchEngine = $cfg["searchEngine"];
+	$searchEngine = "PirateBay";
+	//$searchEngine = $cfg["searchEngine"];
 if (!preg_match('/^[a-zA-Z0-9]+$/D', $searchEngine))
 	error("Invalid SearchEngine", "", "");
 $searchterm = tfb_getRequestVar('searchterm');
@@ -130,13 +132,21 @@ if (!is_file('inc/plugins/searchengines/'.$searchEngine.'Engine.php')) {
 	}
 }
 //
-$tmpl->setvar('_SEARCH', $cfg['_SEARCH']);
+$tmpl->setvar('_SEARCH', "Search");
+//$tmpl->setvar('_SEARCH', $cfg['_SEARCH']); // TODO get the correct text in the $cfg or another way to fix this
 //
-tmplSetTitleBar("Torrent ".$cfg['_SEARCH']);
+tmplSetTitleBar("Torrent "."Search"); // TODO get the correct text in the $cfg or another way to fix this. This might not be necessary at all
+//tmplSetTitleBar("Torrent ".$cfg['_SEARCH']);
 tmplSetFoot();
 tmplSetIidVars();
 
 // parse template
-$tmpl->pparse();
+global $pageContent;
+$pageContent = $tmpl->grab();
+
+function getPage() {
+	global $pageContent;
+	return $pageContent;
+}
 
 ?>

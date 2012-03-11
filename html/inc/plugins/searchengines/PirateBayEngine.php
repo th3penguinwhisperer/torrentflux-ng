@@ -299,6 +299,9 @@ class SearchEngine extends SearchEngineBase
 				// ok so now we have the listing.
 				$tmpListArr = explode("</tr>",$tmpList);
 
+				// TODO  following 2 lines should not be here. bgLight and bgDark should be in $this->cfg or in $cfg
+				$this->cfg['bgLight'] = "";
+				$this->cfg['bgDark'] = "";
 				$bg = $this->cfg["bgLight"];
 
 				foreach($tmpListArr as $key => $value)
