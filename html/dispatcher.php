@@ -18,6 +18,11 @@ if ( isset($action) ) {
 	require_once('inc/classes/ClientHandler.php');
 	$client = ClientHandler::getInstance(getTransferClient($transfer));
 	
+	if ($action == "passplugindata") {
+		$ph = new PluginHandler();
+		$pi = $ph->getPlugin($plugin);
+		$pi->show(); // TODO: passing $_REQUEST?
+	}
 	if ($action == "start")				$client->start($transfer);
 	if ($action == "stop")				$client->stop($transfer);
 	if ($action == "delete")			$client->delete($transfer);

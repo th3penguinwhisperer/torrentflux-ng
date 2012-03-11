@@ -147,7 +147,7 @@ function tmplSetSearchEngineDDL($selectedEngine = 'TorrentSpy', $autoSubmit = fa
 	global $cfg, $tmpl;
 	// set some vars
 	$tmpl->setvar('autoSubmit', $autoSubmit);
-	$handle = opendir("./inc/searchEngines");
+	$handle = opendir("./inc/plugins/searchengines");
 	while($entry = readdir($handle))
 		$entrys[] = $entry;
 	natcasesort($entrys);
