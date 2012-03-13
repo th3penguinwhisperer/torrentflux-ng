@@ -16,12 +16,17 @@ $cfg = Configuration::get_instance()->get_cfg();
 
 if ( isset($action) ) {
 	require_once('inc/classes/ClientHandler.php');
+	require_once('inc/plugins/PluginHandler.php');
 	$client = ClientHandler::getInstance(getTransferClient($transfer));
 	
 	if ($action == "passplugindata") {
 		$ph = new PluginHandler();
 		$pi = $ph->getPlugin($plugin);
-		$pi->show(); // TODO: passing $_REQUEST?
+		if (is_object($pi)) {
+			$pi->show(); // TODO: passing $_REQUEST?
+		} else {
+			print("Plugin $plugin could not be loaded");
+		}
 	}
 	if ($action == "start")				$client->start($transfer);
 	if ($action == "stop")				$client->stop($transfer);
