@@ -39,6 +39,7 @@ if (!defined("ENT_COMPAT")) define("ENT_COMPAT", 2);
 if (!defined("ENT_NOQUOTES")) define("ENT_NOQUOTES", 0);
 if (!defined("ENT_QUOTES")) define("ENT_QUOTES", 3);
 
+// THIS SHOULD BE EXTENDED FROM PLUGIN CLASS!!!
 class RssReader
 {
 	private $rss_list;
