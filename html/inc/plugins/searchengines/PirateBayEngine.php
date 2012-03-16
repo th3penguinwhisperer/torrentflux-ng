@@ -550,8 +550,8 @@ class pBay
 		}
 
 		$output = "<tr>\n";
-		$output .= "	<td width=\"16\" bgcolor=\"".$bg."\"><a href=\"dispatcher.php?action=urlUpload&type=torrent&url=".$this->torrentFile."\"><img src=\"".getImagesPath()."download_owner.gif\" width=\"16\" height=\"16\" title=\"".$this->torrentName."\" border=0></a></td>\n";
-		$output .= "	<td bgcolor=\"".$bg."\"><a href=\"dispatcher.php?action=urlUpload&type=torrent&url=".$this->torrentFile."\" title=\"".$this->torrentName."\">".$this->torrentDisplayName."</a></td>\n";
+		$output .= "	<td width=\"16\" bgcolor=\"".$bg."\"><a href=\"javascript:addTransfer(escape('".$this->torrentFile."'));\"><img src=\"".getImagesPath()."download_owner.gif\" width=\"16\" height=\"16\" title=\"".$this->torrentName."\" border=0></a></td>\n";
+		$output .= "	<td bgcolor=\"".$bg."\"><a href=\"javascript:addTransfer(escape('".$this->torrentFile."'));\" title=\"".$this->torrentName."\">".$this->torrentDisplayName."</a></td>\n"; // USE ESCAPE FUNCTION OTHERWHISE TITLE IS NOT SHOWN BEFORE THE TORRENT IS DOWNLOADED, ONLY THE ID IS SHOWN THEN
 
 		if (strlen($this->MainCategory) > 1){
 			if (strlen($this->SubCategory) > 1){
