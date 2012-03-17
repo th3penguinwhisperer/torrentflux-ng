@@ -50,7 +50,6 @@ $(function() {
       url: "dispatcher.php",
       data: dataString,
       success: function(data) {
-	$("#query").val("");
         $("#searchresult").html(data);
       },
       error: function() {
