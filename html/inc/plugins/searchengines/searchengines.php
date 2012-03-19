@@ -19,43 +19,55 @@ class SearchEngines implements PluginInterface
 <form name=searchengine action="">Torrent Search Query:
 <script type="text/javascript">
 
-$(function() {
-  $(".search_button").click( function() {
-    // Copy this part as much as necessary
-    var query = escape( $("input#query").val() );
-    if (query == "") {
-      //$("label#name_error").show();
-      $("#status_message").show();
-      $("#status_message").html("The search field is empty");
-      $("input#query").focus();
-      return false;
-    }
+var pg = 0;
 
-    // get other values
-    var client = $("#client").val();
-    var action = $("#action").val();
-    var subaction = $("#subaction").val();
-    var plugin = $("#plugin").val();
-    if ( $("#publictorrent").is(":checked") ) {
-		var publictorrent = "on";
-	} else {
-		var publictorrent = "off";
+	function changePage(page) {
+		pg = page;
+		doSearch();
 	}
 
-    // validate and process form here
-    var dataString = "query=" + query + "&client=" + client + "&action=" + action + "&subaction=" + subaction + "&plugin=" + plugin + "&publictorrent=" + publictorrent;
+	function doSearch() {
+	    // Copy this part as much as necessary
+	    var query = escape( $("input#query").val() );
+	    if (query == "") {
+	      //$("label#name_error").show();
+	      $("#status_message").show();
+	      $("#status_message").html("The search field is empty");
+	      $("input#query").focus();
+	      return false;
+	    }
 
-    $.ajax({
-      type: "POST",
-      url: "dispatcher.php",
-      data: dataString,
-      success: function(data) {
-        $("#searchresult").html(data);
-      },
-      error: function() {
-        showstatusmessage("Error while searching for torrents!");
-      }
-    });
+	    // get other values
+	    var client = $("#client").val();
+	    var action = $("#action").val();
+	    var subaction = $("#subaction").val();
+	    var plugin = $("#plugin").val();
+	    if ( $("#publictorrent").is(":checked") ) {
+			var publictorrent = "on";
+		} else {
+			var publictorrent = "off";
+		}
+
+	    // validate and process form here
+	    var dataString = "query=" + query + "&client=" + client + "&action=" + action + "&subaction=" + subaction + "&plugin=" + plugin + "&publictorrent=" + publictorrent + "&pg=" + pg;
+
+	    $.ajax({
+	      type: "POST",
+	      url: "dispatcher.php",
+	      data: dataString,
+	      success: function(data) {
+		$("#searchresult").html(data);
+	      },
+	      error: function() {
+		showstatusmessage("Error while searching for torrents!");
+	      }
+	    });
+
+	}
+
+$(function() {
+  $(".search_button").click( function() {
+    doSearch();
     return false;
   });
 });

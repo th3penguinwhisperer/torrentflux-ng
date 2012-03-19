@@ -38,9 +38,8 @@ class SearchEngine extends SearchEngineBase
 
 	function SearchEngine($cfg)
 	{
-		$this->mainURL = "depiraatbaai.be";
-		//$this->mainURL = "thepiratebay.org";
-		$this->altURL = "depiraatbaai.be";
+		$this->mainURL = "www.thepiratebay.se";
+		$this->altURL = "www.thepiratebay.se";
 		$this->mainTitle = "The PirateBay";
 		$this->engineName = "PirateBay";
 
@@ -389,6 +388,12 @@ class SearchEngine extends SearchEngineBase
 				$thing = substr($thing,strpos($thing,">")+1);
 				$pages = substr($thing,0,strpos($thing,"</div>"));
 				$thing = "";
+
+				// determine last result page
+				$totalPages = 2;
+				while(strpos($pages, ">" . ($totalPages+1) . "<") > 0) {
+					$totalPages++;
+				}
 				
 				$lastSearch = $this->lastSearch;
 				
@@ -420,6 +425,10 @@ class SearchEngine extends SearchEngineBase
 				$pages = preg_replace("#/(\\d+)/#",'&orderby=\1&cat=',$pages);
 				$pages = str_replace("/",'',$pages);
 
+				//$output .= "<div align=center>".$pages."</div>";
+				$pages = "";
+				for ($i = 0; $i < $totalPages; $i++)
+					$pages .= "<a href=\"javascript:changePage($i);\">". ($i+1) ."</a>&nbsp;";
 				$output .= "<div align=center>".$pages."</div>";
 			}
 
