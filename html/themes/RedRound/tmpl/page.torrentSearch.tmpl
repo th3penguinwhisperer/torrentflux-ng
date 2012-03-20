@@ -1,33 +1,10 @@
 <!-- page.torrentSearch -->
 <style>.tinyRow {font-size:2px;height:2px;}</style>
-<script language="JavaScript">
-	function getLatest() {
-		var selectedItem = document.searchForm.searchEngine.selectedIndex;
-		document.searchForm.searchterm.value = '';
-		document.location.href = 'index.php?iid=torrentSearch&searchEngine='+document.searchForm.searchEngine.options[selectedItem].text+'&LATEST=1';
-		return true;
-	}
-</script>
 <div id="torrentSearch">
-<h1>Torrent Search</h1>
 
 <a name="top" style="line-height:0px;">&nbsp</a>
 <form id="searchForm" name="searchForm" action="index.php" method="get">
-<table class="torrentSearch" id="formSearch">
-	<tr>
-		<td>
-			<input type="hidden" name="page" value="torrentSearch">
-			<input type="text" name="searchterm" id="searchterm" value="<tmpl_var name="searchterm">" size=30 maxlength=50>
-			<select id="searchEngine" name="searchEngine" <tmpl_if name="autoSubmit">onchange="this.form.submit();"</tmpl_if> width="125px">
-			<tmpl_loop name="Engine_List">
-				<option <tmpl_if name="selected">selected</tmpl_if>><tmpl_var name="Engine"></option>
-			</tmpl_loop>
-			</select>
-			<input type="Submit" value="<tmpl_var name="_SEARCH">">
-		</td>
-		<td id="showLastest"><a href="#" onclick="javascript:getLatest();">Show Latest</a></td>
-	</tr>
-</table>
+
 <div style="line-height:5px;"></div>
 
 <tmpl_if name="sEngine_error">

@@ -397,35 +397,11 @@ class SearchEngine extends SearchEngineBase
 				
 				$lastSearch = $this->lastSearch;
 				
-				if (strpos($pages,"prev") > 0)
-				{
-					$tmpStr = substr($pages,0,strpos($pages,"<img"));
+				$pages = str_replace('/search/'.$lastSearch.'/',$this->searchURL().'&searchterm='.$lastSearch.'&pg=',$pages);
 
-					$pages = substr($pages,strpos($pages,"<img"));
-					$pages = substr($pages,strpos($pages,">")+1);
-					$pages = $tmpStr."Prev".$pages;
-
-					if (strpos($pages,"next") > 0)
-					{
-						$pages = substr($pages,0,strpos($pages,"<img"))."Next</a>";
-					}
-				}
-				elseif (strpos($pages,"next") > 0)
-				{
-					$pages = substr($pages,0,strpos($pages,"<img"))."Next</a>";
-				}
-				if(strpos($this->curRequest,"LATEST"))
-				{
-					$pages = str_replace('/recent/'.$lastSearch.'/',$this->searchURL().'&searchterm='.$lastSearch.'&pg=',$pages);
-				}
-				else
-				{
-					$pages = str_replace('/search/'.$lastSearch.'/',$this->searchURL().'&searchterm='.$lastSearch.'&pg=',$pages);
-				}
 				$pages = preg_replace("#/(\\d+)/#",'&orderby=\1&cat=',$pages);
 				$pages = str_replace("/",'',$pages);
 
-				//$output .= "<div align=center>".$pages."</div>";
 				$pages = "";
 				for ($i = 0; $i < $totalPages; $i++)
 					if ($this->pg == $i) {
