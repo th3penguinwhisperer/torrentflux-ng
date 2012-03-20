@@ -132,8 +132,11 @@ var dataextension = "";
 	<input type=hidden name=action id=action value=passplugindata>
 	<input type=hidden name=plugin id=plugin value=searchengines>
 </form>
-<div id=searchresult name=searchresult />
+<div id=searchresult name=searchresult >
 ');
+			require_once('inc/plugins/searchengines/torrentSearch.php');
+			print( getPage() ); // prints the string
+			print("</div>");
 		} else {
 			require_once('inc/plugins/searchengines/torrentSearch.php');
 			print( getPage() ); // prints the string
