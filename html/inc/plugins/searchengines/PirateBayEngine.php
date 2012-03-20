@@ -390,7 +390,7 @@ class SearchEngine extends SearchEngineBase
 				$thing = "";
 
 				// determine last result page
-				$totalPages = 2;
+				$totalPages = $this->pg + 1; // should be +1 as current page is not a link
 				while(strpos($pages, ">" . ($totalPages+1) . "<") > 0) {
 					$totalPages++;
 				}
@@ -429,7 +429,7 @@ class SearchEngine extends SearchEngineBase
 				$pages = "";
 				for ($i = 0; $i < $totalPages; $i++)
 					$pages .= "<a href=\"javascript:changePage($i);\">". ($i+1) ."</a>&nbsp;";
-				$output .= "<div align=center>".$pages."</div>";
+				$output .= "<div align=center>".$pages." $this->pg </div>";
 			}
 
 		}
