@@ -3,7 +3,6 @@
 <div id="torrentSearch">
 
 <a name="top" style="line-height:0px;">&nbsp</a>
-<form id="searchForm" name="searchForm" action="index.php" method="get">
 
 <div style="line-height:5px;"></div>
 
@@ -17,7 +16,7 @@
 		<td>
 			<tmpl_if name="link_list">
 				<tmpl_loop name="link_list">
-					<a href="index.php?iid=torrentSearch&searchEngine=<tmpl_var name="searchEngine">&mainGenre=<tmpl_var name="mainId">"><tmpl_var name="mainName"></a>
+					<a href="javascript:browseCategory('&mainGenre=<tmpl_var name="mainId">');"><tmpl_var name="mainName"></a>
 						<tmpl_unless name="__LAST__"> | </tmpl_unless>
 				</tmpl_loop>
 			</tmpl_if>
@@ -30,26 +29,23 @@
 	<tmpl_if name="no_genre">
 		<tmpl_var name="performSearch">
 	<tmpl_else>
-<table class="torrentSearch" id="subGenre">
+<table class="torrentSearch" id="subGenreTable">
 	<tr>
 		<td colspan="6">
-		<form id="subLatest" name="subLatest" action="index.php">
 			<input type=hidden name="iid" value="torrentSearch" />
 			<input type=hidden name="searchEngine" value="<tmpl_var name="searchEngine">" />
 			Category: <b><tmpl_var name="mainGenreName"></a></b> -
-			<select name=subGenre>
+			<select name=subGenre id=subGenre>
 				<tmpl_loop name=list_cats">
 					<option value="<tmpl_var name='subId'>"><tmpl_var name='subName'></option>
 				</tmpl_loop>
 			</select>
-			<input type=submit value='Show Latest' />
-		</form>
+			<input type=submit class=browse_sub_category value='Show Latest' onclick='changeSubCat()' />
 		</td>
 	</tr>
 </table>
 	</tmpl_if>
 </tmpl_if>
-</form>
 <div id="extRequest">
 	<a target="_blank" href="<tmpl_var name='ext_request'>" title="<tmpl_var name='ext_method'> <tmpl_var name='ext_request'> <tmpl_var name='ext_postquery'> (<tmpl_var name='res_size'>)">?</a>
 </div>
