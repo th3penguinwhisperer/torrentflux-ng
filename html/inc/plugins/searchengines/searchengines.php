@@ -20,6 +20,18 @@ class SearchEngines implements PluginInterface
 <script type="text/javascript">
 
 var pg = 0;
+var dataextension = "";
+
+	function browseCategory(cat) {
+		dataextension = cat;
+		//dataextension = "&category=" + cat;
+		doSearch();
+	}
+
+	function browseSubCategory(subcat) {
+		dataextension = "&subGenre=" + subcat;
+		doSearch();
+	}
 
 	function changePage(page) {
 		pg = page;
@@ -29,13 +41,14 @@ var pg = 0;
 	function doSearch() {
 	    // Copy this part as much as necessary
 	    var query = escape( $("input#query").val() );
-	    if (query == "") {
-	      //$("label#name_error").show();
-	      $("#status_message").show();
-	      $("#status_message").html("The search field is empty");
-	      $("input#query").focus();
-	      return false;
-	    }
+	    // TODO: remove the following lines: query should be able to be empty to browse torrents by category
+	    //if (query == "") {
+	    //  //$("label#name_error").show();
+	    //  $("#status_message").show();
+	    //  $("#status_message").html("The search field is empty");
+	    //  $("input#query").focus();
+	    //  return false;
+	    //}
 
 	    // get other values
 	    var client = $("#client").val();
@@ -49,7 +62,7 @@ var pg = 0;
 		}
 
 	    // validate and process form here
-	    var dataString = "query=" + query + "&client=" + client + "&action=" + action + "&subaction=" + subaction + "&plugin=" + plugin + "&publictorrent=" + publictorrent + "&pg=" + pg;
+	    var dataString = "query=" + query + "&client=" + client + "&action=" + action + "&subaction=" + subaction + "&plugin=" + plugin + "&publictorrent=" + publictorrent + "&pg=" + pg + dataextension;
 
 	    $.ajax({
 	      type: "POST",
@@ -65,13 +78,20 @@ var pg = 0;
 
 	}
 
-$(function() {
-  $(".search_button").click( function() {
-    pg = 0; // When search is clicked the first page should be shown
-    doSearch();
-    return false;
-  });
-});
+	$(function() {
+	  $(".search_button").click( function() {
+	    pg = 0; // When search is clicked the first page should be shown
+	    doSearch();
+	    return false;
+	  });
+	});
+
+	function changeSubCat() {
+	    var subcat = $("#subGenre").val();
+	    alert(subcat);
+	    browseSubCategory(subcat);
+	    return false;
+	}
 
 	function addTransfer(url)
 	{
