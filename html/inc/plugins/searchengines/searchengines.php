@@ -67,6 +67,7 @@ var pg = 0;
 
 $(function() {
   $(".search_button").click( function() {
+    pg = 0; // When search is clicked the first page should be shown
     doSearch();
     return false;
   });
