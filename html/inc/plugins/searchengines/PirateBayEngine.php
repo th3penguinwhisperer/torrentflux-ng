@@ -428,8 +428,12 @@ class SearchEngine extends SearchEngineBase
 				//$output .= "<div align=center>".$pages."</div>";
 				$pages = "";
 				for ($i = 0; $i < $totalPages; $i++)
-					$pages .= "<a href=\"javascript:changePage($i);\">". ($i+1) ."</a>&nbsp;";
-				$output .= "<div align=center>".$pages." $this->pg </div>";
+					if ($this->pg == $i) {
+						$pages .= ($i+1)."&nbsp;";
+					} else {
+						$pages .= "<a href=\"javascript:changePage($i);\">". ($i+1) ."</a>&nbsp;";
+					}
+				$output .= "<div align=center>".$pages."</div>";
 			}
 
 		}
