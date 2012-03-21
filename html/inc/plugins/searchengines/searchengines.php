@@ -21,6 +21,7 @@ class SearchEngines implements PluginInterface
 
 var pg = 0;
 var maingenre = "";
+var subgenre = "";
 var dataextension = "";
 
 	function clearSearch() {
@@ -39,6 +40,7 @@ var dataextension = "";
 	}
 
 	function browseSubCategory(subcat) {
+		subgenre = subcat;
 		pg = 0;
 		dataextension = maingenre + "&subGenre=" + subcat;
 		doSearch();
@@ -73,6 +75,7 @@ var dataextension = "";
 	      data: dataString,
 	      success: function(data) {
 		$("#searchresult").html(data);
+		$("#subGenre").val(subgenre); // set the last selected subgenre
 	        centerPopup();
 	      },
 	      error: function() {

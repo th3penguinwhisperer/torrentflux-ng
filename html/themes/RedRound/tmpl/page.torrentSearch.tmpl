@@ -11,6 +11,7 @@
 	<tmpl_var name="sEngine_msg">
 </div>
 <tmpl_else>
+<a href="javascript:clearSearch();">Clear search</a>
 <table class="torrentSearch" id="genreList">
 	<tr>
 		<td>
@@ -26,13 +27,13 @@
 <div id="normalMessage">
 	<tmpl_var name="sEngine_msg">
 </div>
-<a href="javascript:clearSearch();">Clear search</a>
 	<tmpl_if name="show_subgenre">
 <table class="torrentSearch" id="subGenreTable">
 	<tr>
 		<td colspan="6">
 			Category: <b><tmpl_var name="mainGenreName"></a></b> -
 			<select name=subGenre id=subGenre onchange="javascript:changeSubCat()">
+				<option value="">--</option>
 				<tmpl_loop name=list_cats">
 					<option value="<tmpl_var name='subId'>"><tmpl_var name='subName'></option>
 				</tmpl_loop>
