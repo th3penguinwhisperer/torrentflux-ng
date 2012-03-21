@@ -26,24 +26,23 @@
 <div id="normalMessage">
 	<tmpl_var name="sEngine_msg">
 </div>
-	<tmpl_if name="no_genre">
-		<tmpl_var name="performSearch">
-	<tmpl_else>
+<a href="javascript:clearSearch();">Clear search</a>
+	<tmpl_if name="show_subgenre">
 <table class="torrentSearch" id="subGenreTable">
 	<tr>
 		<td colspan="6">
-			<input type=hidden name="iid" value="torrentSearch" />
-			<input type=hidden name="searchEngine" value="<tmpl_var name="searchEngine">" />
 			Category: <b><tmpl_var name="mainGenreName"></a></b> -
-			<select name=subGenre id=subGenre>
+			<select name=subGenre id=subGenre onchange="javascript:changeSubCat()">
 				<tmpl_loop name=list_cats">
 					<option value="<tmpl_var name='subId'>"><tmpl_var name='subName'></option>
 				</tmpl_loop>
 			</select>
-			<input type=submit class=browse_sub_category value='Show Latest' onclick='changeSubCat()' />
 		</td>
 	</tr>
 </table>
+	</tmpl_if>
+	<tmpl_if name="show_search">
+		<tmpl_var name="performSearch">
 	</tmpl_if>
 </tmpl_if>
 <div id="extRequest">

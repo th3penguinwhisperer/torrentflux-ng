@@ -53,9 +53,111 @@ if (false) {
 // require
 require_once("inc/plugins/searchengines/SearchEngineBase.php");
 
-// init template-instance
-global $tmpl;
-tmplInitializeInstance($cfg["theme"], "page.torrentSearch.tmpl");
+print_r($_REQUEST);
+
+$pg = tfb_getRequestVar('pg');
+$searchEngine = tfb_getRequestVar('searchEngine');
+
+if (empty($searchEngine))
+	$searchEngine = "PirateBay";
+
+if (!is_file('inc/plugins/searchengines/'.$searchEngine.'Engine.php')) {
+	$tmpl->setvar('sEngine_error', 1);
+	$tmpl->setvar('sEngine_msg', "Search Engine not installed.");
+} else {
+	include_once('inc/plugins/searchengines/'.$searchEngine.'Engine.php');
+	$sEngine = new SearchEngine(serialize($cfg));
+	if (!$sEngine->initialized) {
+		$tmpl->setvar('sEngine_error', 1);
+		$tmpl->setvar('sEngine_msg', $sEngine->msg);
+	} else {
+		doSearch($sEngine);
+	}
+}
+return;
+
+function doSearch($sEngine) {
+	// init template-instance
+	$cfg = Configuration::get_instance()->get_cfg();
+	global $tmpl;
+	tmplInitializeInstance($cfg["theme"], "page.torrentSearch.tmpl");
+
+	// if maingenre is not set but subGenre is, then determine maingenre
+	if ( !array_key_exists("mainGenre", $_REQUEST) && array_key_exists("subGenre", $_REQUEST) ) {
+		getSubCategories($sEngine, $_REQUEST['subGenre']/100);
+		$tmpl->setvar('show_subgenre', 1);
+	}
+		
+	// if maingenre is set
+	if ( array_key_exists("mainGenre", $_REQUEST) ) {
+		getSubCategories($sEngine, $_REQUEST['mainGenre']);
+		$tmpl->setvar('show_subgenre', 1);
+	}
+	$tmpl->setloop('link_list', getCategories($sEngine));
+
+	$tmpl->setvar('show_search', 0);
+	// if user wants to browse either by category or by subcategory
+	if ( (array_key_exists("subGenre", $_REQUEST) || array_key_exists("mainGenre", $_REQUEST)) && $_REQUEST['query'] == "" ) {
+print("latest search");
+		$tmpl->setvar('show_search', 1);
+		$searchResult = $sEngine->getLatest();
+		$tmpl->setvar('performSearch', $searchResult);
+	}
+	// user actually used query
+	elseif( isset($_REQUEST['query']) && !$_REQUEST['query'] == "" ) {
+print("normal search");
+		$tmpl->setvar('show_search', 1);
+		$searchResult = $sEngine->performSearch($_REQUEST['query']);
+		$tmpl->setvar('performSearch', $searchResult);
+	}
+
+	//
+	$tmpl->setvar('_SEARCH', "Search");
+	//$tmpl->setvar('_SEARCH', $cfg['_SEARCH']); // TODO get the correct text in the $cfg or another way to fix this
+	//
+	tmplSetTitleBar("Torrent "."Search"); // TODO get the correct text in the $cfg or another way to fix this. This might not be necessary at all
+	//tmplSetTitleBar("Torrent ".$cfg['_SEARCH']);
+	tmplSetFoot();
+	tmplSetIidVars();
+
+	// parse template
+	global $pageContent;
+	$pageContent = $tmpl->grab();
+
+}
+
+function getCategories($sEngine) {
+	$link_list = array();
+	foreach ($sEngine->getMainCategories() as $mainId => $mainName) {
+		array_push($link_list, array(
+			'searchEngine' => $sEngine->engineName,
+			'mainId' => $mainId,
+			'mainName' => $mainName
+			)
+		);
+	}
+
+	return $link_list;
+}
+
+function getSubCategories($sEngine, $mainGenre) {
+	global $tmpl;
+
+	$mainGenreName = $sEngine->GetMainCatName($mainGenre);
+	$subCats = $sEngine->getSubCategories($mainGenre);
+	$tmpl->setvar('mainGenreName', $mainGenreName);
+	$list_cats = array();
+	foreach ($subCats as $subId => $subName) {
+		array_push($list_cats, array(
+			'subId' => $subId,
+			'subName' => $subName
+			)
+		);
+	}
+	$tmpl->setloop('list_cats', $list_cats);
+
+}
+
 
 // Go get the if this is a search request. go get the data and produce output.
 $hideSeedless = tfb_getRequestVar('hideSeedless');
@@ -65,9 +167,6 @@ if (!isset($_SESSION['hideSeedless']))
 	$_SESSION['hideSeedless'] = 'no';
 $hideSeedless = $_SESSION['hideSeedless'];
 $pg = tfb_getRequestVar('pg');
-$searchEngine = tfb_getRequestVar('searchEngine');
-if (empty($searchEngine))
-	$searchEngine = "PirateBay";
 	//$searchEngine = $cfg["searchEngine"];
 if (!preg_match('/^[a-zA-Z0-9]+$/D', $searchEngine))
 	error("Invalid SearchEngine", "", "");
@@ -113,7 +212,7 @@ if (!is_file('inc/plugins/searchengines/'.$searchEngine.'Engine.php')) {
 		if ((empty($mainGenre) && array_key_exists("subGenre", $_REQUEST)) || (count($subCats) <= 0)) {
 			$tmpl->setvar('no_genre', 1);
 			$tmpl->setvar('performSearch', (array_key_exists("LATEST", $_REQUEST) && $_REQUEST["LATEST"] == "1")
-				? $sEngine->getLatest()
+				? $sEngine->performSearch($searchterm)
 				: $sEngine->performSearch($searchterm)
 			);
 		} else {

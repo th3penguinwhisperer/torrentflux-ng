@@ -145,12 +145,12 @@ class SearchEngine extends SearchEngineBase
 		}
 		else
 		{
-			$allowPage = true;
+			$allowPage = true; // TODO: shoudl this be true anyway?
 			if (array_key_exists("subGenre",$_REQUEST))
 			{
 				$request = "/browse/".$_REQUEST["subGenre"];
 			}
-			elseif (array_key_exists("mainGenre",$_REQUEST))
+			elseif ( !array_key_exists("subGenre", $_REQUEST) && array_key_exists("mainGenre",$_REQUEST))
 			{
 				if ($_REQUEST["mainGenre"] == "000")
 				{
@@ -200,7 +200,7 @@ class SearchEngine extends SearchEngineBase
 		{
 			$request = "/search/$searchTerm/$page/$order/".$_REQUEST["subGenre"];
 		}
-		elseif (array_key_exists("mainGenre",$_REQUEST))
+		elseif (!array_key_exists("subGenre", $_REQUEST) && array_key_exists("mainGenre",$_REQUEST))
 		{
 			$request = "/search/$searchTerm/$page/$order/".$_REQUEST["mainGenre"];
 		}
@@ -290,7 +290,9 @@ class SearchEngine extends SearchEngineBase
 				$tmpList = substr($thing,0,strpos($thing,"</table>"));
 				
 				// keep for paging
-				$thing = substr($thing,strlen($tmpList));
+				$pagingStr = substr($thing,strlen($tmpList));
+				// detect alternate paging
+				$altPagingStr = substr( $tmpList, strrpos($tmpList, "<tr>") );
 				
 				// clean tabs
 				$tmpList = str_replace("\t","",$tmpList);
@@ -341,7 +343,8 @@ class SearchEngine extends SearchEngineBase
 							}
 						}
 
-					} elseif (strpos($value,"torrents.thepiratebay.org")) {
+					//} elseif (strpos($value,"torrents.thepiratebay.org")) {
+					} elseif (strpos($value,"torrents.thepiratebay.se")) {
 						$ts = new pBay($value);
 
 						// Determine if we should build this output
@@ -381,13 +384,25 @@ class SearchEngine extends SearchEngineBase
 			$output .= "</table>";
 
 			// is there paging at the bottom?
-			if (strpos($thing, ">2<") !== false || strpos($thing, ">1<") !== false)
+			$isMultiplePages = false;
+			$isAltPaging = false;
+			if (strpos($pagingStr, ">2<") !== false || strpos($pagingStr, ">1&nbsp;<") !== false)
+				$isMultiplePages = true;
+				$isAltPaging = false;
+			if (strpos($altPagingStr, ">2<") !== false || strpos($altPagingStr, ">1&nbsp;<") !== false) {
+				$isMultiplePages = true;
+				$isAltPaging = true;
+			}
+			
+			if ( $isMultiplePages )
 			{
-				// Yes, then lets grab it and display it!  ;)
-				$thing = substr($thing,strpos($thing,"<div")+1);
-				$thing = substr($thing,strpos($thing,">")+1);
-				$pages = substr($thing,0,strpos($thing,"</div>"));
-				$thing = "";
+				if (!$isAltPaging) { 
+					$pagingStr = substr($pagingStr,strpos($pagingStr,"<div")+1);
+					$pagingStr = substr($pagingStr,strpos($pagingStr,">")+1);
+					$pages = substr($pagingStr,0,strpos($pagingStr,"</div>"));
+				} else {
+					$pages = substr($altPagingStr,0,strpos($altPagingStr,"</tr>"));
+				}
 
 				// determine last result page
 				$totalPages = $this->pg + 1; // should be +1 as current page is not a link
@@ -395,7 +410,7 @@ class SearchEngine extends SearchEngineBase
 					$totalPages++;
 				}
 				
-				$lastSearch = $this->lastSearch;
+				$lastSearch = (isset($this->lastSearch) ? $this->lastSearch : "");
 				
 				$pages = str_replace('/search/'.$lastSearch.'/',$this->searchURL().'&searchterm='.$lastSearch.'&pg=',$pages);
 

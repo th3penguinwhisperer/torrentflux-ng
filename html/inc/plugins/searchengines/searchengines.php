@@ -20,16 +20,27 @@ class SearchEngines implements PluginInterface
 <script type="text/javascript">
 
 var pg = 0;
+var maingenre = "";
 var dataextension = "";
 
+	function clearSearch() {
+		pg = 0;
+		maingenre = "";
+		dataextension = "";
+		$("#query").val("");
+		doSearch();
+	}
+
 	function browseCategory(cat) {
+		pg = 0;
+		maingenre = cat;
 		dataextension = cat;
-		//dataextension = "&category=" + cat;
 		doSearch();
 	}
 
 	function browseSubCategory(subcat) {
-		dataextension = "&subGenre=" + subcat;
+		pg = 0;
+		dataextension = maingenre + "&subGenre=" + subcat;
 		doSearch();
 	}
 
@@ -41,14 +52,6 @@ var dataextension = "";
 	function doSearch() {
 	    // Copy this part as much as necessary
 	    var query = escape( $("input#query").val() );
-	    // TODO: remove the following lines: query should be able to be empty to browse torrents by category
-	    //if (query == "") {
-	    //  //$("label#name_error").show();
-	    //  $("#status_message").show();
-	    //  $("#status_message").html("The search field is empty");
-	    //  $("input#query").focus();
-	    //  return false;
-	    //}
 
 	    // get other values
 	    var client = $("#client").val();
@@ -70,12 +73,14 @@ var dataextension = "";
 	      data: dataString,
 	      success: function(data) {
 		$("#searchresult").html(data);
+	        centerPopup();
 	      },
 	      error: function() {
 		showstatusmessage("Error while searching for torrents!");
+	        centerPopup();
 	      }
 	    });
-
+	    
 	}
 
 	$(function() {
@@ -88,7 +93,6 @@ var dataextension = "";
 
 	function changeSubCat() {
 	    var subcat = $("#subGenre").val();
-	    alert(subcat);
 	    browseSubCategory(subcat);
 	    return false;
 	}
