@@ -616,7 +616,7 @@ class dmnd
 			$this->Data = $htmlLine;
 			$tmpListArr = explode("</td>",$htmlLine);
 
-			if(count($tmpListArr) >= 13)
+			if(count($tmpListArr) >= 12)
 			{
 
 				// Category Id
