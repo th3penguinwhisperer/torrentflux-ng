@@ -653,13 +653,13 @@ class dmnd
 				$this->torrentFile = substr($tmpStr,0,strpos($tmpStr,"\""));
 
 				// Size of File
-				$this->torrentSize = $this->cleanLine($tmpListArr["7"]);
+				$this->torrentSize = $this->cleanLine($tmpListArr["5"]);
 
 				// Seeds
-				$this->Seeds = $this->cleanLine($tmpListArr["10"]);
+				$this->Seeds = $this->cleanLine($tmpListArr["8"]);
 
 				// Peers
-				$this->Peers = $this->cleanLine($tmpListArr["11"]);
+				$this->Peers = $this->cleanLine($tmpListArr["9"]);
 
 				if ($this->Peers == '')
 				{
