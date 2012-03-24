@@ -555,7 +555,14 @@ class SearchEngine extends SearchEngineBase
 			$thing = substr($thing,strpos($thing,"<tr><td colspan")+strlen("<tr><td colspan"));
 			$thing = substr($thing,strpos($thing,">")+1);
 			$pages = substr($thing,0,strpos($thing,"</td>"));
+			
+			// detect last page
+			$pagingstr = substr($pages, strrpos($pages, "&page="));
+			$totalpages = preg_split("/[=\"]/", $pagingstr);
+			$totalpages = ( $totalpages[1] < $this->pg ? $this->pg : $totalpages[1] );
 
+			$pages = "";
+			for($i=1; $i <= $totalpages; $i++)
 			if(strpos($this->curRequest,"LATEST"))
 			{
 
@@ -564,8 +571,7 @@ class SearchEngine extends SearchEngineBase
 			}
 			else
 			{
-
-				$pages = str_replace("http://www.demonoid.me/files/?",$this->searchURL()."&",$pages);
+				$pages .= ( $this->pg == $i ? "$i&nbsp;" : "<a href=\"javascript:changePage($i)\" >$i&nbsp;</a>" );
 			}
 
 			$pages = str_replace("page=","pg=",$pages);
