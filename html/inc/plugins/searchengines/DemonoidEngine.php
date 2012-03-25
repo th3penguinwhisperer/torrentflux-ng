@@ -490,15 +490,15 @@ class SearchEngine extends SearchEngineBase
 		// We got a response so display it.
 		// Chop the front end off.
 
-		while (is_integer(strpos($thing,"class=\"added")))
+		while (is_integer(strpos($thing,"class=\"added"))) // For each date (discovered by "added_today" class)
 
 		{
 
 			$thing = substr($thing,strpos($thing,"class=\"added"));
-			$thing = str_replace("<td colspan=\"10\" class=\"added_today\">","<td colspan=\"10\" class=\"today\">",$thing);
+			$thing = str_replace("<td colspan=\"10\" class=\"added_today\">","<td colspan=\"10\" class=\"today\">",$thing); // added_today replaced by today so we get the next entry each time we go through the loop
 			$thing = substr($thing,strpos($thing,"<tr>"));
 
-			$tmplist = substr($thing,0,strpos($thing,"<tr><td colspan=\"10\" align=\"center\""));
+			$tmplist = substr($thing,0,strpos($thing,"<tr><td colspan=\"10\" align=\"center\"")); // End of the torrent results
 
 			// ok so now we have the listing.
 			$tmpListArr = explode("</tr><tr>",$tmplist);
