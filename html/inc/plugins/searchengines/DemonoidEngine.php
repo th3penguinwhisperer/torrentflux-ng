@@ -684,12 +684,20 @@ class dmnd
 					$this->torrentDisplayName = substr($this->torrentDisplayName,0,50)."...";
 				}
 
-				//Check Date.
-				if (!empty($tmpListArr["12"])) {
-					$this->dateAdded = $this->cleanline($tmpListArr["12"]);
-					}
+				// Let's check if a "Added on" row is available
+				if ( strpos($htmlLine, "today") > 0 ) { // note that earlier added_today was replaced by today
+					$sep = explode("</tr><tr ", $htmlLine);
+					$tmpdateStr = explode(">", $sep['1']);
+					$tmpdateStr = $tmpdateStr['2'];
+					$tmpdateStr = explode("<", $tmpdateStr);
+					$dateStr = $tmpdateStr['0'];
+
+					//print("Found date row $dateStr<br>");
+					$this->dateAdded = $dateStr;
+				}
 
 			}
+
 
 		}
 
