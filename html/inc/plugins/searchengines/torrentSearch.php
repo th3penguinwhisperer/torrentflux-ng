@@ -81,7 +81,8 @@ function doSearch($sEngine) {
 	$cfg = Configuration::get_instance()->get_cfg();
 	global $tmpl;
 	tmplInitializeInstance($cfg["theme"], "page.torrentSearch.tmpl");
-	$tmpl->setloop('Engine_List', tmplSetSearchEngineDDL($searchEngine));
+	$tmpl->setloop('Engine_List', tmplSetSearchEngineDDL($sEngine->engineName));
+	var_dump(tmplSetSearchEngineDDL($sEngine->engineName));
 
 	// if maingenre is not set but subGenre is, then determine maingenre
 	if ( !array_key_exists("mainGenre", $_REQUEST) && array_key_exists("subGenre", $_REQUEST) ) {
