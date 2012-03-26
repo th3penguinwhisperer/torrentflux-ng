@@ -156,7 +156,7 @@ function tmplSetSearchEngineDDL($selectedEngine = 'PirateBay', $autoSubmit = fal
 		if ($entry != "." && $entry != ".." && substr($entry, 0, 1) != "." && strpos($entry,"Engine.php")) {
 			$tmpEngine = str_replace("Engine",'',substr($entry,0,strpos($entry,".")));
 			// TODO searchEngineLinks can be taken from other database, however should not be necessary
-			if (isset($cfg['searchEgnineLinks']) && array_key_exists($tmpEngine,$cfg['searchEngineLinks'])) {
+			if (isset($cfg['searchEngineLinks']) && array_key_exists($tmpEngine,$cfg['searchEngineLinks'])) {
 				$hreflink = $cfg['searchEngineLinks'][$tmpEngine];
 				$settings['searchEngineLinks'][$tmpEngine] = $hreflink;
 			} else {
