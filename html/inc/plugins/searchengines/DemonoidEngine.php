@@ -583,11 +583,6 @@ print("Request is $request");
 					$pages .= ( $this->pg == $i ? "$i&nbsp;" : "<a href=\"javascript:changePage($i)\" >$i&nbsp;</a>" );
 			}
 
-			$pages = str_replace("page=","pg=",$pages);
-			$pages = str_replace("subcategory=","subGenre=",$pages);
-			$pages = str_replace("category=","mainGenre=",$pages);
-			$pages = str_replace("&&","&",$pages);
-
 			$output .= "<div align=center>".$pages."</div>";
 		}
 
