@@ -349,6 +349,9 @@ class SearchEngine extends SearchEngineBase
 
 		}
 
+		// limit the search to only look for matching torrent names and only get seeded torrents
+		$request .= "&to=1&seeded=0";
+
 		if (!empty($this->pg))
 		{
 			if(strpos($request,"?"))
@@ -396,6 +399,9 @@ class SearchEngine extends SearchEngineBase
 		{
 			$searchTerm = str_replace(" ", "+", $searchTerm);
 		}
+
+		// limit the search to only look for matching torrent names and only get seeded torrents
+		$request .= "&to=1&seeded=0";
 
 		if (!empty($this->pg))
 		{
