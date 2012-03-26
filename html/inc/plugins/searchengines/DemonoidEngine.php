@@ -563,7 +563,9 @@ print("Request is $request");
 			$pagingstr = substr($pages, strrpos($pages, "&page="));
 			$totalpages = preg_split("/[=\"]/", $pagingstr);
 			$totalpages = ( $totalpages[1] < $this->pg ? $this->pg : $totalpages[1] );
-
+			
+			if ($totalpages < $this->pg) $totalpages = $this->pg; // If last page is selected, this page is not detected so we set it manually
+			
 			$pages = "";
 			for($i=1; $i <= $totalpages; $i++)
 			if(strpos($this->curRequest,"LATEST"))
