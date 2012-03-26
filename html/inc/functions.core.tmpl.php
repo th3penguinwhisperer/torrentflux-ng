@@ -143,7 +143,7 @@ function tmplSetIidVars() {
  * @param $selectedEngine
  * @param $autoSubmit
  */
-function tmplSetSearchEngineDDL($selectedEngine = 'TorrentSpy', $autoSubmit = false) {
+function tmplSetSearchEngineDDL($selectedEngine = 'PirateBay', $autoSubmit = false) {
 	global $cfg, $tmpl;
 	// set some vars
 	$tmpl->setvar('autoSubmit', $autoSubmit);
