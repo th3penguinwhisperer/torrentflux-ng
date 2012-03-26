@@ -54,6 +54,7 @@ var dataextension = "";
 	function doSearch() {
 	    // Copy this part as much as necessary
 	    var query = escape( $("input#query").val() );
+	    var searchengine = $("#searchEngine").val();
 
 	    // get other values
 	    var client = $("#client").val();
@@ -67,7 +68,7 @@ var dataextension = "";
 		}
 
 	    // validate and process form here
-	    var dataString = "query=" + query + "&client=" + client + "&action=" + action + "&subaction=" + subaction + "&plugin=" + plugin + "&publictorrent=" + publictorrent + "&pg=" + pg + dataextension;
+	    var dataString = "query=" + query + "&client=" + client + "&action=" + action + "&subaction=" + subaction + "&plugin=" + plugin + "&publictorrent=" + publictorrent + "&pg=" + pg + "&searchEngine=" + searchengine + dataextension;
 
 	    $.ajax({
 	      type: "POST",
