@@ -574,6 +574,7 @@ print("Request is $request");
 			}
 			else
 			{
+				if ($this->pg == 0) $this->pg = 1;
 				$pages .= ( $this->pg == $i ? "$i&nbsp;" : "<a href=\"javascript:changePage($i)\" >$i&nbsp;</a>" );
 			}
 
