@@ -334,7 +334,7 @@ class SearchEngine extends SearchEngineBase
 
 		if (array_key_exists("mainGenre",$_REQUEST) && array_key_exists("subGenre",$_REQUEST))
 		{
-			$request = "/files/?category=".$_REQUEST["mainGenre"]."&subcategory=".$_REQUEST["subGenre"]."&language=0&seeded=0&external=2&query=&uid=0";
+			$request = "/files/?category=".$_REQUEST["mainGenre"]."&subcategory=". ( strpos(":", $_REQUEST['subGenre']) > 0 ? substr($_REQUEST['subGenre'], strpos($_REQUEST[''])) : $_REQUEST['subGenre'] ) ."&language=0&seeded=0&external=2&query=&uid=0";
 
 		}
 		elseif (array_key_exists("subGenre",$_REQUEST))
