@@ -379,34 +379,31 @@ class SearchEngine extends SearchEngineBase
 	// Function to perform Search.
 	function performSearch($searchTerm)
 	{
-		if (array_key_exists("mainGenre",$_REQUEST) && array_key_exists("subGenre",$_REQUEST))
-		{
-			$request = "/files/?category=".$_REQUEST['mainGenre']."&subcategory=".$_REQUEST["subGenre"]."&language=0&seeded=0&external=2&query=&uid=0";
+		$request = "/files/?";
+		
+		if (array_key_exists("mainGenre",$_REQUEST))
+			$request .= "&category=".$_REQUEST['mainGenre'];
 
-		}
-		// elseif (array_key_exists("mainGenre",$_REQUEST))
-		// {
-			// $request = "/torrents/?category=".$_REQUEST["mainGenre"]."&subcategory=All&language=0&seeded=0&external=2&query=&uid=0";
-
-		// }
-		else
-		{
-			$request = "/files/?query=".$searchTerm;
-
-		}
-
+		if (array_key_exists("subGenre",$_REQUEST))
+			$request .= "&subcategory=". ( strpos($_REQUEST['subGenre'], ":") > 0 ? substr($_REQUEST['subGenre'], strpos($_REQUEST['subGenre'], ":")+1) : $_REQUEST['subGenre'] );
+		
 		if(strlen($searchTerm) > 0)
 		{
 			$searchTerm = str_replace(" ", "+", $searchTerm);
 		}
 
+		if ($searchTerm != "")
+			$request .= "&query=".$searchTerm;
+
+		// Add extra args
 		// limit the search to only look for matching torrent names and only get seeded torrents
-		$request .= "&to=1&seeded=0";
+		$request .= "&language=0&seeded=0&external=2&uid=0&to=1&seeded=0";
 
 		if (!empty($this->pg))
 		{
 			$request .= "&page=" . $this->pg;
 		}
+print("Request is $request");
 
 		if ($this->makeRequest($request))
 		{
