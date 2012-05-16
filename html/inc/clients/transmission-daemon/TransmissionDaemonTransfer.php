@@ -56,6 +56,10 @@ $cfg['user'] = "administrator";
 				}
 			}
 			break;
+		case 3:
+			$status = TransferStatus::STATUS_QUEUED;
+			$transferRunning = true;
+			break;
 		case 4:
 			if ( $this->data['rateDownload'] == 0 ) {
 				$status = TransferStatus::STATUS_IDLE;
