@@ -10,6 +10,7 @@ class TransferStatus
 	const STATUS_IDLE = "idle";
 	const STATUS_DOWNLOADING = "Downloading";
 	const STATUS_SEEDING = "Seeding";
+	const STATUS_QUEUED = "Queued";
 	
 }
 

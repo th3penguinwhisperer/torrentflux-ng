@@ -143,11 +143,11 @@ function tmplSetIidVars() {
  * @param $selectedEngine
  * @param $autoSubmit
  */
-function tmplSetSearchEngineDDL($selectedEngine = 'TorrentSpy', $autoSubmit = false) {
+function tmplSetSearchEngineDDL($selectedEngine = 'PirateBay', $autoSubmit = false) {
 	global $cfg, $tmpl;
 	// set some vars
 	$tmpl->setvar('autoSubmit', $autoSubmit);
-	$handle = opendir("./inc/searchEngines");
+	$handle = opendir("./inc/plugins/searchengines");
 	while($entry = readdir($handle))
 		$entrys[] = $entry;
 	natcasesort($entrys);
@@ -155,7 +155,8 @@ function tmplSetSearchEngineDDL($selectedEngine = 'TorrentSpy', $autoSubmit = fa
 	foreach($entrys as $entry) {
 		if ($entry != "." && $entry != ".." && substr($entry, 0, 1) != "." && strpos($entry,"Engine.php")) {
 			$tmpEngine = str_replace("Engine",'',substr($entry,0,strpos($entry,".")));
-			if (array_key_exists($tmpEngine,$cfg['searchEngineLinks'])) {
+			// TODO searchEngineLinks can be taken from other database, however should not be necessary
+			if (isset($cfg['searchEngineLinks']) && array_key_exists($tmpEngine,$cfg['searchEngineLinks'])) {
 				$hreflink = $cfg['searchEngineLinks'][$tmpEngine];
 				$settings['searchEngineLinks'][$tmpEngine] = $hreflink;
 			} else {
