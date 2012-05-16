@@ -131,6 +131,7 @@ $cfg['user'] = "administrator";
 			'show_run' => 1,
 			'entry' => addslashes($this->data['name']),
 			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
+			'uploaded' => formatBytesTokBMBGBTB( $this->data['uploadedEver'] ),
 			'details_action' => "loadpopup('Transfer Details', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
 			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
 			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",

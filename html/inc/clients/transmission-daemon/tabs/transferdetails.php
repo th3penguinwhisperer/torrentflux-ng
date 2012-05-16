@@ -33,6 +33,9 @@ array_push($arraydata, $item);
 $item['name'] = "Downloaded";
 $item['value'] = $transdata['downloaded'];
 array_push($arraydata, $item);
+$item['name'] = "Uploaded";
+$item['value'] = $transdata['uploaded'];
+array_push($arraydata, $item);
 
 getDetailsPage($arraydata);
 
