@@ -56,7 +56,7 @@ function getpid($dir, $filename) {
 function setpid($dir, $filename, $pid) {
 	$pidfile = ".pid";
 	$file = "$dir$filename$pidfile";
-	$fh = fopen($file, 'w') or die("can't open file");
+	$fh = fopen($file, 'w') or AuditAction($cfg["constants"]["error"], "Can't create uncompress pid file $file");
 	fwrite($fh, $pid);
 	fclose($fh);
 }
