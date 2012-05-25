@@ -155,25 +155,32 @@ function unrar($dir, $filename, $password) {
 
 // unzip
 function unzip($dir, $filename) {
-	if (file_exists($arg2.$logfile))
-		@unlink($arg2.$logfile);
-    $Command = tfb_shellencode($arg4).' -o ' . tfb_shellencode($arg1) . ' -d ' . tfb_shellencode($arg2);
-	$unzippid = trim(shell_exec("nohup ".$Command." > " . tfb_shellencode($arg2.$logfile) . " 2>&1 & echo $!"));
-	echo 'Uncompressing file...<BR>PID is: ' . $unzippid . '<BR>';
-	usleep(250000); // wait for 0.25 seconds
-	while (is_running($unzippid)) {
+	$cfg = Configuration::get_instance()->get_cfg();
+	$logfile = "error.log";
+
+	if (file_exists($dir.$filename.".".$logfile)) {
+		$pid = getpid($dir, $filename);
+		checkunzipstatus($dir, $filename, $pid);
+		//@unlink($filename.$logfile);
+	} else {
+		$Command = tfb_shellencode($cfg['rewrite_bin_unzip']).' -o ' . tfb_shellencode($dir.$filename) . ' -d ' . tfb_shellencode($dir);
+print "$Command\n";
+		$pid = trim(shell_exec("nohup ".$Command." > " . tfb_shellencode($dir.$filename.".".$logfile) . " 2>&1 & echo $!"));
+		echo 'Uncompressing file...<BR>PID is: ' . $pid . '<BR>';
 		usleep(250000); // wait for 0.25 seconds
-		/* occupy time to cause popup window load bar to load in conjunction with unzip progress */
+		setpid($dir, $filename, $pid);
+		checkunzipstatus($dir, $filename, $pid);
+
+		// exit
+		exit();
 	}
-	// exit
-	exit();
 }
 
 
 function uncompress($dir, $filename, $password) {
 	//convert and set variables
 	$cfg = Configuration::get_instance()->get_cfg();
-	$dir = $cfg['path'].urldecode($dir);
+	$dir = $cfg['rewrite_path'].urldecode($dir);
 	$filename = urldecode($filename);
 	$fullname = tfb_shellencode($dir.$filename);
 
