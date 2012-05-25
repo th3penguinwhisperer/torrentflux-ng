@@ -61,6 +61,23 @@ function setpid($dir, $filename, $pid) {
 	fclose($fh);
 }
 
+function checkunzipstatus($dir, $filename, $pid) {
+	$logfile = 'error.log';
+	$pidfile = ".pid";
+
+	if(is_running($pid))
+		echo 'Unzipping file...';
+	else {
+		// check log file for errors
+		echo "Unzipping finished\n";
+		$output = file_get_contents($dir.$filename.".".$logfile);
+		echo $output;
+		
+		//@unlink($dir.$filename.".". $pidfile);
+		//@unlink($dir.$filename.".". $logfile);
+	}
+}
+
 function checkunrarstatus($dir, $filename, $pid) {
 	$unrarbin = "/usr/local/bin/unrar"; // TODO: set unrar  executable path from database settings
 	$logfile = 'error.log';
