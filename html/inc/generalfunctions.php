@@ -386,4 +386,34 @@ function getDriveSpace($drive) {
 	return 0;
 }
 
+/**
+ * Shell-escape a string. The argument must be one whole (and only one) arg
+ * (this function adds quotes around it so that the shell sees it as such).
+ *
+ * @param $str
+ * @return string
+ */
+function tfb_shellencode($str) {
+  $str = (string)$str;
+  return isset($str) && strlen($str) > 0 ? escapeshellarg($str) : "''";
+}
+
+function starts_with($haystack,$needle,$case=true)
+{
+   if($case)
+       return strpos($haystack, $needle, 0) === 0;
+
+   return stripos($haystack, $needle, 0) === 0;
+}
+
+function ends_with($haystack,$needle,$case=true)
+{
+  $expectedPosition = strlen($haystack) - strlen($needle);
+
+  if($case)
+      return strrpos($haystack, $needle, 0) === $expectedPosition;
+
+  return strripos($haystack, $needle, 0) === $expectedPosition;
+}
+
 ?>
