@@ -45,10 +45,9 @@ function getpid($dir, $filename) {
 	$pid = -1;
 
 	if (file_exists($myfile)) {
-		$pid = file_get_contents($myfile);
-		echo "Found pid $pid\n";
-	} else {
-		echo "Didn't find any pid file $myfile\n";
+		$line = file_get_contents($myfile);
+		if (is_numeric($line))
+			$pid = $line;
 	}
 	return $pid;
 }
