@@ -139,9 +139,9 @@ function unrar($dir, $filename, $password) {
 		//@unlink($filename.$logfile);
 	} else {
 		$passcmdpart = ( $password == "" ? "" : "-p".tfb_shellencode($password) );
-		$Command = tfb_shellencode($cfg['bin_unrar'])." x -o+ $passcmdpart ". tfb_shellencode($dir.$filename) . " " . tfb_shellencode($dir);
+		$Command = tfb_shellencode($cfg['rewrite_bin_unrar'])." x -o+ $passcmdpart ". tfb_shellencode($dir.$filename) . " " . tfb_shellencode($dir);
 		$pid = trim(shell_exec("nohup ".$Command." > " . tfb_shellencode($dir.$filename.".".$logfile) . " 3>&1 & echo $!"));
-		echo 'Uncompressing file...<BR>PID is: ' . $pid . '<BR>';
+		echo 'Uncompressing started...<BR>PID is: ' . $pid . '<BR>';
 		setpid($dir, $filename, $pid);
 		usleep(250000); // wait for 0.25 seconds
 		checkunrarstatus($dir, $filename, $pid);
