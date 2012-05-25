@@ -79,7 +79,6 @@ function checkunzipstatus($dir, $filename, $pid) {
 }
 
 function checkunrarstatus($dir, $filename, $pid) {
-	$unrarbin = "/usr/local/bin/unrar"; // TODO: set unrar  executable path from database settings
 	$logfile = 'error.log';
 
 	$pid = getpid($dir, $filename);
@@ -131,7 +130,6 @@ function checkunrarstatus($dir, $filename, $pid) {
 // unrar file
 function unrar($dir, $filename, $password) {
 	$cfg = Configuration::get_instance()->get_cfg();
-	$unrarbin = "/usr/local/bin/unrar"; // TODO: set unrar  executable path from database settings
 	$logfile = 'error.log';
 	
 	$pid = getpid($dir, $filename);
