@@ -42,11 +42,11 @@ $unrarbin = "/usr/local/bin/unrar";
 
 function getpid($dir, $filename) {
 	$pidfile = ".pid";
-	$myfile = "$dir$filename$pidfile";
+	$file = "$dir$filename$pidfile";
 	$pid = -1;
 
-	if (file_exists($myfile)) {
-		$line = file_get_contents($myfile);
+	if (file_exists($file)) {
+		$line = file_get_contents($file);
 		if (is_numeric($line))
 			$pid = $line;
 	}
@@ -55,9 +55,8 @@ function getpid($dir, $filename) {
 
 function setpid($dir, $filename, $pid) {
 	$pidfile = ".pid";
-	$myFile = "$dir$filename$pidfile";
-	echo "Set PID $pid to pidfile $myFile\n";
-	$fh = fopen($myFile, 'w') or die("can't open file");
+	$file = "$dir$filename$pidfile";
+	$fh = fopen($file, 'w') or die("can't open file");
 	fwrite($fh, $pid);
 	fclose($fh);
 }
