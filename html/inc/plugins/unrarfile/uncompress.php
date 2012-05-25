@@ -168,8 +168,6 @@ function uncompress($dir, $filename, $password) {
 
 	if ( ends_with($filename, 'zip', false) )
 		unzip($dir, $filename);
-	
-	echo "finished";
 }
 
 /**
