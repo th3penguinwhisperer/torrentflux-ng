@@ -185,7 +185,7 @@ function uncompress($dir, $filename, $password) {
 	$fullname = tfb_shellencode($dir.$filename);
 
 	if (!file_exists($dir . $filename)) { // TODO: create check if dir is ending with slash or not
-		print("No such file!\n");
+		AuditAction($cfg["constants"]["error"], "Uncompress file that does not exist: $filename");
 		exit();
 	}
 
