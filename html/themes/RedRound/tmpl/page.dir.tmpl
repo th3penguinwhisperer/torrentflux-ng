@@ -1,5 +1,10 @@
 <tmpl_include name="inc.LayoutHeader.tmpl">
+<link rel="stylesheet" href="css/popup.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/transferlist.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>
 <h1>Download Directory</h1>
+<div id="status_message"></div>
 <h3>Location: <span id="dirfullpath">/<tmpl_var name="dir"></span></h3>
 <form action="dir.php?dir=<tmpl_var name="dir">&multidel=1" method="post" id="multidir" name="multidir">
 <table id="dir">
@@ -156,6 +161,7 @@
 						<a href="dir.php?down=<tmpl_var name="urlencode1">"><img src="themes/<tmpl_var name="theme">/images/dir/download_file.png" title="Download" alt="download file" /></a>
 					</tmpl_if>
 				</tmpl_if>
+				<a href="javascript:loadpopup('Unrar', 'dispatcher.php?plugin=unrarfile&amp;action=passplugindata&amp;subaction=filemanagement&amp;dir=<tmpl_var name="dir">&amp;filename=<tmpl_var name="entry">', 'Loading...');centerPopup();loadPopup();">Unrar</a>
 			<tmpl_if name="aclWrite" value="1">
 				<a href="dir.php?del=<tmpl_Var name="urlencode1">" onclick="return confirm('<tmpl_var name="_ABOUTTODELETE"> : <tmpl_var name="addslashes1">')"><img src="themes/<tmpl_var name="theme">/images/dir/delete_on.png" alt="delete on" title="<tmpl_var name="_DELETE">" /></a>
 			</td>
