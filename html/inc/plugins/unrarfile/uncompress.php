@@ -201,8 +201,11 @@ function uncompress($dir, $filename, $password) {
  * @return
  */
 function is_running($PID){
-    $ProcessState = exec("ps ".tfb_shellencode($PID) . "|grep -v grep");
-    return (count($ProcessState) == 1);
+	if(is_numeric($PID)) {
+		$ProcessState = exec("ps ".tfb_shellencode($PID));
+		return (count($ProcessState) >= 2);
+	} else
+		return false;
 }
 
 /**
