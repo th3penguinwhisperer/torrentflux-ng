@@ -28,6 +28,7 @@ $_SESSION = array('cache' => false);
 // core functions
 //require_once('inc/functions/functions.core.php');
 require_once('inc/generalfunctions.php');
+require_once('inc/classes/singleton/Configuration.php');
 
 /**
  * @author    R.D. Damron
@@ -113,6 +114,7 @@ function checkunrarstatus($dir, $filename, $pid) {
 
 // unrar file
 function unrar($dir, $filename, $password) {
+	$cfg = Configuration::get_instance()->get_cfg();
 	$unrarbin = "/usr/local/bin/unrar"; // TODO: set unrar  executable path from database settings
 	$logfile = 'error.log';
 	
@@ -123,7 +125,7 @@ function unrar($dir, $filename, $password) {
 		//@unlink($filename.$logfile);
 	} else {
 		$passcmdpart = ( $password == "" ? "" : "-p".tfb_shellencode($password) );
-		$Command = tfb_shellencode($unrarbin)." x -o+ $passcmdpart ". tfb_shellencode($dir.$filename) . " " . tfb_shellencode($dir);
+		$Command = tfb_shellencode($cfg['bin_unrar'])." x -o+ $passcmdpart ". tfb_shellencode($dir.$filename) . " " . tfb_shellencode($dir);
 		$pid = trim(shell_exec("nohup ".$Command." > " . tfb_shellencode($dir.$filename.".".$logfile) . " 3>&1 & echo $!"));
 		echo 'Uncompressing file...<BR>PID is: ' . $pid . '<BR>';
 		setpid($dir, $filename, $pid);
@@ -154,7 +156,8 @@ function unzip($dir, $filename) {
 
 function uncompress($dir, $filename, $password) {
 	//convert and set variables
-	$dir = "/usr/home/torrentflux/git/".urldecode($dir);
+	$cfg = Configuration::get_instance()->get_cfg();
+	$dir = $cfg['path'].urldecode($dir);
 	$filename = urldecode($filename);
 	$fullname = tfb_shellencode($dir.$filename);
 
