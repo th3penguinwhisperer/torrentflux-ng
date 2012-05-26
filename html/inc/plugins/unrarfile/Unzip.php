@@ -14,7 +14,7 @@ class Unzip extends UncompressBaseClass
 			// check log file for errors
 			echo "Unzipping finished\n";
 			$output = file_get_contents($this->dir.$this->filename.".".Unzip::$logfile);
-			echo $output;
+			echo "<pre>".$output."</pre>";
 			
 			//@unlink($dir.$filename.".". Unzip::$pidfile);
 			//@unlink($dir.$filename.".". Unzip::$logfile);
