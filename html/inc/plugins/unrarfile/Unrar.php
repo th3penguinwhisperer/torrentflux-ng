@@ -64,9 +64,7 @@ class Unrar extends UncompressBaseClass
 		
 		$pid = $this->getpid();
 		if (file_exists($this->dir.$this->filename.".".Unrar::$logfile)) {
-			print("Unrar action for this file has already been run or is still running: $this->dir$this->filename.".Unrar::$logfile);
 			$this->checkstatus();
-			//@unlink($filename.Unrar::$logfile);
 		} else {
 			$passcmdpart = ( $this->password == "" ? "" : "-p".tfb_shellencode($this->password) );
 			$Command = tfb_shellencode($cfg['rewrite_bin_unrar'])." x -o+ $passcmdpart ". tfb_shellencode($this->dir.$this->filename) . " " . tfb_shellencode($this->dir);
