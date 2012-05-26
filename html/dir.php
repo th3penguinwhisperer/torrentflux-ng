@@ -570,6 +570,7 @@ foreach ($pns as $pn) {
 
 $format = '%1$03d';
 foreach ($entrys as $entry) {
+	$pluginactions = "";
 	$slink="";
 	$dlInfos="";
 	
@@ -682,7 +683,6 @@ foreach ($entrys as $entry) {
 		else if (file_exists("./".$imageOption.".gif"))
 			$image = $imageOption.".gif";
 		
-		$pluginactions = "";
 		$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
 		foreach($pios as $pio) {
 			if ( $pio->isvalidaction($browserpath, $entry) ) {
