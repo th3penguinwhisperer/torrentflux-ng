@@ -1,6 +1,6 @@
 <?php
 
-require_once("inc/plugins/unrarfile/UncompressBaseClass.php");
+require_once("inc/plugins/uncompress/UncompressBaseClass.php");
 require_once('inc/classes/singleton/Configuration.php');
 
 class Unrar extends UncompressBaseClass

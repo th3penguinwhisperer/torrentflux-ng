@@ -1,10 +1,10 @@
 <?php
 
 require_once('inc/plugins/PluginInterface.php');
-require_once('inc/plugins/unrarfile/Unrar.php');
-require_once('inc/plugins/unrarfile/Unzip.php');
+require_once('inc/plugins/uncompress/Unrar.php');
+require_once('inc/plugins/uncompress/Unzip.php');
 
-class UnrarFile implements PluginInterface
+class Uncompress implements PluginInterface
 {
 
 	function __construct()
@@ -38,8 +38,8 @@ class UnrarFile implements PluginInterface
 				$inst->cleanup();
 			else {
 				$inst->uncompress();
-				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&action=passplugindata&subaction=filemanagement&controlcleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup control files</a>");
-				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&action=passplugindata&subaction=filemanagement&fullcleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup extracted and control files</a>");
+				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=uncompress&action=passplugindata&subaction=filemanagement&controlcleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup control files</a>");
+				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=uncompress&action=passplugindata&subaction=filemanagement&fullcleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup extracted and control files</a>");
 			}
 		} else
 			AuditAction($cfg["constants"]["error"], "Uncompression for this file is not supported: $filename");
