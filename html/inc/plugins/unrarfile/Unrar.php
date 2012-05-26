@@ -74,8 +74,6 @@ class Unrar extends UncompressBaseClass
 			usleep(250000); // wait for 0.25 seconds
 			$this->checkstatus();
 		}
-
-		exit();
 	}
 
 	function cleanup()

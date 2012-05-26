@@ -36,8 +36,6 @@ class Unzip extends UncompressBaseClass
 			usleep(250000); // wait for 0.25 seconds
 			$this->setpid($pid);
 			$this->checkstatus();
-
-			exit();
 		}
 	}
 
