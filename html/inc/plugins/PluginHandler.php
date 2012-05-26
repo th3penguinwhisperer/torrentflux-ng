@@ -7,6 +7,7 @@ class PluginHandler // TODO: make this a singleton
 	const PLUGINTYPE_TRANSFERSOURCE = 'transfersource';
 	const PLUGINTYPE_TRANSFERCLIENT = 'transferclient';
 	const PLUGINTYPE_INFO = 'info';
+	const PLUGINTYPE_FILEMANAGEMENT = 'filemanagement';
 	
 	private $db;
 	

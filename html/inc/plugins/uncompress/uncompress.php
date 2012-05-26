@@ -12,6 +12,23 @@ class Uncompress implements PluginInterface
 		;
 	}
 
+	function isvalidaction($filename)
+	{
+		if ( ends_with($filename, 'rar', false) )
+			return true;
+
+		if ( ends_with($filename, 'zip', false) )
+			return true;
+		
+		return false;
+	}
+
+	function getaction($dir, $filename)
+	{
+		$cfg = Configuration::get_instance()->get_cfg();
+		return "<a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=uncompress&amp;action=passplugindata&amp;subaction=filemanagement&amp;dir=".urlencode($dir)."&amp;filename=".urlencode($filename)."', 'Loading...');centerPopup();loadPopup();\"><img src=\"themes/".$cfg['theme']."/images/dir/rar.gif\" /></a>";
+	}
+
 	function fileaction($dir, $filename)
 	{
 		//convert and set variables
