@@ -25,6 +25,11 @@ class UncompressBaseClass
 	function uncompress() { echo "Not supported"; }
 
 	function cleanup() { 
+		if ($this->getpid() != -1) {
+			$this->kill($this->getpid());
+			print("Killing uncompress process<br>");
+		}
+		print("Deleting control files<br>");
 		@unlink($this->dir.$this->filename . "." . UncompressBaseClass::$logfile);
 		@unlink($this->dir.$this->filename . UncompressBaseClass::$pidfile);
 	 }
