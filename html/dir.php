@@ -683,9 +683,10 @@ foreach ($entrys as $entry) {
 			$image = $imageOption.".gif";
 		
 		$pluginactions = "";
+		$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
 		foreach($pios as $pio) {
-			if ( $pio->isvalidaction($entry) ) {
-				$pluginactions .= $pio->getAction(str_replace($cfg['rewrite_path'], "", $dirName), $entry);
+			if ( $pio->isvalidaction($browserpath, $entry) ) {
+				$pluginactions .= $pio->getAction($browserpath, $entry);
 			}
 			
 		}

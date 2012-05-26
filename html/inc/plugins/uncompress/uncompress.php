@@ -12,7 +12,7 @@ class Uncompress implements PluginInterface
 		;
 	}
 
-	function isvalidaction($filename)
+	function isvalidaction($dir, $filename)
 	{
 		if ( ends_with($filename, 'rar', false) )
 			return true;
