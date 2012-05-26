@@ -41,9 +41,9 @@ class Unzip extends UncompressBaseClass
 		}
 	}
 
-	function cleanup($dir, $filename)
+	function cleanup()
 	{
-		;
+		parent->cleanup();
 	}
 }
 

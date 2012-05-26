@@ -82,7 +82,7 @@ class Unrar extends UncompressBaseClass
 
 	function cleanup()
 	{
-		parent::cleanup();
+		parent->cleanup();
 	}
 }
 
