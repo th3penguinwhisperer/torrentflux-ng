@@ -16,24 +16,29 @@ class UnrarFile implements PluginInterface
 	{
 		//convert and set variables
 		$cfg = Configuration::get_instance()->get_cfg();
-		$dir = $cfg['rewrite_path'].urldecode($dir);
+		$fulldir = $cfg['rewrite_path'].urldecode($dir);
 		$filename = urldecode($filename);
 		$fullname = tfb_shellencode($dir.$filename);
 
-		if (!file_exists($dir . $filename)) { // TODO: create check if dir is ending with slash or not
+		if (!file_exists($fulldir . $filename)) { // TODO: create check if dir is ending with slash or not
 			AuditAction($cfg["constants"]["error"], "Uncompress file that does not exist: $filename");
 			exit();
 		}
 
 		if ( ends_with($filename, 'rar', false) )
-			$inst = new Unrar($dir, $filename);
+			$inst = new Unrar($fulldir, $filename);
 
 		if ( ends_with($filename, 'zip', false) )
-			$inst = new Unzip($dir, $filename);
+			$inst = new Unzip($fulldir, $filename);
 
-		if ( is_object($inst) )
-			$inst->uncompress();
-		else
+		if ( is_object($inst) ) {
+			if (isset($_REQUEST['uncompresscleanup']))
+				$inst->cleanup();
+			else {
+				$inst->uncompress();
+				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&action=passplugindata&subaction=filemanagement&uncompresscleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup extracted and control files</a>");
+			}
+		} else
 			AuditAction($cfg["constants"]["error"], "Uncompression for this file is not supported: $filename");
 	
 	}
