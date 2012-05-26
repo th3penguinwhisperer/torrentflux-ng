@@ -32,11 +32,14 @@ class UnrarFile implements PluginInterface
 			$inst = new Unzip($fulldir, $filename);
 
 		if ( is_object($inst) ) {
-			if (isset($_REQUEST['uncompresscleanup']))
+			if (isset($_REQUEST['controlcleanup']))
+				$inst->cleanup(false);
+			elseif (isset($_REQUEST['fullcleanup']))
 				$inst->cleanup();
 			else {
 				$inst->uncompress();
-				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&action=passplugindata&subaction=filemanagement&uncompresscleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup extracted and control files</a>");
+				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&action=passplugindata&subaction=filemanagement&controlcleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup control files</a>");
+				print("<br><a href=\"javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&action=passplugindata&subaction=filemanagement&fullcleanup=true&dir=" .urlencode($dir). "&filename=" .urlencode($filename). "','Loading...');\">Cleanup extracted and control files</a>");
 			}
 		} else
 			AuditAction($cfg["constants"]["error"], "Uncompression for this file is not supported: $filename");
