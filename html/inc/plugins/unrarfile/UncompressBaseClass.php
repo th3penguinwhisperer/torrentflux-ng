@@ -61,7 +61,6 @@ class UncompressBaseClass
 	function is_running($PID){
 		if(is_numeric($PID) && $PID > 0) {
 			$ProcessState = exec("ps ".tfb_shellencode($PID) . "| grep -o $PID", $output);
-			var_dump($output);
 			return ( implode($output) =="$PID" );
 		} else
 			return false;
