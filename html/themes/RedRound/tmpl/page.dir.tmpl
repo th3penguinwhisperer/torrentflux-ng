@@ -162,17 +162,6 @@
 					</tmpl_if>
 				</tmpl_if>
 				<tmpl_var name="pluginactions">
-			<tmpl_if name="aclWrite" value="1">
-				<a href="dir.php?del=<tmpl_Var name="urlencode1">" onclick="return confirm('<tmpl_var name="_ABOUTTODELETE"> : <tmpl_var name="addslashes1">')"><img src="themes/<tmpl_var name="theme">/images/dir/delete_on.png" alt="delete on" title="<tmpl_var name="_DELETE">" /></a>
-			</td>
-			<td>
-				<input type="checkbox" name="file[]" value="<tmpl_var name="urlencode1">" />
-			<tmpl_else>
-				<img src="themes/<tmpl_var name="theme">/images/dir/delete_off.png" alt="delete off" title="<tmpl_var name="_DELETE">" />
-			</td>
-			<td>
-				<input type="checkbox" name="file[]" disabled />
-			</tmpl_if>
 			</td>
 		</tr>
 		</tmpl_loop>
