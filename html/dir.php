@@ -686,7 +686,7 @@ foreach ($entrys as $entry) {
 		$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
 		foreach($pios as $pio) {
 			if ( $pio->isvalidaction($browserpath, $entry) ) {
-				$pluginactions .= $pio->getAction($browserpath, $entry);
+				$pluginactions .= $pio->getaction($browserpath, $entry);
 			}
 			
 		}
