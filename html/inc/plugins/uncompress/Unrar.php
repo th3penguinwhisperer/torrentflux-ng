@@ -49,10 +49,6 @@ class Unrar extends UncompressBaseClass
 			foreach($lines as $chkline) {
 				if (strpos($chkline, 'All OK') !== FALSE){
 					echo 'File has successfully been extracted!';
-					@unlink($this->dir.$this->filename.".".Unrar::$logfile);
-					@unlink($this->dir.$this->filename.Unrar::$pidfile);
-
-					exit();
 				}
 			}
 		}
