@@ -161,7 +161,7 @@
 						<a href="dir.php?down=<tmpl_var name="urlencode1">"><img src="themes/<tmpl_var name="theme">/images/dir/download_file.png" title="Download" alt="download file" /></a>
 					</tmpl_if>
 				</tmpl_if>
-				<a href="javascript:loadpopup('Unrar', 'dispatcher.php?plugin=unrarfile&amp;action=passplugindata&amp;subaction=filemanagement&amp;dir=<tmpl_var name="dir">&amp;filename=<tmpl_var name="entry">', 'Loading...');centerPopup();loadPopup();">Unrar</a>
+				<a href="javascript:loadpopup('Uncompress', 'dispatcher.php?plugin=unrarfile&amp;action=passplugindata&amp;subaction=filemanagement&amp;dir=<tmpl_var name="dir">&amp;filename=<tmpl_var name="entry">', 'Loading...');centerPopup();loadPopup();">Uncompress</a>
 			<tmpl_if name="aclWrite" value="1">
 				<a href="dir.php?del=<tmpl_Var name="urlencode1">" onclick="return confirm('<tmpl_var name="_ABOUTTODELETE"> : <tmpl_var name="addslashes1">')"><img src="themes/<tmpl_var name="theme">/images/dir/delete_on.png" alt="delete on" title="<tmpl_var name="_DELETE">" /></a>
 			</td>
