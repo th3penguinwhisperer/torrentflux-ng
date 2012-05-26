@@ -25,7 +25,7 @@ class UncompressBaseClass
 	function uncompress() { echo "Not supported"; }
 
 	function cleanup() { 
-		if ($this->getpid() != -1) {
+		if ($this->is_running($this->getpid())) {
 			$this->kill($this->getpid());
 			print("Killing uncompress process<br>");
 		}
