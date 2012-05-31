@@ -14,8 +14,8 @@ class DeleteItem implements PluginInterface
 	{
 		$cfg = Configuration::get_instance()->get_cfg();
 
-		if($filename == "")
-			return false;
+		if(is_dir($cfg['rewrite_path']. $dir . $filename) && is_dir($cfg['rewrite_path'].$dir))
+			return true;
 
 		if ( is_file($cfg['rewrite_path'] . $dir . $filename) ) {
 			return true;
@@ -38,15 +38,28 @@ class DeleteItem implements PluginInterface
 		$filename = urldecode($filename);
 		$fullname = tfb_shellencode($dir.$filename);
 
-		if (!file_exists($fulldir . $filename)) { // TODO: create check if dir is ending with slash or not
-			AuditAction($cfg["constants"]["error"], "Deleting item that does not exist: $filename");
+		if ( $dir == "" or $dir == ".." or $dir == "." or !is_dir($fulldir) ) {
+			AuditAction("DELETE", $cfg["constants"]["error"], "Deleting item: dir argument does not exist, is not allowed or invalid: $dir $filename");
 			exit();
-		} else {
-			if ($filename != "") {
-				print("Deleting file $filename");
-				@unlink($fulldir . $filename);
-			}
 		}
+		if ( $filename == ".." or $filename == "." or $filename == "" ) {
+			AuditAction("DELETE", $cfg["constants"]["error"], "Deleting item: file argument does not exist, is not allowed or invalid: $dir $filename");
+			exit();
+		}
+
+		if ( is_file($fulldir.$filename) ) { // deleting file
+			print("Deleting file $filename");
+			AuditAction("DELETE", $cfg["constants"]["info"], "Deleting file: $dir $filename");
+			@unlink($fulldir . $filename);
+		} elseif ( is_dir($fulldir.$filename) ) { // deleting dir 
+			print("Deleting directory $filename");
+			AuditAction("DELETE", $cfg["constants"]["info"], "Deleting directory: $dir $filename");
+			$this->unlinkRecursive($fulldir . $filename, true); // !!! Be VERY careful with this! You need the filename variable as it is filled with the directory to delete
+		} else {
+			AuditAction("DELETE", $cfg["constants"]["error"], "Deleting item: could not handle these arguments: $dir $filename");
+			exit();
+		}
+	
 	}
 	
 	// TODO: remove this function from File management plugin specific interface?
@@ -69,6 +82,41 @@ class DeleteItem implements PluginInterface
 	{
 		;
 	}
+
+	/**
+	 * Recursively delete a directory
+	 *
+	 * @param string $dir Directory name
+	 * @param boolean $deleteRootToo Delete specified top-level directory as well
+	 */
+	function unlinkRecursive($dir, $deleteRootToo = false)
+	{
+		if(!$dh = @opendir($dir))
+		{
+			return;
+		}
+		while (false !== ($obj = readdir($dh)))
+		{
+			if($obj == '.' || $obj == '..')
+			{
+				continue;
+			}
+			
+			if (!@unlink($dir . '/' . $obj))
+			{
+			    $this->unlinkRecursive($dir.'/'.$obj, true);
+			}
+		}
+		
+		closedir($dh);
+		
+		if ($deleteRootToo)
+		{
+			@rmdir($dir);
+		}
+		
+		return;
+	} 
 
 }
 
