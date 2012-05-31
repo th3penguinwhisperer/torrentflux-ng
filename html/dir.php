@@ -573,6 +573,14 @@ foreach ($entrys as $entry) {
 	$pluginactions = "";
 	$slink="";
 	$dlInfos="";
+
+	$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
+	foreach($pios as $pio) {
+		if ( $pio->isvalidaction($browserpath, $entry) ) {
+			$pluginactions .= $pio->getaction($browserpath, $entry);
+		}
+		
+	}
 	
 	// acl-write-check
 	if (empty($dir)) /* parent dir */
@@ -683,13 +691,6 @@ foreach ($entrys as $entry) {
 		else if (file_exists("./".$imageOption.".gif"))
 			$image = $imageOption.".gif";
 		
-		$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
-		foreach($pios as $pio) {
-			if ( $pio->isvalidaction($browserpath, $entry) ) {
-				$pluginactions .= $pio->getaction($browserpath, $entry);
-			}
-			
-		}
 	}
 	
 	// get Permission and format it userfriendly
