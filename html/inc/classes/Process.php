@@ -34,17 +34,16 @@ class Process
 		}
 	}
 	
-	function __construct($command, $pidfile, $logfile)
+	function __construct($pidfile, $logfile)
 	{
 		$this->cfg = Configuration::get_instance()->get_cfg();
-		$this->cmd = $command;
 		$this->pidfile = $pidfile;
 		$this->logfile = $logfile;
 	}
 	
-	function execute()
+	function execute($cmd)
 	{
-		$shellcmd = "nohup ".$this->cmd." > " . tfb_shellencode($this->logfile) . " 2>&1 & echo $!";
+		$shellcmd = "nohup ".$cmd." > " . tfb_shellencode($this->logfile) . " 2>&1 & echo $!";
 		$pid = trim(shell_exec($shellcmd));
 		AuditAction("RUNCMD", $this->cfg["constants"]["error"], "Command: ".$shellcmd);
 		$this->setpid($pid);
@@ -53,6 +52,16 @@ class Process
 	function getlogfilename()
 	{
 		return $this->logfile;
+	}
+
+	function haspidfile()
+	{
+		return file_exists($this->pidfile);
+	}
+
+	function haslogfile()
+	{
+		return file_exists($this->logfile);
 	}
 	
 	function getlog()
@@ -87,8 +96,8 @@ class Process
 	function cleanup()
 	{
 		if ($this->pidfile != "" && $this->logfile != "") {
-			@unlink($this->pidfile);
-			@unlink($this->logfile);
+			unlink($this->pidfile);
+			unlink($this->logfile);
 		}
 	}
 	
@@ -100,6 +109,7 @@ class Process
 	 */
 	function is_running(){
 		$pid = $this->getpid(); // make sure we load it first
+
 		if(is_numeric($pid) && $pid > 0) {
 			$ProcessState = exec("ps ".tfb_shellencode($pid) . "| grep -o $pid", $output);
 			return ( implode($output) =="$pid" );
@@ -114,8 +124,7 @@ class Process
 	 * @return
 	 */
 	function kill(){
-	    exec("kill -KILL ".tfb_shellencode($this->pid));
-	    return true;
+	    exec("kill -KILL ".tfb_shellencode($this->getpid()));
 	}
 }
 

@@ -13,6 +13,10 @@ class Sfv
 	{
 		$this->dir = $dir;
 		$this->filename = $filename;
+		$this->proc = new Process( 
+			Process::generatepidfilename("", $this->dir, $this->filename), 
+			Process::generatelogfilename("", $this->dir, $this->filename) 
+		);
 	}
 	
 	function checkstatus()
@@ -44,13 +48,11 @@ class Sfv
 	{
 		$cfg = Configuration::get_instance()->get_cfg();
 
-		if (file_exists(Process::generatelogfilename("", $this->dir, $this->filename))) {
-			$this->proc = new Process("", Process::generatepidfilename("", $this->dir, $this->filename), Process::generatelogfilename("", $this->dir, $this->filename));
+		if ($this->proc->haslogfile()) {
 			$this->checkstatus();
 		} else {
 			$Command = tfb_shellencode($cfg['rewrite_bin_cksfv']).' -b -f ' . tfb_shellencode($this->dir.$this->filename) . ' -C ' . tfb_shellencode($this->dir);
-			$this->proc = new Process($Command, Process::generatepidfilename("", $this->dir, $this->filename), Process::generatelogfilename("", $this->dir, $this->filename));
-			$this->proc->execute();
+			$this->proc->execute($Command);
 			echo 'Checking SFV file...<BR>PID is: ' . $this->proc->getpid() . '<BR>';
 			usleep(250000); // wait for 0.25 seconds
 			$this->checkstatus();
