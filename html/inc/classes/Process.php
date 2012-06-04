@@ -45,7 +45,7 @@ class Process
 	{
 		$shellcmd = "nohup ".$cmd." > " . tfb_shellencode($this->logfile) . " 2>&1 & echo $!";
 		$pid = trim(shell_exec($shellcmd));
-		AuditAction("RUNCMD", $this->cfg["constants"]["error"], "Command: ".$shellcmd);
+		AuditAction("RUNCMD", $this->cfg["constants"]["info"], "Command: ".$shellcmd);
 		$this->setpid($pid);
 	}
 	
