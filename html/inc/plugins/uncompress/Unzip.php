@@ -8,16 +8,13 @@ class Unzip extends UncompressBaseClass
 
 	function checkstatus()
 	{
-		if($this->is_running($this->getpid()))
+		if( $this->proc->is_running() )
 			echo 'Unzipping file...';
 		else {
 			// check log file for errors
 			echo "Unzipping finished\n";
-			$output = file_get_contents($this->dir.$this->filename.".".Unzip::$logfile);
+			$output = $this->proc->getlog();
 			echo "<pre>".$output."</pre>";
-			
-			//@unlink($dir.$filename.".". Unzip::$pidfile);
-			//@unlink($dir.$filename.".". Unzip::$logfile);
 		}
 	}
 
@@ -25,16 +22,14 @@ class Unzip extends UncompressBaseClass
 	{
 		$cfg = Configuration::get_instance()->get_cfg();
 
-		if (file_exists($this->dir.$this->filename.".".parent::$logfile)) {
-			$pid = $this->getpid();
+		if ($this->proc->haslogfile()) {
+			//$pid = $this->getpid();
 			$this->checkstatus();
-			//@unlink($filename.Unzip::$logfile);
 		} else {
 			$Command = tfb_shellencode($cfg['rewrite_bin_unzip']).' -o ' . tfb_shellencode($this->dir.$this->filename) . ' -d ' . tfb_shellencode($this->dir);
-			$pid = trim(shell_exec("nohup ".$Command." > " . tfb_shellencode($this->dir.$this->filename.".".Unzip::$logfile) . " 2>&1 & echo $!"));
-			echo 'Uncompressing file...<BR>PID is: ' . $pid . '<BR>';
+			$this->proc->execute($Command);
+			echo 'Uncompressing file...<BR>PID is: ' . $this->proc->getpid() . '<BR>';
 			usleep(250000); // wait for 0.25 seconds
-			$this->setpid($pid);
 			$this->checkstatus();
 		}
 	}
@@ -47,8 +42,10 @@ class Unzip extends UncompressBaseClass
 			exec(tfb_shellencode($cfg['rewrite_bin_unzip']) . " -Z -1 " . tfb_shellencode($this->dir . $this->filename), $output );
 			if ( sizeof($output) > 0) // we can parse file entries
 				foreach ( $output as $file ) {
-					print("Deleting $this->dir$file\n");
-					@unlink($this->dir . $file);
+					if( file_exists($this->dir.$file) ) {
+						print("Deleting $this->dir$file\n");
+						@unlink($this->dir . $file);
+					}
 				}
 		}
 	}
