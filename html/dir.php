@@ -557,10 +557,30 @@ $list = array();
 // files downloaded (from log)
 $dlLog = getDownloadLogs($dir);
 
+// get file plugins // TODO is this the good location?
+require_once("inc/plugins/PluginHandler.php");
+$ph = new PluginHandler();
+$pns = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_FILEMANAGEMENT);
+$pios = array(); // PlugIn ObjectS
+foreach ($pns as $pn) {
+	$pi = $ph->getPlugin($pn['pluginname']);
+	if (is_object($pi))
+		array_push( $pios, $pi );
+}
+
 $format = '%1$03d';
 foreach ($entrys as $entry) {
+	$pluginactions = "";
 	$slink="";
 	$dlInfos="";
+
+	$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
+	foreach($pios as $pio) {
+		if ( $pio->isvalidaction($browserpath, $entry) ) {
+			$pluginactions .= $pio->getaction($browserpath, $entry);
+		}
+		
+	}
 	
 	// acl-write-check
 	if (empty($dir)) /* parent dir */
@@ -670,6 +690,7 @@ foreach ($entrys as $entry) {
 			$image = $imageOption.".png";
 		else if (file_exists("./".$imageOption.".gif"))
 			$image = $imageOption.".gif";
+		
 	}
 	
 	// get Permission and format it userfriendly
@@ -724,7 +745,8 @@ foreach ($entrys as $entry) {
 		'sfvdir'      => UrlHTMLSlashesEncode($sfvdir),
 		'sfvsfv'      => UrlHTMLSlashesEncode($sfvsfv),
 		'show_nfo'    => $show_nfo,
-		'show_rar'    => $show_rar
+		'show_rar'    => $show_rar,
+		'pluginactions'    => $pluginactions
 		)
 	);
 }

@@ -11,6 +11,8 @@ $client = (isset($_REQUEST['client']) ? $_REQUEST['client'] : "");
 $transfer = (isset($_REQUEST['transfer']) ? $_REQUEST['transfer'] : "");
 $url = (isset($_REQUEST['url']) ? urldecode($_REQUEST['url']) : "");
 $subaction = (isset($_REQUEST['subaction']) ? $_REQUEST['subaction'] : "");
+$dir = (isset($_REQUEST['dir']) ? $_REQUEST['dir'] : "");
+$filename = (isset($_REQUEST['filename']) ? $_REQUEST['filename'] : "");
 
 $cfg = Configuration::get_instance()->get_cfg();
 
@@ -28,6 +30,7 @@ if ( isset($action) ) {
 			print("Plugin $plugin could not be loaded");
 		}
 	}
+	if ($subaction == "filemanagement")		$pi->fileaction($dir, $filename);
 	if ($action == "start")				$client->start($transfer);
 	if ($action == "stop")				$client->stop($transfer);
 	if ($action == "delete")			$client->delete($transfer);

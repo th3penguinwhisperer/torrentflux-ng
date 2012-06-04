@@ -77,7 +77,11 @@ $cfg['user'] = "administrator";
 			$transferRunning = true;
 			break;
 		case 2:
-			$status = TransferStatus::STATUS_CHECKING;
+			$status = TransferStatus::STATUS_VERIFY;
+			$transferRunning = true;
+			break;
+		case 1:
+			$status = TransferStatus::STATUS_VERIFYQUEUED;
 			$transferRunning = true;
 			break;
 		case 0:
