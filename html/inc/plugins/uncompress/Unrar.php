@@ -75,12 +75,15 @@ class Unrar extends UncompressBaseClass
 	function cleanup()
 	{
 		parent::cleanup();
+
 		$cfg = Configuration::get_instance()->get_cfg();
 		exec(tfb_shellencode($cfg['rewrite_bin_unrar']) . " lb " . tfb_shellencode($this->dir . $this->filename), $output );
 		if ( sizeof($output) > 0) // we can parse file entries
 			foreach ( $output as $file ) {
-				print("Deleting $this->dir$file\n");
-				@unlink($this->dir . $file);
+				if (file_exists($this->dir . $file)) {
+					print("Deleting $this->dir$file\n");
+					@unlink($this->dir . $file);
+				}
 			}
 	}
 }

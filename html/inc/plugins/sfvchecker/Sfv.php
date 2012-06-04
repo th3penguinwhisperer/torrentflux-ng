@@ -61,11 +61,6 @@ class Sfv
 
 	function cleanup()
 	{
-		if ($this->proc->is_running()) {
-			$this->proc->kill();
-			print("Killing process " . $this->proc->getpid() . "<br>");
-		}
-		print("Deleting control files<br>");
 		$this->proc->cleanup();
 	}
 	

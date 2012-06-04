@@ -95,9 +95,14 @@ class Process
 	
 	function cleanup()
 	{
+		if ($this->is_running()) {
+			print("Killing process " . $this->getpid() . "<br>");
+			$this->kill();
+		}
 		if ($this->pidfile != "" && $this->logfile != "") {
-			unlink($this->pidfile);
-			unlink($this->logfile);
+			print("Deleting control files<br>");
+			@unlink($this->pidfile);
+			@unlink($this->logfile);
 		}
 	}
 	
