@@ -47,7 +47,7 @@ class ShowText implements PluginInterface
 				exit();
 			}
 			if (filesize($fulldir . $filename)>$cfg['rewrite_text_maxsize']) {
-				AuditAction($cfg["constants"]["error"], "The filename to show is empty");
+				AuditAction($cfg["constants"]["error"], "The filename to show is to big to show in your browser");
 				exit();
 			}
 			print("File $filename<br>");
