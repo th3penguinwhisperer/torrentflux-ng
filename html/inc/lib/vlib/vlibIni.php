@@ -45,7 +45,7 @@ if (!defined('vlibIniClassLoaded')) {
     class vlibIni {
 
         /** config vars for vlibTemplate */
-        function vlibTemplate () {
+        static function vlibTemplate () {
 	    $cfg = Configuration::get_instance()->get_cfg();
 
             $cache_dir = $cfg["rewrite_path"].'.templateCache';
