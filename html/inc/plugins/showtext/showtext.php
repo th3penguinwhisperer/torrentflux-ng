@@ -31,27 +31,21 @@ class ShowText extends FilePluginBase
 
 	function fileaction()
 	{
-		//convert and set variables
-		$cfg = Configuration::get_instance()->get_cfg();
-		$fulldir = $cfg['rewrite_path'].urldecode($this->dir);
-		$filename = urldecode($this->filename);
-		$fullname = tfb_shellencode($this->dir.$this->filename);
-
-		if (!file_exists($fulldir . $filename)) { // TODO: create check if dir is ending with slash or not
-			AuditAction("SHOWTEXT", $cfg["constants"]["error"], "Deleting item that does not exist: $filename");
+		if (!file_exists($this->fullfilename)) { // TODO: create check if dir is ending with slash or not
+			AuditAction("SHOWTEXT", parent::$cfg["constants"]["error"], "Deleting item that does not exist: $this->filename");
 			exit();
 		} else {
-			if ($filename == "") {
-				AuditAction("SHOWTEXT", $cfg["constants"]["error"], "The filename to show is empty");
+			if ($this->filename == "") {
+				AuditAction("SHOWTEXT", parent::$cfg["constants"]["error"], "The filename to show is empty");
 				exit();
 			}
-			if (filesize($fulldir . $filename)>$cfg['rewrite_text_maxsize']) {
+			if (filesize($this->fullfilename)>parent::$cfg['rewrite_text_maxsize']) {
 				print("The filename is too big to show in your browser. You might want to ask your administrator to higher the maximum file size limit for text files");
-				AuditAction("SHOWTEXT", $cfg["constants"]["error"], "The filename to show is too big to show in your browser");
+				AuditAction("SHOWTEXT", parent::$cfg["constants"]["error"], "The filename to show is too big to show in your browser");
 				exit();
 			}
-			print("File $filename<br>");
-			$contents = file_get_contents($fulldir . $filename);
+			print("File $this->filename<br>");
+			$contents = file_get_contents($this->fullfilename);
 			print("<pre>".$contents."</pre>");
 		}
 	}
