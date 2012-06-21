@@ -1,29 +1,14 @@
 <?php
 
-require_once('inc/plugins/PluginInterface.php');
+require_once('inc/plugins/FilePluginBase.php');
 require_once('inc/plugins/uncompress/Unrar.php');
 require_once('inc/plugins/uncompress/Unzip.php');
 
-class Uncompress implements PluginInterface
+class Uncompress extends FilePluginBase
 {
-	private $cfg;
-	private $filename;
-	private $dir;
-	private $fulldir;
-	private $fullfilename;
-
 	function __construct($dir, $filename)
 	{
-		// init configuration singleton
-		$this->cfg = Configuration::get_instance()->get_cfg();
-
-		// Decode and set basic variables
-		$this->filename = urldecode($filename);
-		$this->dir = urldecode($dir);
-
-		// generate derived variables
-		$this->fulldir = $this->cfg['rewrite_path'].urldecode($dir);
-		$this->fullfilename = $this->fulldir.$this->filename;
+		parent::__construct($dir, $filename);
 	}
 
 	static function isvalidaction($dir, $filename)

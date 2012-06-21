@@ -1,23 +1,14 @@
 <?php
 
-require_once('inc/plugins/PluginInterface.php');
+require_once('inc/plugins/FilePluginBase.php');
 require_once('inc/plugins/sfvchecker/Sfv.php');
 
-class SfvChecker implements PluginInterface
+class SfvChecker extends FilePluginBase
 {
 
 	function __construct($dir, $filename)
 	{
-		// init configuration singleton
-		$this->cfg = Configuration::get_instance()->get_cfg();
-
-		// Decode and set basic variables
-		$this->filename = urldecode($filename);
-		$this->dir = urldecode($dir);
-
-		// generate derived variables
-		$this->fulldir = $this->cfg['rewrite_path'].urldecode($dir);
-		$this->fullfilename = $this->fulldir.$this->filename;
+		parent::__construct($dir, $filename);
 	}
 
 	static function isvalidaction($dir, $filename)
@@ -65,27 +56,6 @@ class SfvChecker implements PluginInterface
 	
 	}
 	
-	// TODO: remove this function from File management plugin specific interface?
-	function show()
-	{
-		//print( $this->getDiskspaceUi() );
-	}
-
-	function get()
-	{
-		return $this->getDiskspaceUi();
-	}
-
-	function getConfiguration()
-	{
-		;
-	}
-	
-	function setConfiguration($configArray)
-	{
-		;
-	}
-
 }
 
 ?>
