@@ -36,7 +36,7 @@ class Process
 	
 	function __construct($pidfile, $logfile)
 	{
-		$this->cfg = Configuration::get_instance()->get_cfg();
+		self::$cfg = Configuration::get_instance()->get_cfg();
 		$this->pidfile = $pidfile;
 		$this->logfile = $logfile;
 	}
@@ -45,7 +45,7 @@ class Process
 	{
 		$shellcmd = "nohup ".$cmd." > " . tfb_shellencode($this->logfile) . " 2>&1 & echo $!";
 		$pid = trim(shell_exec($shellcmd));
-		AuditAction("RUNCMD", $this->cfg["constants"]["info"], "Command: ".$shellcmd);
+		AuditAction("RUNCMD", self::$cfg["constants"]["info"], "Command: ".$shellcmd);
 		$this->setpid($pid);
 	}
 	

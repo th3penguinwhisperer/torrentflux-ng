@@ -4,13 +4,27 @@ require_once('inc/plugins/PluginInterface.php');
 
 class DeleteItem implements PluginInterface
 {
+	private $cfg;
+	private $filename;
+	private $dir;
+	private $fulldir;
+	private $fullfilename;
 
-	function __construct()
+	function __construct($dir, $filename)
 	{
-		;
+		// init configuration singleton
+		$this->cfg = Configuration::get_instance()->get_cfg();
+
+		// Decode and set basic variables
+		$this->filename = urldecode($filename);
+		$this->dir = urldecode($dir);
+
+		// generate derived variables
+		$this->fulldir = $this->cfg['rewrite_path'].urldecode($dir);
+		$this->fullfilename = $this->fulldir.$this->filename;
 	}
 
-	function isvalidaction($dir, $filename)
+	static function isvalidaction($dir, $filename)
 	{
 		$cfg = Configuration::get_instance()->get_cfg();
 
@@ -24,21 +38,21 @@ class DeleteItem implements PluginInterface
 		return false;
 	}
 
-	function getaction($dir, $filename)
+	static function getaction($dir, $filename)
 	{
 		$cfg = Configuration::get_instance()->get_cfg();
 		return "<a href=\"javascript:loadpopup('Delete Item', 'dispatcher.php?plugin=deleteitem&amp;action=passplugindata&amp;subaction=filemanagement&amp;dir=".urlencode($dir)."&amp;filename=".urlencode($filename)."', 'Loading...');centerPopup();loadPopup();\"><img src=\"themes/".$cfg['theme']."/images/dir/delete_on.png\" /></a>";
 	}
 
-	function fileaction($dir, $filename)
+	function fileaction()
 	{
 		//convert and set variables
 		$cfg = Configuration::get_instance()->get_cfg();
-		$fulldir = $cfg['rewrite_path'].urldecode($dir);
-		$filename = urldecode($filename);
-		$fullname = tfb_shellencode($dir.$filename);
+		$fulldir = $cfg['rewrite_path'].urldecode($this->dir);
+		$filename = urldecode($this->filename);
+		$fullname = tfb_shellencode($this->dir.$this->filename);
 
-		if ( $dir == "" or $dir == ".." or $dir == "." or !is_dir($fulldir) ) {
+		if ( $this->dir == "" or $this->dir == ".." or $this->dir == "." or !is_dir($this->fulldir) ) {
 			AuditAction("DELETE", $cfg["constants"]["error"], "Deleting item: dir argument does not exist, is not allowed or invalid: $dir $filename");
 			exit();
 		}
@@ -49,7 +63,7 @@ class DeleteItem implements PluginInterface
 
 		if ( is_file($fulldir.$filename) ) { // deleting file
 			print("Deleting file $filename");
-			AuditAction("DELETE", $cfg["constants"]["info"], "Deleting file: $dir $filename");
+			AuditAction("DELETE", $cfg["constants"]["info"], "Deleting file: $this->dir $this->filename");
 			@unlink($fulldir . $filename);
 		} elseif ( is_dir($fulldir.$filename) ) { // deleting dir 
 			print("Deleting directory $filename");

@@ -563,8 +563,8 @@ $ph = new PluginHandler();
 $pns = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_FILEMANAGEMENT);
 $pios = array(); // PlugIn ObjectS
 foreach ($pns as $pn) {
-	$pi = $ph->getPlugin($pn['pluginname']);
-	if (is_object($pi))
+	$pi = $ph->getPluginClass($pn['pluginname']);
+	if (class_exists($pi))
 		array_push( $pios, $pi );
 }
 
@@ -576,8 +576,8 @@ foreach ($entrys as $entry) {
 
 	$browserpath = str_replace($cfg['rewrite_path'], "", $dirName);
 	foreach($pios as $pio) {
-		if ( $pio->isvalidaction($browserpath, $entry) ) {
-			$pluginactions .= $pio->getaction($browserpath, $entry);
+		if ( $pio::isvalidaction($browserpath, $entry) ) {
+			$pluginactions .= $pio::getaction($browserpath, $entry);
 		}
 		
 	}

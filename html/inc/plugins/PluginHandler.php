@@ -31,6 +31,38 @@ class PluginHandler // TODO: make this a singleton
 				return $inst;
 			}
 	}
+
+	function getPluginClass($pluginname)
+	{
+		$sql = "SELECT plugininclude, pluginclass FROM tf_plugins WHERE `pluginname`='" . $pluginname . "' AND `pluginenabled`='1' AND `pluginconfigured`='1'";
+		$rs = $this->db->Execute($sql);
+		if ($this->db->ErrorNo() != 0) print("THERE WAS AN ERROR WITH THIS QUERY: " . $sql); // TODO: Copy over dbError($sql) method 
+		if ($rs)
+			while ($arr = $rs->FetchRow()) { // TODO: no need to loo this
+				//print_r($arr);
+				require_once($arr[0]);
+				$className = $arr[1];
+		  		//$inst->show();
+				return $className;
+			}
+	}
+
+	/* TODO: check if this can be fixed in a cleaner way */
+	function getFilePlugin($pluginname, $dir, $filename)
+	{
+		$sql = "SELECT plugininclude, pluginclass FROM tf_plugins WHERE `pluginname`='" . $pluginname . "' AND `pluginenabled`='1' AND `pluginconfigured`='1'";
+		$rs = $this->db->Execute($sql);
+		if ($this->db->ErrorNo() != 0) print("THERE WAS AN ERROR WITH THIS QUERY: " . $sql); // TODO: Copy over dbError($sql) method 
+		if ($rs)
+			while ($arr = $rs->FetchRow()) {
+				//print_r($arr);
+				require_once($arr[0]);
+				$className = $arr[1];
+		  		$inst = new $className($dir, $filename);
+		  		//$inst->show();
+				return $inst;
+			}
+	}
 	
 	function getAvailablePlugins($plugintype)
 	{
