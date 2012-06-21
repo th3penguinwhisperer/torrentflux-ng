@@ -489,7 +489,7 @@ if (!(@is_dir($dirName))) {
 	if (preg_match("/^(.+)\/.+$/", $dir, $matches) == 1)
 		header("Location: dir.php?dir=".UrlHTMLSlashesEncode($matches[1]));
 	else
-		header("Location: index.php?iid=dir");
+		header("Location: index.php");
 	exit();
 }
 
