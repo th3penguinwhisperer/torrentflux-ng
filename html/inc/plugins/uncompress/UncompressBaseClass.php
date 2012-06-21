@@ -2,7 +2,7 @@
 
 require_once('inc/generalfunctions.php');
 
-class UncompressBaseClass
+abstract class UncompressBaseClass
 {
 	protected $proc;
 	protected $dir;
@@ -20,9 +20,9 @@ class UncompressBaseClass
 		);
 	}
 
-	function checkstatus() { echo "Not supported"; }
+	abstract function checkstatus();
 
-	function uncompress() { echo "Not supported"; }
+	abstract function uncompress();
 
 	function cleanup() { 
 		$this->proc->cleanup();
