@@ -32,24 +32,24 @@ class DeleteItem extends FilePluginBase
 	function fileaction()
 	{
 		if ( $this->dir == "" or $this->dir == ".." or $this->dir == "." or !is_dir($this->fulldir) ) {
-			AuditAction("DELETE", $this->cfg["constants"]["error"], "Deleting item: dir argument does not exist, is not allowed or invalid: $this->dir $this->filename");
+			AuditAction("DELETE", parent::$cfg["constants"]["error"], "Deleting item: dir argument does not exist, is not allowed or invalid: $this->dir $this->filename");
 			exit();
 		}
 		if ( $this->filename == ".." or $this->filename == "." or $this->filename == "" ) {
-			AuditAction("DELETE", $this->cfg["constants"]["error"], "Deleting item: file argument does not exist, is not allowed or invalid: $this->dir $this->filename");
+			AuditAction("DELETE", parent::$cfg["constants"]["error"], "Deleting item: file argument does not exist, is not allowed or invalid: $this->dir $this->filename");
 			exit();
 		}
 
 		if ( is_file($this->fullfilename) ) { // deleting file
 			print("Deleting file $this->filename");
-			AuditAction("DELETE", $this->cfg["constants"]["info"], "Deleting file: $this->dir $this->filename");
+			AuditAction("DELETE", parent::$cfg["constants"]["info"], "Deleting file: $this->dir $this->filename");
 			@unlink($this->fullfilename);
 		} elseif ( is_dir($this->fullfilename) ) { // deleting dir 
 			print("Deleting directory $this->filename");
-			AuditAction("DELETE", $this->cfg["constants"]["info"], "Deleting directory: $ithis->dir $this->filename");
+			AuditAction("DELETE", parent::$cfg["constants"]["info"], "Deleting directory: $this->dir $this->filename");
 			$this->unlinkRecursive($this->fullfilename, true); // !!! Be VERY careful with this! You need the filename variable as it is filled with the directory to delete
 		} else {
-			AuditAction("DELETE", $this->cfg["constants"]["error"], "Deleting item: could not handle these arguments: $this->dir $this->filename");
+			AuditAction("DELETE", parent::$cfg["constants"]["error"], "Deleting item: could not handle these arguments: $this->dir $this->filename");
 			exit();
 		}
 	
