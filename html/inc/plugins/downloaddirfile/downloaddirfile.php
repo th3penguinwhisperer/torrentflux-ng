@@ -37,7 +37,7 @@ class DownloadDirFile extends FilePluginBase
 Starting download...
 <script type=text/javascript>
 var objFrame=document.getElementById('downloadframe');
-objFrame.src='dispatcher.php?plugin=downloaddirfile&action=passplugindata&subaction=filemanagement&download=yes&dir=".urlencode($dir)."&filename=". urlencode($filename) ."';
+objFrame.src='dispatcher.php?plugin=downloaddirfile&action=passplugindata&subaction=filemanagement&download=yes&dir=".urlencode($this->dir)."&filename=". urlencode($this->filename) ."';
 
 setTimeout(
 	function () {
@@ -56,11 +56,13 @@ setTimeout(
 			return;
 		}
 		
-		if (!file_exists($this->fullfilename)) { // TODO: create check if dir is ending with slash or not
-			AuditAction('DOWNLOAD_FILE', $this->cfg["constants"]["error"], "Downloading item that does not exist: $this->fullfilename");
+		if ($this->fullfilename == "" || $this->filename == "") {
+			AuditAction('DOWNLOAD_FILE', parent::$cfg["constants"]["error"], "Filename/fullfilename variable is empty: $this->fullfilename");
+		} elseif (!file_exists($this->fullfilename)) { // TODO: create check if dir is ending with slash or not
+			AuditAction('DOWNLOAD_FILE', parent::$cfg["constants"]["error"], "Downloading item that does not exist: $this->fullfilename");
 		} else {
 			if ($this->filename == "") {
-				AuditAction('DOWNLOAD_FILE', $this->cfg["constants"]["error"], "The filename is empty");
+				AuditAction('DOWNLOAD_FILE', parent::$cfg["constants"]["error"], "The filename is empty");
 			}
 			
 			/*if ($cfg["enable_file_download"] != 1) {
@@ -103,10 +105,12 @@ setTimeout(
         // one strip will give us "test/tester\'s file/test.txt
         // the second strip will give us the correct
         //      "test/tester's file/test.txt"
-        $fulldir = stripslashes(stripslashes($this->fulldir));
-        $filename = stripslashes(stripslashes($this->filename));
-	$fullfilename = stripslashes(stripslashes($this->fulldir . $this->filename));
-        if (tfb_isValidPath($fullfilename)) {
+
+        //$fulldir = stripslashes(stripslashes($this->fulldir));
+        //$filename = stripslashes(stripslashes($this->filename));
+	//$fullfilename = stripslashes(stripslashes($this->fulldir . $this->filename));
+
+        if (tfb_isValidPath($this->fullfilename)) {
 		// why the hell is this here? :p
 		/*
                 $path = $cfg["path"].$down;
@@ -156,7 +160,7 @@ setTimeout(
                                         echo $buffer;
                                         fclose($fh);
                                 } else {
-                                        AuditAction('DOWNLOAD_FILE', $this->cfg["constants"]["error"], "Partial download : ".$this->cfg["user"]." tried to download ".$this->fullfilename);
+                                        AuditAction('DOWNLOAD_FILE', parent::$cfg["constants"]["error"], "Partial download : ".parent::$cfg["user"]." tried to download ".$this->fullfilename);
                                         @header("HTTP/1.1 500 Internal Server Error");
                                         exit();
                                 }   
@@ -177,19 +181,19 @@ $fileExt = "txt"; // TODO: do this decently
                                 // write the session to close so you can continue to browse on the site.
                                 @session_write_close();
 
-$this->cfg["enable_xsendfile"] = 0; // TODO: Checkout why I might need this
-                                if (!$is_image && $this->cfg["enable_xsendfile"] == 1)
-                                        @header('X-Sendfile: '.$fullfilename);
+parent::$cfg["enable_xsendfile"] = 0; // TODO: Checkout why I might need this
+                                if (!$is_image && parent::$cfg["enable_xsendfile"] == 1)
+                                        @header('X-Sendfile: '.$this->fullfilename);
                                 else {
-                                        $fp = popen("cat ".tfb_shellencode($fullfilename), "r");
+                                        $fp = popen("cat ".tfb_shellencode($this->fullfilename), "r");
                                         if(!fpassthru($fp)) print("something failed!");
                                         pclose($fp);
                                 }
                         }
                         // log
-                        AuditAction('DOWNLOAD_FILE', $this->cfg["constants"]["info"], "Sending file $this->fullfilename to user " . $this->cfg['user']);
+                        AuditAction('DOWNLOAD_FILE', parent::$cfg["constants"]["info"], "Sending file $this->fullfilename to user " . parent::$cfg['user']);
                 } else {
-                        AuditAction('DOWNLOAD_FILE', $this->cfg["constants"]["error"], "File Not found for download: ".$this->cfg["user"]." tried to download ".$this->fullfilename);
+                        AuditAction('DOWNLOAD_FILE', parent::$cfg["constants"]["error"], "File Not found for download: ".parent::$cfg["user"]." tried to download ".$this->fullfilename);
                 }
         } else {
                 AuditAction('DOWNLOAD_FILE', $this->cfg["constants"]["error"], "ILLEGAL DOWNLOAD: ".$this->cfg["user"]." tried to download ".$this->fullfilename);
