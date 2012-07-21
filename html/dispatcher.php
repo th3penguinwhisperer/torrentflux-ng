@@ -23,14 +23,21 @@ if ( isset($action) ) {
 	
 	if ($action == "passplugindata") {
 		$ph = new PluginHandler();
-		$pi = $ph->getPlugin($plugin);
-		if (is_object($pi)) {
-			$pi->show(); // TODO: passing $_REQUEST?
+		
+		if ($subaction == "filemanagement") {
+			$pi = $ph->getFilePlugin($plugin, $dir, $filename);
+			if (!is_object($pi))
+				print("Plugin $plugin could not be loaded");
 		} else {
-			print("Plugin $plugin could not be loaded");
+			$pi = $ph->getPlugin($plugin);
+			if (is_object($pi)) {
+				$pi->show(); // TODO: passing $_REQUEST?
+			} else {
+				print("Plugin $plugin could not be loaded");
+			}
 		}
 	}
-	if ($subaction == "filemanagement")		$pi->fileaction($dir, $filename);
+	if ($subaction == "filemanagement")		$pi->fileaction();
 	if ($action == "start")				$client->start($transfer);
 	if ($action == "stop")				$client->stop($transfer);
 	if ($action == "delete")			$client->delete($transfer);
