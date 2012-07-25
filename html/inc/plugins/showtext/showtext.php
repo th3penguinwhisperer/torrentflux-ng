@@ -19,6 +19,8 @@ class ShowText extends FilePluginBase
 			return true;
 		if ( ends_with($filename, ".nfo") )
 			return true;
+		if ( ends_with($filename, ".log") )
+			return true;
 
 		return false;
 	}
