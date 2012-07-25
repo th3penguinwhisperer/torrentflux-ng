@@ -15,22 +15,22 @@ class Unrar extends UncompressBaseClass
 				if (strpos($chkline, 'already exists. Overwrite it ?') !== FALSE){
 					$this->proc->kill();
 					echo 'File has already been extracted, please delete extracted file if re-extraction is necessary.';
-					break 2;
+					break 1;
 				}
 				if (strpos($chkline, 'Cannot find volume') !== FALSE){
 					$this->proc->kill();
 					echo 'File has a missing volume and can not been extracted.';
-					break 2;
+					break 1;
 				}
 				if (strpos($chkline, 'ERROR: Bad archive') !== FALSE){
 					$this->proc->kill();
 					echo 'File has a bad volume and cannot be extracted.';
-					break 2;
+					break 1;
 				}
 				if (strpos($chkline, 'CRC failed') !== FALSE){
 					$this->proc->kill();
 					echo 'File extraction has failed with a CRC error and was not been extracted.';
-					break 2;
+					break 1;
 				}
 				if (strpos($chkline, 'User break') !== FALSE){
 					echo 'The uncompress process has been killed by a user.';
