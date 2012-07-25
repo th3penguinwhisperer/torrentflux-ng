@@ -37,6 +37,8 @@ if (isset($_REQUEST['ajax_update'])) {
         $isAjaxUpdate = false;
         // init template-instance
         tmplInitializeInstance($cfg["theme"], "page.index.tmpl");
+	tmplSetTitleBar($cfg["pagetitle"].' - '.$cfg['_DIRECTORYLIST']);
+	$tmpl->setvar('isAdmin', $_SESSION['isAdmin']);
         printJavascriptHtml(); // TODO should be fixed in another way
 }
 
@@ -77,6 +79,7 @@ $tmpl->setvar('_TRANSFERFILE', "Transferfile");
 $tmpl->setvar('_ADMIN', "Administrator");
 $tmpl->setvar('_USER', "User");
 $tmpl->setvar('_USERS', "Users");
+$tmpl->setvar('_ADMINISTRATION', "Administration");
 
 // username
 $tmpl->setvar('user', $cfg["user"]);

@@ -105,6 +105,7 @@ function loginUser($user, $pass) {
     $_SESSION['ip'] = getRealIpAddr();
     $_SESSION['ip_resolved'] = @gethostbyaddr($_SESSION['ip']);
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+    $_SESSION['isAdmin'] = ( $rs['user_level'] == 2 ? 1 : 0);
     
     $cfg = Configuration::get_instance()->get_cfg();
     AuditAction($cfg["constants"]["info"], $cfg["constants"]["info"], "Successful login", $_SERVER['PHP_SELF']);
