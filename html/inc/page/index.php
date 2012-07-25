@@ -64,6 +64,7 @@ $tmpl->setvar('_USERS', $cfg['_USERS']);
 $tmpl->setvar('user', $cfg["user"]);
 */
 
+// TODO: create classes for the languages so this doesn't have to be filled in on each page
 // language
 $tmpl->setvar('_STATUS', "Status");
 $tmpl->setvar('_ESTIMATEDTIME', "Est.");
