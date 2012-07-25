@@ -136,12 +136,13 @@ class lastRSS {
 
 		// Load RSS file
 		require_once("inc/plugins/rss/SimpleHTTP.php");
-		$rss_content = SimpleHTTP::getData($rss_url);
-		if (SimpleHTTP::getState() != SIMPLEHTTP_STATE_OK) {
+		$shttp = new SimpleHTTP();
+		$rss_content = $shttp->getData($rss_url);
+		if ($shttp->getState() != SIMPLEHTTP_STATE_OK) {
 			// last op was not ok
 			// log
 			global $cfg;
-			$msgs = SimpleHTTP::getMessages();
+			$msgs = $shttp->getMessages();
 			AuditAction("RSS retrieve", $cfg["constants"]["error"], "lastRSS: could not download feed-data from url ".$rss_url." (".implode("; ", $msgs).")");
 			// return false
 			return false;
