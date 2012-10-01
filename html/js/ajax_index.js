@@ -167,6 +167,10 @@ function ajaxParseRates(content) {
 	document.title = 'Down: ' + bytesToSize(totaldownrate,2) + '/s | Up: ' + bytesToSize(totaluprate,2) + '/s';
 }
 
+function ajaxParseStats(content) {
+	// TODO FILL IN BODY
+}
+
 /**
  * process text-response
  *
