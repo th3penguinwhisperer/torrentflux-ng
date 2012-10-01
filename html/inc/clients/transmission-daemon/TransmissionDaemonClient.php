@@ -212,6 +212,63 @@ Array
 			$changedParameters[$parametername] = $enabled;
 	}
 
+/*
+
+array(2) {
+  ["arguments"]=>
+  array(7) {
+    ["activeTorrentCount"]=>
+    int(25)
+    ["cumulative-stats"]=>
+    array(5) {
+      ["downloadedBytes"]=>
+      float(1575288974808)
+      ["filesAdded"]=>
+      int(205725)
+      ["secondsActive"]=>
+      int(56638213)
+      ["sessionCount"]=>
+      int(55)
+      ["uploadedBytes"]=>
+      float(1840867931566)
+    }
+    ["current-stats"]=>
+    array(5) {
+      ["downloadedBytes"]=>
+      float(128996754699)
+      ["filesAdded"]=>
+      int(26811)
+      ["secondsActive"]=>
+      int(3093490)
+      ["sessionCount"]=>
+      int(1)
+      ["uploadedBytes"]=>
+      float(887467960731)
+    }
+    ["downloadSpeed"]=>
+    int(0)
+    ["pausedTorrentCount"]=>
+    int(21)
+    ["torrentCount"]=>
+    int(46)
+    ["uploadSpeed"]=>
+    int(300000)
+  }
+  ["result"]=>
+  string(7) "success"
+}
+
+*/
+
+	function getstats() {
+		require_once('inc/clients/transmission-daemon/Transmission.class.php');
+		$t = new Transmission();
+		$ret= $t->session_stats();
+		$stats = $ret['arguments'];
+		
+		$retunrstats = array( 'downloadedtotal' => $stats['cumulative-stats']['downloadedBytes'], 'uploadedtotal' => $stats['cumulative-stats']['uploadedBytes'], 'transfercount' => $stats['torrentCount'], 'uprate' => $stats['uploadSpeed'], 'downrate' => $stats['downloadSpeed']);
+	}
+
 }
 
 ?>
