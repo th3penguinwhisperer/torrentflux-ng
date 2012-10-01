@@ -382,6 +382,12 @@ class Transmission
 		$this->session = $req;
 		return $this->session;
 	}
+
+	public function session_stats() {
+		$req = $this->request('session-stats',null);
+		$this->session = $req;
+		return $this->session;
+	}
 	
 	//Transmission::getInstance()
 	public function getInstance() {
