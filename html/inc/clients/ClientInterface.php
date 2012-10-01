@@ -21,6 +21,12 @@ interface ClientInterface
 	function add($url, $path, $paused);
 	
 	function gettabs($tabname);
+
+	function getstats();
+
+	function getConfiguration();
+
+	function setConfiguration($configArray);
 }
 
 ?>
