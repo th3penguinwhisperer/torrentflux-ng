@@ -36,8 +36,9 @@ function ajaxParseDiskspaceinfo(content) {
 	//ajax_updateContent('diskspaceText', content);
 }
 
-function bytesToSize(bytes, precision) {
+function bytesToSize(bytesStr, precision) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    var bytes = parseFloat(bytesStr);
     var posttxt = 0;
      if (bytes == 0) return '0 '+sizes[posttxt];
     while( bytes >= 1024 ) {
