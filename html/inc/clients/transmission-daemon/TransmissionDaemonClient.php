@@ -266,7 +266,9 @@ array(2) {
 		$ret= $t->session_stats();
 		$stats = $ret['arguments'];
 		
-		$retunrstats = array( 'downloadedtotal' => $stats['cumulative-stats']['downloadedBytes'], 'uploadedtotal' => $stats['cumulative-stats']['uploadedBytes'], 'transfercount' => $stats['torrentCount'], 'uprate' => $stats['uploadSpeed'], 'downrate' => $stats['downloadSpeed']);
+		$returnstats = array( 'downloadedtotal' => $stats['cumulative-stats']['downloadedBytes'], 'uploadedtotal' => $stats['cumulative-stats']['uploadedBytes'], 'transfercount' => $stats['torrentCount'], 'uprate' => $stats['uploadSpeed'], 'downrate' => $stats['downloadSpeed']);
+
+		return $returnstats;
 	}
 
 }

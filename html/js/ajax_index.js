@@ -169,6 +169,13 @@ function ajaxParseRates(content) {
 
 function ajaxParseStats(content) {
 	// TODO FILL IN BODY
+	var data = content.split(";");
+
+	document.getElementById('plugin_stats_totaldownloadedbytes').innerHTML = bytesToSize(data[0], 2);
+	document.getElementById('plugin_stats_totaluploadedbytes').innerHTML = bytesToSize(data[1], 2);
+	document.getElementById('plugin_stats_totaldownloadrate').innerHTML = bytesToSize(data[2], 2) + '/s';
+	document.getElementById('plugin_stats_totaluploadrate').innerHTML = bytesToSize(data[3], 2) + '/s';
+	document.getElementById('plugin_stats_totaltransfercount').innerHTML = data[4];
 }
 
 /**
