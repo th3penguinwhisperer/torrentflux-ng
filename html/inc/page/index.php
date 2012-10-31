@@ -30,16 +30,33 @@ require_once('inc/functions.core.tmpl.php');
 $cfg = Configuration::get_instance()->get_cfg();
 if (isset($_REQUEST['ajax_update'])) {
         $isAjaxUpdate = true;
-        $ajaxUpdateParams = tfb_getRequestVar('ajax_update');
         // init template-instance
         tmplInitializeInstance($cfg["theme"], "inc.transferList.tmpl");
 } else {
         $isAjaxUpdate = false;
+
+	$ph = new PluginHandler();
+	$pluginNames = $ph->getAvailablePlugins(PluginHandler::PLUGINTYPE_INFO);
+	
+	$pi_container_content = "";
+	foreach( $pluginNames as $plugin ) {
+		$pi_container_content .= file_get_contents('inc/plugins/'. $plugin[0] .'/'. $plugin[0] . '.tmpl');
+	}
+
         // init template-instance
         tmplInitializeInstance($cfg["theme"], "page.index.tmpl");
 	tmplSetTitleBar($cfg["pagetitle"].' - '.$cfg['_DIRECTORYLIST']);
+	$onLoad = "reloadtransferlist();"; // Makes the onLoad function immediately call the reloadtransferlist javascript method which loads all ajax data
+	$tmpl->setvar('onLoad', $onLoad);
 	$tmpl->setvar('isAdmin', $_SESSION['isAdmin']);
+	$tmpl->setvar('plugin_container_content', $pi_container_content);
         printJavascriptHtml(); // TODO should be fixed in another way
+
+	$start = startTimer();
+	$tmpl->pparse();
+	getTimeTaken($start);
+
+	exit();
 }
 
 
@@ -152,7 +169,7 @@ if ($_SESSION['settings']['index_ajax_update'] != 0) {
         $ajaxInit .= ",".$cfg["ui_displaybandwidthbars"];
         $ajaxInit .= ",'".$cfg['bandwidthbar']."'";
         $ajaxInit .= ");onbeforeunload = ajax_unload;";
-     
+
         $onLoad = $ajaxInit;
 } 
 
@@ -186,6 +203,7 @@ function printJavascriptHtml()
 		<script type="text/javascript" src="js/transferlist.js"></script>
 		<script type="text/javascript" src="js/ajax.js"></script>
 		<script type="text/javascript" src="js/ajax_index.js"></script>
+		<script type="text/javascript" src="js/diskspace.js"></script>
 		
 		<link rel="stylesheet" href="css/popup.css" type="text/css" media="screen" />
 	');

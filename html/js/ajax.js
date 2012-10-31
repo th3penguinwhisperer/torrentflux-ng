@@ -4,10 +4,10 @@
 var ajax_debug = false;
 var ajax_useXML = false;
 var ajax_txtDelim = ";";
-var ajax_updateUrl = "stats.php";
+var ajax_updateUrl = "index.php?page=index&ajax_update=1";
 var ajax_updateParams = "";
 var ajax_updateTimer = 5000;
-var ajax_updateState = 0; // 0 = update off; 1 = update on
+var ajax_updateState = 1; // 0 = update off; 1 = update on
 var ajax_httpRequest = false;
 var ajax_requestOpen = false;
 
@@ -51,7 +51,7 @@ function ajax_update() {
 			if(ajax_httpRequest && (ajax_httpRequest.readyState == 4 || ajax_httpRequest.readyState == 0))
 			{
 				ajax_httpRequest.onreadystatechange = ajax_updateCallback;
-				ajax_httpRequest.open('GET', ajax_updateUrl + ajax_updateParams, true);
+				ajax_httpRequest.open('GET', ajax_updateUrl, true);
 				ajax_httpRequest.send(null);
 				ajax_requestOpen = true;
 			}

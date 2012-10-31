@@ -26,7 +26,7 @@ function ajaxParseDiskspaceinfo(content) {
 	var bar = document.getElementById('diskspaceUsed');
 	var procent = (usedspace / totalspace) * 100;
 	var fullbar = document.getElementById('diskspaceFullbar');
-	var width = fullbar.style.width;
+	var width = (fullbar.style.width).slice(0,-2);
 	
 	// doing the changes
 	bar.style.backgroundColor = color;

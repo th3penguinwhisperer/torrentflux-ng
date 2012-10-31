@@ -24,6 +24,7 @@ function gettransfersources(parameters) {
 	loadpopup("Transfer Sources", 'index.php?page=transfersources' + parameters, "Loading transfer source plugin ...<br><img src=images/ajax-loader.gif>");
 };
 
+// TODO: Function should get another function as it is a general ajax data reload instead of just the transfers
 function reloadtransferlist() {
     if (indexTimer) clearTimeout(indexTimer); // Stop countdown timer
 
