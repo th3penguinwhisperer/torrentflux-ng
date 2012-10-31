@@ -46,7 +46,7 @@ if (isset($_REQUEST['ajax_update'])) {
         // init template-instance
         tmplInitializeInstance($cfg["theme"], "page.index.tmpl");
 	tmplSetTitleBar($cfg["pagetitle"].' - '.$cfg['_DIRECTORYLIST']);
-	$onLoad = "reloadtransferlist();"; // Makes the onLoad function immediately call the reloadtransferlist javascript method which loads all ajax data
+	$onLoad = "refreshajaxdata();"; // Makes the onLoad function immediately call the reloadtransferlist javascript method which loads all ajax data
 	$tmpl->setvar('onLoad', $onLoad);
 	$tmpl->setvar('isAdmin', $_SESSION['isAdmin']);
 	$tmpl->setvar('plugin_container_content', $pi_container_content);
