@@ -17,6 +17,11 @@ class TorrentfluxngConfiguration implements PluginInterface
 	{
 		;
 	}
+	
+	function get()
+	{
+		;
+	}
 
 	function getConfiguration()
 	{
