@@ -53,7 +53,7 @@ if (false) {
 // require
 require_once("inc/plugins/searchengines/SearchEngineBase.php");
 
-print_r($_REQUEST);
+//print_r($_REQUEST); // DEBUG INFO
 
 $pg = tfb_getRequestVar('pg');
 
@@ -82,7 +82,7 @@ function doSearch($sEngine) {
 	global $tmpl;
 	tmplInitializeInstance($cfg["theme"], "page.torrentSearch.tmpl");
 	$tmpl->setloop('Engine_List', tmplSetSearchEngineDDL($sEngine->engineName));
-	var_dump(tmplSetSearchEngineDDL($sEngine->engineName));
+	//var_dump(tmplSetSearchEngineDDL($sEngine->engineName)); // DEBUG INFO
 
 	// if maingenre is not set but subGenre is, then determine maingenre
 	if ( !array_key_exists("mainGenre", $_REQUEST) && array_key_exists("subGenre", $_REQUEST) ) {

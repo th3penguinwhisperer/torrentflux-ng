@@ -25,21 +25,13 @@ var ajax_idCountXfer = ajax_fieldIdsXfer.length;
 var silentEnabled = 0;
 var titleChangeEnabled = 0;
 var pageTitle = "TorrentFlux-NG";
-var goodLookingStatsEnabled = 0;
-var goodLookingStatsSettings = null;
-var bottomStatsEnabled = 0;
 var queueActive = 0;
 var xferEnabled = 0;
 var usersEnabled = 0;
 var usersHideOffline = 0;
 var userList = "";
-var transferListEnabled = 0;
 var sortTableEnabled = 0;
 var driveSpaceBarStyle = "tf";
-var bandwidthBarsEnabled = 0;
-var bandwidthBarsStyle = "tf";
-var imgSrcDriveSpaceBlank = "themes/default/images/blank.gif";
-var imgHeightDriveSpaceBlank = 12;
 var indexTimer = null;
 var indexTimer2 = null;
 var updateTimeLeft = 0;
@@ -73,29 +65,14 @@ function ajax_initialize(timer, delim, sEnabled, tChangeEnabled, pTitle, glsEnab
 	silentEnabled = sEnabled;
 	titleChangeEnabled = tChangeEnabled;
 	pageTitle = pTitle;
-	goodLookingStatsEnabled = glsEnabled;
-	bottomStatsEnabled = bsEnabled;
 	queueActive = qActive;
 	xferEnabled = xEnabled;
 	usersEnabled = uEnabled;
 	usersHideOffline = uHideOffline;
-	transferListEnabled = tEnabled;
 	sortTableEnabled = sortEnabled;
 	driveSpaceBarStyle = dsBarStyle;
-	bandwidthBarsEnabled = bwBarsEnabled;
-	bandwidthBarsStyle = bwBarsStyle;
 	// url + params
 	ajax_updateUrl = "index.php?page=index";
-	ajax_updateParams = "&ajax_update=0";
-	if ((bottomStatsEnabled == 1) && (xferEnabled == 1))
-		ajax_updateParams += '1';
-	else
-		ajax_updateParams += '0';
-	ajax_updateParams += usersEnabled;
-	ajax_updateParams += transferListEnabled;
-	// gls
-	if (goodLookingStatsEnabled == 1)
-		goodLookingStatsSettings = glsSettings.split(":");
 	// state
 	ajax_updateState = 1;
 	// http-request
@@ -185,16 +162,6 @@ function ajaxParseStats(content) {
  */
 function ajax_processText(content) {
 	var aryCount = 0;
-	// Diable default handling
-	/*if ((bottomStatsEnabled == 1) && (xferEnabled == 1))
-		aryCount++;
-	if (usersEnabled == 1)
-		aryCount++;
-	if (transferListEnabled == 1)
-		aryCount++;
-	if (ajaxScriptEnabled == 1)
-		aryCount++;
-	*/
 
 	var ajaxBlocDelim = new RegExp('[\|\#]{3}');
 	var tempAry = content.split(ajaxBlocDelim);
@@ -212,34 +179,12 @@ function ajax_processText(content) {
 		var ajaxBlocDelim = new RegExp('[\|\#]{3}');
 		var tempAry = content.split(ajaxBlocDelim);
 		
-		// ajax-script (jgrowl)
-		var ajaxScript = "";
-		if (ajaxScriptEnabled == 1)
-			ajaxScript = tempAry.pop();
-		
-		// transfer-list
-		var transferList = "";
-		if (transferListEnabled == 1)
-			transferList = tempAry.pop();
-		
-		// users
-		var users = "";
-		if (usersEnabled == 1)
-			users = tempAry.pop();
-		
-		// xfer
-		var statsXfer = "";
-		if ((bottomStatsEnabled == 1) && (xferEnabled == 1))
-			statsXfer = tempAry.pop();
-		
 		// theme specific event
 		if (typeof(beforeAjaxUpdate) != 'undefined') {
 			beforeAjaxUpdate();
 		}
 		
 		// update
-		//ajax_updateContent(tempAry.pop(), statsXfer, users, transferList);
-		//ajax_updateContent('test', statsXfer, users, transferList);
 		ajax_updateContent(transferList);
 		
 		// theme specific event
@@ -263,154 +208,6 @@ function ajax_processText(content) {
 	updateTimeLeft = ajax_updateTimer / 1000;
 }
 
-/**
- * update page contents from response
- *
- * @param statsServerStr
- * @param statsXferStr
- * @param usersStr
- * @param transferListStr
- */
-/*
-function ajax_updateContent(statsServerStr, statsXferStr, usersStr, transferListStr) {
-	if (!statsServerStr) {
-		return;
-	}
-	var statsServer = statsServerStr.split(ajax_txtDelim);
-	// page-title
-	if (titleChangeEnabled == 1) {
-		var newTitle = "";
-		for (i = 0; i < 5; i++) {
-			newTitle += statsServer[i] + "|";
-		}
-		newTitle += statsServer[5]+ " - " + pageTitle;
-		document.title = newTitle;
-	}
-	// good looking stats
-	if (goodLookingStatsEnabled == 1) {
-		for (i = 0; i < ajax_idCount; i++) {
-			if (goodLookingStatsSettings[i] == 1)
-				document.getElementById("g_" + ajax_fieldIds[i]).innerHTML = statsServer[i];
-		}
-	}
-	// drivespace-bar
-	var dSpace = statsServer[10];
-	document.getElementById("barFreeSpace").innerHTML = statsServer[4];
-	document.getElementById("barDriveSpacePercent").innerHTML = (100 - dSpace);
-	document.getElementById("barDriveSpace1").style.width = dSpace + "%";
-	document.getElementById("barDriveSpace2").style.width = (100 - dSpace) + "%";
-	if (driveSpaceBarStyle == "xfer") {
-		// set color
-		var dsbCol = 'rgb(';
-		dsbCol += parseInt(255 - 255 * ((100 - dSpace) / 100));
-		dsbCol += ',' + parseInt(255 * ((100 - dSpace) / 100));
-		dsbCol += ',0)';
-		document.getElementById("barDriveSpace2").style.backgroundcolor = dsbCol;
-	}
-	// bandwidth-bars
-	if (bandwidthBarsEnabled == 1) {
-		// up
-		var upPer = statsServer[9];
-		document.getElementById("barSpeedUpPercent").innerHTML = upPer;
-		document.getElementById("barSpeedUp").innerHTML = statsServer[1];
-		
-		document.getElementById("barSpeedUp1").style.width = upPer + "%";
-
-		document.getElementById("barSpeedUp2").style.width = (100 - upPer) + "%";
-		// down
-		var downPer = statsServer[8];
-		document.getElementById("barSpeedDownPercent").innerHTML = downPer;
-		document.getElementById("barSpeedDown").innerHTML = statsServer[0];
-		document.getElementById("barSpeedDown2").style.width = (100 - downPer) + "%";
-			
-		document.getElementById("barSpeedDown1").style.width = downPer + "%";
-		if (bandwidthBarsStyle == "xfer") {
-			// set color
-			// up
-			var bwbCol  = 'rgb(';
-			bwbCol += parseInt(255 - 255 * ((100 - upPer) / 150));
-			bwbCol += ',' + parseInt(255 * ((100 - upPer) / 150));
-			bwbCol += ',0)';
-			document.getElementById("barSpeedUp1").style.backgroundcolor = bwbCol;
-
-			// down
-			bwbCol  = 'rgb(';
-			bwbCol += parseInt(255 - 255 * ((100 - downPer) / 150));
-			bwbCol += ',' + parseInt(255 * ((100 - downPer) / 150));
-			bwbCol += ',0)';
-			document.getElementById("barSpeedDown1").style.backgroundcolor = bwbCol;
-		}
-	}
-	// bottom stats
-	if (bottomStatsEnabled == 1) {
-		for (i = 0; i < ajax_idCount; i++) {
-			document.getElementById("b_" + ajax_fieldIds[i]).innerHTML = statsServer[i];
-		}
-		// running + queued
-		if (queueActive == 1) {
-			document.getElementById("running").innerHTML = statsServer[ajax_idCount];
-			document.getElementById("queued").innerHTML = statsServer[ajax_idCount + 1];
-		}
-		// xfer
-		if (xferEnabled == 1) {
-			var statsXfer = statsXferStr.split(ajax_txtDelim);
-			for (i = 0; i < ajax_idCountXfer; i++) {
-				document.getElementById(ajax_fieldIdsXfer[i]).innerHTML = statsXfer[i];
-			}
-		}
-	}
-	// users
-	if (usersEnabled == 1) {
-		if (userList != usersStr) {
-			userList = usersStr;
-			if (usersHideOffline == 0) {
-				var allUsers = usersStr.split("+");
-				// online
-				var onlineUsers = allUsers[0].split(ajax_txtDelim);
-				var onlineUsersCount = onlineUsers.length;
-				var htmlString = "";
-				for (i = 0; i < onlineUsersCount; i++) {
-					htmlString += '<a href="index.php?iid=message&to_user='+onlineUsers[i]+'">'+onlineUsers[i]+'</a><br>';
-				}
-				document.getElementById("usersOnline").innerHTML = htmlString;
-				// offline
-				var offlineUsers = allUsers[1].split(ajax_txtDelim);
-				var offlineUsersCount = offlineUsers.length;
-				htmlString = "";
-				for (i = 0; i < offlineUsersCount; i++) {
-					htmlString += '<a href="index.php?iid=message&to_user='+offlineUsers[i]+'">'+offlineUsers[i]+'</a><br>';
-				}
-				document.getElementById("usersOffline").innerHTML = htmlString;
-			} else {
-				// online
-				var onlineUsers = usersStr.split(ajax_txtDelim);
-				var onlineUsersCount = onlineUsers.length;
-				var htmlString = "";
-				for (i = 0; i < onlineUsersCount; i++) {
-					htmlString += '<a href="index.php?iid=message&to_user='+onlineUsers[i]+'">'+onlineUsers[i]+'</a><br>';
-				}
-				document.getElementById("usersOnline").innerHTML = htmlString;
-			}
-		}
-	}
-	// transfer-list
-	if (transferListEnabled == 1) {
-		// update content
-		document.getElementById("transferList").innerHTML = transferListStr;
-		// re-init sort-table
-		if (sortTableEnabled == 1)
-			sortables_init();
-	}
-	// transfer-list
-	if (ajaxScriptEnabled == 1) {
-		// update content
-		document.getElementById("transferList").innerHTML = transferListStr;
-		// re-init sort-table
-		if (sortTableEnabled == 1)
-			sortables_init();
-	}
-}
-*/
 
 /**
  * update page contents from response

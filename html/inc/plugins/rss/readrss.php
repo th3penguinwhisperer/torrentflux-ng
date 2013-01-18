@@ -205,7 +205,7 @@ class RssReader
 	      data: dataString,
 	      success: function() {
 		showstatusmessage("Transfer added");
-		reloadtransferlist();
+		refreshajaxdata();
 	      }
 	    });
 	}

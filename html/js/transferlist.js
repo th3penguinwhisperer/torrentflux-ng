@@ -24,7 +24,8 @@ function gettransfersources(parameters) {
 	loadpopup("Transfer Sources", 'index.php?page=transfersources' + parameters, "Loading transfer source plugin ...<br><img src=images/ajax-loader.gif>");
 };
 
-function reloadtransferlist() {
+// TODO: Function should get another function as it is a general ajax data reload instead of just the transfers
+function refreshajaxdata() {
     if (indexTimer) clearTimeout(indexTimer); // Stop countdown timer
 
     setTimeout(ajax_update,500); // wait 300msec to reload the transferlist
@@ -55,6 +56,6 @@ function headlessaction(action, reload, message) {
 	$.get(action, function(data) {
 		showstatusmessage(message);
 		currentactions--;
-		if (reload == true && currentactions < 1) reloadtransferlist();
+		if (reload == true && currentactions < 1) refreshajaxdata();
 	});
 };

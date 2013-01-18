@@ -13,9 +13,11 @@
 
 <tmpl_include name="inc.indexStatsBar.tmpl">
 <img src=images/add.png onclick="javascript:loadpopup('Transfer Sources', 'index.php?page=transfersources', 'Loading...'); centerPopup(); loadPopup();">
-<img src=images/refresh.png onclick="javascript:reloadtransferlist();">
+<img src=images/refresh.png onclick="javascript:refreshajaxdata();">
 <div id="generalplugins"><tmpl_var name="generalplugins"></div>
 <div style="height:5px;"></div>
+
+<div id="plugin_container"><tmpl_var name="plugin_container_content"></div>
 
 <div id="tabs">
 
