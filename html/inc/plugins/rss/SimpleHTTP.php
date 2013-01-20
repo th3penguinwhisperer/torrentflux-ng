@@ -380,8 +380,6 @@ class SimpleHTTP
 		// TODO: fix this dirty hack to have db access
 		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
-		require_once('inc/classes/singleton/db.php');
-		$db = DB::get_db()->get_handle();
 		
 		// Check to see if cookie required for this domain:
 		$sql = "SELECT c.data AS data FROM tf_cookies AS c LEFT JOIN tf_users AS u ON ( u.uid = c.uid ) WHERE u.user_id = ".$db->qstr($cfg["user"]);
