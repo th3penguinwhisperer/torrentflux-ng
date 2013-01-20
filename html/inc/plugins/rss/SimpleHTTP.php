@@ -272,6 +272,18 @@ class SimpleHTTP
 		return $url;
 	}
 
+	/**
+	 * Get array with all http response headers
+	 *
+	 * @return array
+	 */
+	function getResponseHeaders() {
+		global $instanceSimpleHTTP;
+		return (isset($instanceSimpleHTTP))
+		? $instanceSimpleHTTP->responseHeaders
+		: array();
+	}
+
 	// =========================================================================
 	// ctor
 	// =========================================================================
