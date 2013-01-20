@@ -89,7 +89,11 @@ class RssReader
 					// Check each item in this feed has link, title and publication date:
 					for ($i=0; $i < count($rs["items"]); $i++) {
 						// Don't include feed items without a link:
-						if (!isset($rs["items"][$i]["link"]) || empty($rs["items"][$i]["link"])){
+						if (
+								( !isset($rs["items"][$i]["magnetURI"]) || empty($rs["items"][$i]["magnetURI"]) ) &&
+								( !isset($rs["items"][$i]["enclosure_url"]) || empty($rs["items"][$i]["enclosure_url"]) ) &&
+								( !isset($rs["items"][$i]["link"]) || empty($rs["items"][$i]["link"]) )
+							){
 							array_splice ($rs["items"], $i, 1);
 							// Continue to next feed item:
 							continue;
@@ -117,7 +121,12 @@ class RssReader
 						}
 						// decode html entities like &amp; -> & , and then uri_encode them them & -> %26
 						// This is needed to get Urls with more than one GET Parameter working
+						// (There are 3 common fields used for torrents: enclosure_url, link, magnetURI; enclosure_url is better than link as it is more generally used)
+						$rs["items"][$i]["enclosure_url"] = rawurlencode(html_entity_decode($rs["items"][$i]["enclosure_url"]));
 						$rs["items"][$i]["link"] = rawurlencode(html_entity_decode($rs["items"][$i]["link"]));
+						if ( isset($rs["items"][$i]["magnetURI"]) ) {
+							$rs["items"][$i]["magnetURI"] = rawurlencode(html_entity_decode($rs["items"][$i]["magnetURI"]));
+						}
 					}
 					$stat = 1;
 					$message = "";
@@ -221,7 +230,20 @@ class RssReader
 				foreach($rss_source['feedItems'] as $feedItem)
 				{
 					print("<tr>");
-					print("<td><img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">".$feedItem['title']."</td>");
+
+					$rssitemline = "";
+					if ( isset($feedItem['enclosure_url']) && $feedItem['enclosure_url'] !== '' ) {
+						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['enclosure_url'] . "');\">";
+					} elseif ( isset($feedItem['link']) && $feedItem['link'] !== '' ) {
+						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">";
+					}
+					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
+						$rssitemline .= "<img src=\"images/magnet.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
+					}
+					print("<td>$rssitemline</td>");
+
+					print("<td>" . $feedItem['title'] . "</td>");
+
 					print("</tr>");
 				}
 				print('</table>');

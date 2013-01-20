@@ -50,7 +50,7 @@ class lastRSS {
 	// Private variables
 	// -------------------------------------------------------------------------
 	var $_channeltags = array ('title', 'link', 'description', 'language', 'copyright', 'managingEditor', 'webMaster', 'lastBuildDate', 'rating', 'docs');
-	var $_itemtags = array('title', 'link', 'description', 'author', 'category', 'comments', 'enclosure', 'guid', 'pubDate', 'source');
+	var $_itemtags = array('title', 'link', 'description', 'author', 'category', 'comments', 'enclosure', 'guid', 'pubDate', 'source', 'magnetURI');
 	var $_imagetags = array('title', 'url', 'link', 'width', 'height');
 	var $_textinputtags = array('title', 'description', 'name', 'link');
 
@@ -204,6 +204,10 @@ class lastRSS {
 					$temp = $this->my_preg_match("'<$itemtag.*?>(.*?)</$itemtag>'si", $rss_item);
 					if ($temp != '') $result['items'][$i][$itemtag] = $temp; // Set only if not empty
 				}
+				
+				$temp = $this->my_preg_match("'<enclosure url=\"?(.*?)\"? .*?/>'si", $rss_item);
+				if ($temp != '') $result['items'][$i]['enclosure_url'] = $temp; // Set only if not empty
+
 				// Strip HTML tags and other bullshit from DESCRIPTION
 				if ($this->stripHTML && $result['items'][$i]['description'])
 					$result['items'][$i]['description'] = strip_tags($this->unhtmlentities(strip_tags($result['items'][$i]['description'])));
