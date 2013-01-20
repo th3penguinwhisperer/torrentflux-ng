@@ -151,22 +151,6 @@ class lastRSS {
 		// result-array
 		$result = array();
 
-		if ( isset($shttp->getResponseHeaders()['content-encoding']) ) {
-			switch (strtolower($shttp->getResponseHeaders()['content-encoding'])) {
-				case 'gzip':
-					$rss_content = gzdecode($rss_content);
-					break;
-
-				case 'compress':
-					$rss_content = gzuncompress($rss_content);
-					break;
-
-				case 'deflate':
-					$rss_content = gzdeflate($rss_content);
-					break;
-			}
-		}
-
 		// document encoding
 		$result['encoding'] = $this->my_preg_match("'encoding=[\'\"](.*?)[\'\"]'si", $rss_content);
 		// if document codepage is specified, use it

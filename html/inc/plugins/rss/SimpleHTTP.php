@@ -649,6 +649,22 @@ class SimpleHTTP
 		// state
 		$this->state = SIMPLEHTTP_STATE_OK;
 
+		if ( isset($this->getResponseHeaders()['content-encoding']) ) {
+			switch (strtolower($this->getResponseHeaders()['content-encoding'])) {
+				case 'gzip':
+					$this->responseBody = gzdecode($this->responseBody);
+					break;
+		
+				case 'compress':
+					$this->responseBody = gzuncompress($this->responseBody);
+					break;
+		
+				case 'deflate':
+					$this->responseBody = gzdeflate($this->responseBody);
+					break;
+			}
+		}
+		
 		// return content
 		return $this->responseBody;
 	}
