@@ -27,6 +27,8 @@ interface ClientInterface
 	function getConfiguration();
 
 	function setConfiguration($configArray);
+	
+	function move($destination);
 }
 
 ?>
