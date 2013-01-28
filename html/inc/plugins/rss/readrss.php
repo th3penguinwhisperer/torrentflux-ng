@@ -238,7 +238,7 @@ class RssReader
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">";
 					}
 					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
-						$rssitemline .= "<img src=\"images/magnet.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
+						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
 					}
 					print("<td>$rssitemline</td>");
 
