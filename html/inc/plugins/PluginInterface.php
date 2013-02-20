@@ -5,6 +5,8 @@ interface PluginInterface
 	function show();
 
 	function get();
+	
+	function handleRequest($requestdata);
 
 	function getConfiguration();
 

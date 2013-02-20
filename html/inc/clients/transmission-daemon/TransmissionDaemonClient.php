@@ -47,6 +47,11 @@ class TransmissionDaemonClient implements ClientInterface
 		deleteTransmissionTransfer($_SESSION['uid'], $transfer);
 	}
 	
+	function move($transfer, $location) {
+		$cfg = Configuration::get_instance()->get_cfg();
+		move($transfer, $location);
+	}
+	
 	function deletewithdata($transfer) {
 		$cfg = Configuration::get_instance()->get_cfg();
 		deleteTransmissionTransferWithData($_SESSION['uid'], $transfer);
@@ -271,6 +276,11 @@ array(2) {
 		return $returnstats;
 	}
 
+	function move($transfer, $destination) {
+		require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
+		
+		move($transfer, $destination);
+	}
 }
 
 ?>

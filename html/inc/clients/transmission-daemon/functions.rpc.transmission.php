@@ -434,4 +434,16 @@ function setSessionParameter($parametername, $value) {
 	$result = $rpc->session_set($request);
 }
 
+function move( $transfer, $target_location, $move_existing_data = true ) {
+	require_once('inc/clients/transmission-daemon/Transmission.class.php');
+	
+	$rpc = new Transmission();
+	$response = $rpc->move($transfer, $target_location, $move_existing_data);
+	
+	if ( $response['result'] !== "success" )
+		rpc_error("Error during moving of torrent" , "", "", $response['result']);
+	
+	return $response;
+}
+
 ?>

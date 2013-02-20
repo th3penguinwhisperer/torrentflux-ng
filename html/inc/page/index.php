@@ -87,6 +87,7 @@ $tmpl->setvar('_STATUS', "Status");
 $tmpl->setvar('_ESTIMATEDTIME', "Est.");
 $tmpl->setvar('_RUNTRANSFER', "Run");
 $tmpl->setvar('_STOPTRANSFER', "Stop");
+$tmpl->setvar('_MOVETRANSFER', "Move");
 $tmpl->setvar('_DELQUEUE', "Delete from queue");
 $tmpl->setvar('_SEEDTRANSFER', "Seed");
 $tmpl->setvar('_DELETE', "Delete");
