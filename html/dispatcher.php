@@ -27,13 +27,13 @@ if ( isset($action) ) {
 		if ($subaction == "filemanagement") {
 			$pi = $ph->getFilePlugin($plugin, $dir, $filename);
 			if (!is_object($pi))
-				print("Plugin $plugin could not be loaded");
+				AuditAction("PLUGIN LOAD", $cfg["constants"]["error"], "Plugin $plugin could not be loaded");
 		} else {
 			$pi = $ph->getPlugin($plugin);
 			if (is_object($pi)) {
-				$pi->show(); // TODO: passing $_REQUEST?
+				$pi->handleRequest($_REQUEST);
 			} else {
-				print("Plugin $plugin could not be loaded");
+				AuditAction("PLUGIN LOAD", $cfg["constants"]["error"], "Plugin $plugin could not be loaded");
 			}
 		}
 	}

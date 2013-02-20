@@ -139,7 +139,8 @@ $cfg['user'] = "administrator";
 			'details_action' => "loadpopup('Transfer Details', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
 			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
 			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
-			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');"
+			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');",
+			'move_action' => "loadpopup('Move Torrent', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentmove&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Move panel'); centerPopup(); loadPopup();"
 		);
 
 		return $tArray;

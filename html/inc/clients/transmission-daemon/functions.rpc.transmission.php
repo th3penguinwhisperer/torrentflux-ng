@@ -434,4 +434,10 @@ function setSessionParameter($parametername, $value) {
 	$result = $rpc->session_set($request);
 }
 
+function move($transfer, $location, $move = true) {
+	require_once('inc/clients/transmission-daemon/Transmission.class.php');
+	$rpc = new Transmission();
+	$result = $rpc->move($transfer, $location, $move);
+}
+
 ?>

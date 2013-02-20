@@ -66,6 +66,9 @@ class Stats implements PluginInterface
 		;
 	}
 	
+	function handleRequest($requestdata) {
+		$this->show();
+	}
 }
 
 ?>

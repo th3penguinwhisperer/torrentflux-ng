@@ -57,6 +57,10 @@ class DiskspaceInfo implements PluginInterface
 
 		return $output;
 	}
+	
+	function handleRequest($requestdata) {
+		$this->show();
+	}
 
 }
 

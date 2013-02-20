@@ -145,6 +145,9 @@ Your Transfers
 							<a onclick="showTransfer('index.php?iid=transferSettings&amp;transfer=<tmpl_var name="url_entry">')" style="cursor:pointer;">
 								<img src="themes/<tmpl_var name="theme">/images/index/TransferList/edit.png" title="Transfer Settings" alt="" />
 							</a>
+							<a href="#" onclick="<tmpl_var name="move_action">;">
+								<img src="themes/<tmpl_var name="theme">/images/index/TransferList/move.png" title="<tmpl_var name="_MOVETRANSFER">" alt="" />
+							</a>
 							<tmpl_if name="transferRunning" value="1">
 								<img src="themes/<tmpl_var name="theme">/images/index/TransferList/blank.png" style="width:16px;height:16px;" alt="" />
 								<a href="#" onclick="<tmpl_var name="stop_action">; return actionClick(true,'Stopping Transfer')">

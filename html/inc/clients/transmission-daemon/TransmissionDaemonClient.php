@@ -47,6 +47,11 @@ class TransmissionDaemonClient implements ClientInterface
 		deleteTransmissionTransfer($_SESSION['uid'], $transfer);
 	}
 	
+	function move($transfer, $location) {
+		$cfg = Configuration::get_instance()->get_cfg();
+		move($transfer, $location);
+	}
+	
 	function deletewithdata($transfer) {
 		$cfg = Configuration::get_instance()->get_cfg();
 		deleteTransmissionTransferWithData($_SESSION['uid'], $transfer);
