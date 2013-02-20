@@ -276,11 +276,6 @@ array(2) {
 		return $returnstats;
 	}
 
-	function move($transfer, $destination) {
-		require_once("inc/clients/transmission-daemon/functions.rpc.transmission.php");
-		
-		move($transfer, $destination);
-	}
 }
 
 ?>

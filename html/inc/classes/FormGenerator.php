@@ -58,9 +58,7 @@ class FormGenerator
 
   $("form").live( \'submit\',  function(e) {
   	e.preventDefault();
-  	alert($(torrentmove).serialize());
-    var dataString = $(\'#' . $this->form_name . '\').serialize();
-    alert(dataString);
+    var dataString = $("form").serialize();
     
     $.ajax({
       type: "POST",
@@ -72,9 +70,9 @@ class FormGenerator
         refreshajaxdata();
         $("form").reset();
       },
-      error: function() {
+      error: function(data) {
       	alert("faulty");
-        showstatusmessage("Request couldn\'t be send to the server");
+        showstatusmessage("Request couldn\'t be send to the server" + data);
       }
     });
     return false;

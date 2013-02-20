@@ -36,16 +36,13 @@ class TorrentMove implements PluginInterface
 		if ( ! is_request_set('torrentmove_subaction') || ! is_request_set('torrentmove_destination') ) { // TODO: rewrite this so developer doesn't need to know the exact field name that is generated in the form
 			$this->show(); // SHOW
 		} elseif ( $_REQUEST['torrentmove_subaction'] === "move" ) {
-			print("lets move data bitchiiiz!<br>\n");
 			if ( is_request_set('torrentmove_destination')  && is_request_set('torrentmove_transfer') ) {
-				print("And all arguments are given! Drumrolll.....<br>\n");
 				$this->moveFile($_REQUEST['torrentmove_transfer'], $_REQUEST['torrentmove_destination']);
 			} else {
 				require_once('inc/classes/singleton/Configuration.php');
 				$cfg = Configuration::get_instance()->get_cfg();
 				AuditAction('TORRENT MOVE', $cfg["constants"]["error"], 'Not enough arguments passed to execute torrent move!');
 				print("<b>Some data is not set</b>");
-				var_dump($_REQUEST);
 			}
 		}
 	}
