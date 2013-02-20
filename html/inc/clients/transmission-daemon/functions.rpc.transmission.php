@@ -440,8 +440,10 @@ function move( $transfer, $target_location, $move_existing_data = true ) {
 	$rpc = new Transmission();
 	$response = $rpc->move($transfer, $target_location, $move_existing_data);
 	
-	if ( ! $result['result'] !== "success" )
+	if ( $response['result'] !== "success" )
 		rpc_error("Error during moving of torrent" , "", "", $response['result']);
+	
+	return $response;
 }
 
 ?>

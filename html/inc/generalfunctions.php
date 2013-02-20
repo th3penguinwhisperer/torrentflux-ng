@@ -416,4 +416,9 @@ function ends_with($haystack,$needle,$case=true)
   return strripos($haystack, $needle, 0) === $expectedPosition;
 }
 
+function is_request_set($value)
+{
+	return ( isset($_REQUEST[$value]) && $_REQUEST[$value] != '' );
+}
+
 ?>
