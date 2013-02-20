@@ -353,7 +353,7 @@ class SimpleHTTP
 			$this->state = SIMPLEHTTP_STATE_ERROR;
 			$msg = "Error fetching " . $this->url .".  This is not a valid HTTP/HTTPS URL.";
 			array_push($this->messages, $msg);
-			AuditAction($cfg["constants"]["error"], $msg);
+			AuditAction('FETCHING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 			return($data="");
 		}
 
@@ -362,7 +362,7 @@ class SimpleHTTP
 			$this->state = SIMPLEHTTP_STATE_ERROR;
 			$msg = "Error fetching " . $this->url .".  PHP does not have module OpenSSL, which is needed for HTTPS.";
 			array_push($this->messages, $msg);
-			AuditAction($cfg["constants"]["error"], $msg);
+			AuditAction('FETCHING EXTERNAL HTTPS DATA', $cfg["constants"]["error"], $msg);
 			return($data="");
 		}
 
