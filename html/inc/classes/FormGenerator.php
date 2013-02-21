@@ -48,6 +48,18 @@ class FormGenerator
 		$this->form .= "<input type=submit id=" . $this->form_name . "_submit " . ($class != '' ? " class=$class" : "" ) . ($text != "" ? " value=$text" : "") . " />";
 	}
 	
+	function add_dropdown($name, $data) {
+		$this->form .= "<select " . $this->getIdNameAttributeCode($name) . ">";
+		if ( is_array($data) ) {
+			foreach ( $data as $entry ) {
+				$this->form .= "<option value=" . urlencode($entry) . ">" . $entry . "</option>";
+				print(urlencode($entry) . "<br>");
+			}
+			
+		}
+		$this->form .= "</select>";
+	}
+	
 	function get() {
 		$this->generateJavascript();
 		return $this->form_header . $this->form . $this->javascript . $this->form_footer;
