@@ -9,7 +9,8 @@ class TorrentMove implements PluginInterface
 
 	function show() {
 		$form = new FormGenerator("torrentmove");
-		$form->add_textfield('destination');
+		// Lets generate a dropdown that shows all subdirectories
+		$form->add_dropdown('destination', $this->getDirectoryList());
 		$form->add_argument('transfer', $_REQUEST['transfer']);
 		$form->add_argument('subaction', $_REQUEST['subaction']);
 		$form->add_direct_argument('client', $_REQUEST['client']);
@@ -17,6 +18,39 @@ class TorrentMove implements PluginInterface
 		$form->add_direct_argument('plugin', $_REQUEST['plugin']);
 		$form->add_submit_button();
 		print($form->get());
+	}
+	
+	private function traverseDirTree($dir, &$tree_array, $depth = 0) {
+		if ( is_dir($dir) ) {
+			$depth++;
+			$dh = opendir($dir);
+			
+			if ($dh = opendir($dir)) {
+				while (($entry = readdir($dh)) !== false) {
+					if ( substr($entry, 0, 1) !== "." && is_dir($dir . "/" . $entry) ) {
+						array_push( $tree_array, $dir . "/" . $entry );
+						if ($depth < 2)
+							$this->traverseDirTree($dir . "/" . $entry, $tree_array, $depth);
+					}
+				}
+				closedir($dh);
+			}
+			
+		}
+	}
+	
+	private function getDirectoryList() {
+		$cfg = Configuration::get_instance()->get_cfg();
+		$tree_array = array();
+		
+		if ( $cfg['isAdmin'] ) {
+			$dir = $cfg['rewrite_path'];
+			$this->traverseDirTree($dir, $tree_array);
+		} else {
+			print("Not yet implemented for normal users");
+		}
+		
+		return $tree_array;
 	}
 	
 	function get() {
@@ -37,7 +71,7 @@ class TorrentMove implements PluginInterface
 			$this->show(); // SHOW
 		} elseif ( $_REQUEST['torrentmove_subaction'] === "move" ) {
 			if ( is_request_set('torrentmove_destination')  && is_request_set('torrentmove_transfer') ) {
-				$this->moveFile($_REQUEST['torrentmove_transfer'], $_REQUEST['torrentmove_destination']);
+				$this->moveFile( $_REQUEST['torrentmove_transfer'], urldecode($_REQUEST['torrentmove_destination']) );
 			} else {
 				require_once('inc/classes/singleton/Configuration.php');
 				$cfg = Configuration::get_instance()->get_cfg();

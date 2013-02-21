@@ -51,11 +51,8 @@ class FormGenerator
 	function add_dropdown($name, $data) {
 		$this->form .= "<select " . $this->getIdNameAttributeCode($name) . ">";
 		if ( is_array($data) ) {
-			foreach ( $data as $entry ) {
+			foreach ( $data as $entry )
 				$this->form .= "<option value=" . urlencode($entry) . ">" . $entry . "</option>";
-				print(urlencode($entry) . "<br>");
-			}
-			
 		}
 		$this->form .= "</select>";
 	}
