@@ -48,11 +48,11 @@ class FormGenerator
 		$this->form .= "<input type=submit id=" . $this->form_name . "_submit " . ($class != '' ? " class=$class" : "" ) . ($text != "" ? " value=$text" : "") . " />";
 	}
 	
-	function add_dropdown($name, $data) {
+	function add_dropdown($name, $data, $disabled_option) {
 		$this->form .= "<select " . $this->getIdNameAttributeCode($name) . ">";
 		if ( is_array($data) ) {
 			foreach ( $data as $entry )
-				$this->form .= "<option value=" . urlencode($entry) . ">" . $entry . "</option>";
+				$this->form .= "<option value=" . urlencode($entry) . ( $disabled_option == $entry ? " disabled=disabled" : "" ) . ">" . $entry . "</option>";
 		}
 		$this->form .= "</select>";
 	}

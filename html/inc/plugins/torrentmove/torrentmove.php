@@ -14,7 +14,7 @@ class TorrentMove implements PluginInterface
 		$data = $transfer->getData();
 		
 		$form = new FormGenerator("torrentmove");
-		$form->add_dropdown('destination', $this->getDirectoryList());
+		$form->add_dropdown('destination', $this->getDirectoryList(), $data['downloadDir']);
 		$form->add_argument('transfer', $_REQUEST['transfer']);
 		$form->add_argument('subaction', $_REQUEST['subaction']);
 		$form->add_direct_argument('client', $_REQUEST['client']);
