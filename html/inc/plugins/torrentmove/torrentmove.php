@@ -8,8 +8,12 @@ class TorrentMove implements PluginInterface
 {
 
 	function show() {
+		require_once('inc/classes/ClientHandler.php');
+		$client = ClientHandler::getInstance(getTransferClient($_REQUEST['transfer']));
+		$transfer = $client->getTransfer($_REQUEST['transfer']);
+		$data = $transfer->getData();
+		
 		$form = new FormGenerator("torrentmove");
-		// Lets generate a dropdown that shows all subdirectories
 		$form->add_dropdown('destination', $this->getDirectoryList());
 		$form->add_argument('transfer', $_REQUEST['transfer']);
 		$form->add_argument('subaction', $_REQUEST['subaction']);
@@ -17,10 +21,15 @@ class TorrentMove implements PluginInterface
 		$form->add_direct_argument('action', $_REQUEST['action']);
 		$form->add_direct_argument('plugin', $_REQUEST['plugin']);
 		$form->add_submit_button();
+		
+		print( "This transfer is currently located in " . $data['downloadDir'] . "<br>" );
 		print($form->get());
 	}
 	
 	private function traverseDirTree($dir, &$tree_array, $depth = 0) {
+		if ( substr($dir, -1, 1) == "/" )
+			$dir = substr($dir, 0, strlen($dir)-1 );
+		
 		if ( is_dir($dir) ) {
 			$depth++;
 			$dh = opendir($dir);
@@ -78,6 +87,9 @@ class TorrentMove implements PluginInterface
 				AuditAction('TORRENT MOVE', $cfg["constants"]["error"], 'Not enough arguments passed to execute torrent move!');
 				print("<b>Some data is not set</b>");
 			}
+		} else {
+			$cfg = Configuration::get_instance()->get_cfg();
+			AuditAction('TORRENT MOVE', $cfg["constants"]["error"], 'Some data passed to the plugin is missing! ' . serialize($_REQUEST) );
 		}
 	}
 	
