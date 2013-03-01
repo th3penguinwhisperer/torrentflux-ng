@@ -3,7 +3,7 @@
 require_once('inc/plugins/PluginInterface.php');
 require_once("inc/generalfunctions.php");
 
-class SearchEngines implements PluginInterface
+class SearchEngines extends PluginAbstract
 {
 
 	function __construct()
@@ -156,17 +156,7 @@ var dataextension = "";
 		require_once('inc/plugins/searchengines/torrentSearch.php');
 		return getPage(); // returns string
 	}
-
-	function getConfiguration()
-	{
-		;
-	}
 	
-	function setConfiguration($configArray)
-	{
-		;
-	}
-
 }
 
 ?>

@@ -24,9 +24,9 @@ interface ClientInterface
 
 	function getstats();
 
-	function getConfiguration();
+	static function getConfiguration();
 
-	function setConfiguration($configArray);
+	static function setConfiguration($configArray);
 	
 	function move($transfer, $destination);
 }

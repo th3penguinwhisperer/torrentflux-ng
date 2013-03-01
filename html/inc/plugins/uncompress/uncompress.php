@@ -73,16 +73,6 @@ class Uncompress extends FilePluginBase
 		return $this->getDiskspaceUi();
 	}
 
-	function getConfiguration()
-	{
-		;
-	}
-	
-	function setConfiguration($configArray)
-	{
-		;
-	}
-
 }
 
 ?>

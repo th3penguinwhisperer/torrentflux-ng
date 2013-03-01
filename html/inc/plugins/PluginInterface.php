@@ -8,9 +8,9 @@ interface PluginInterface
 	
 	function handleRequest($requestdata);
 
-	function getConfiguration();
+	static function getConfiguration();
 
-	function setConfiguration($configArray);
+	static function setConfiguration($configArray);
 }
 
 ?>

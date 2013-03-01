@@ -22,6 +22,8 @@ abstract class FilePluginBase implements FilePluginInterface
 		$this->fullfilename = $this->fulldir.$this->filename;
 	}
 
+	static function getConfiguration() { print("<i>No configuration options for this plugin</i>"); }
+	static function setConfiguration($configArray) { ; }
 }
 
 interface FilePluginInterface
@@ -31,6 +33,9 @@ interface FilePluginInterface
 	static function getaction($dir, $filename);
 
 	function fileaction();
+
+	static function getConfiguration();
+	static function setConfiguration($configArray);
 }
 
 ?>

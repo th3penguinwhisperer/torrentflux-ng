@@ -5,9 +5,11 @@ require_once('inc/plugins/PluginInterface.php');
 require_once('inc/generalfunctions.php');
 require_once('inc/classes/singleton/Configuration.php');
 
-class TorrentfluxngConfiguration implements PluginInterface
+class TorrentfluxngConfiguration extends PluginAbstract
 {
 
+	function handleRequest($data){;}
+	
 	function __construct()
 	{
 		;
@@ -23,7 +25,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 		;
 	}
 
-	function getConfiguration()
+	static function getConfiguration()
 	{
 		// show users
 		require_once('inc/classes/singleton/db.php');
@@ -35,7 +37,7 @@ class TorrentfluxngConfiguration implements PluginInterface
 		if ($db->ErrorNo() != 0) dbError($sql);
 		print("<table>");
 		while($transfer = $recordset->FetchRow())
-			$this->showUser($transfer);
+			TorrentfluxngConfiguration::showUser($transfer);
 		print("</table>");
 		print("<form method=post action=configure.php>
 <input type=text name=username>
@@ -47,14 +49,14 @@ class TorrentfluxngConfiguration implements PluginInterface
 </form>");
 	}
 
-	function showUser($transfer) {
+	static function showUser($transfer) {
 		print("<tr>");
 		print("<td>$transfer[user_id]</td>");
 		print("<td><a href=\"configure.php?action=set&subaction=delete&plugin=torrentfluxng&uid=$transfer[uid]\"><img src=images/delete.png></a></td>");
 		print("</tr>");
 	}
 	
-	function setConfiguration($configArray)
+	static function setConfiguration($configArray)
 	{
 		if ($_REQUEST['subaction'] == "delete")
 			$this->deleteUser($_REQUEST['uid']);

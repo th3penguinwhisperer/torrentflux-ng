@@ -1,11 +1,12 @@
 <?php
 
 require_once("inc/generalfunctions.php");
+require_once("inc/plugins/PluginAbstract.php");
 
-class TransfersourceFileupload
+class TransfersourceFileupload extends PluginAbstract
 {
 
-	static function show() {
+	function show() {
 		self::printIframe();
 	}
 
@@ -30,6 +31,7 @@ class TransfersourceFileupload
 </form>");
 	}
 
+	public function handleRequest($data) { ; }
 }
 
 ?>

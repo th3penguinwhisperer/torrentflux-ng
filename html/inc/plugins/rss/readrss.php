@@ -254,7 +254,7 @@ class RssReader
 	
 	}
 
-	function getConfiguration()
+	static function getConfiguration()
 	{
 		print("<form method=post action=configure.php>
   <input type=hidden name=plugin value=rss-transfers>
@@ -278,7 +278,7 @@ class RssReader
 		}
 	}
 	
-	function setConfiguration($configArray)
+	static function setConfiguration($configArray)
 	{
 		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();

@@ -1,8 +1,9 @@
 <?php
 
 require_once("inc/generalfunctions.php");
+require_once("inc/plugins/PluginAbstract.php");
 
-class TransfersourceTorrent
+class TransfersourceTorrent extends PluginAbstract
 {
 	
 	function __construct()

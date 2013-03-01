@@ -1,8 +1,8 @@
 <?php
 
-require_once('inc/plugins/PluginInterface.php');
+require_once('inc/plugins/PluginAbstract.php');
 
-class DiskspaceInfo implements PluginInterface
+class DiskspaceInfo extends PluginAbstract
 {
 
 	function __construct()
@@ -18,16 +18,6 @@ class DiskspaceInfo implements PluginInterface
 	function get()
 	{
 		return $this->getDiskspaceUi();
-	}
-
-	function getConfiguration()
-	{
-		;
-	}
-	
-	function setConfiguration($configArray)
-	{
-		;
 	}
 
 	function getDiskspaceUi() {

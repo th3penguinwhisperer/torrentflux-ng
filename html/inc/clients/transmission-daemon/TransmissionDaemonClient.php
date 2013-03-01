@@ -104,7 +104,7 @@ class TransmissionDaemonClient implements ClientInterface
 	}
 */
 
-	function getConfiguration() {
+	static function getConfiguration() {
 		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
 		$sessiondata = getSessionInfo();
 	
@@ -173,7 +173,7 @@ Array
 
 	}
 
-	function setConfiguration($configArray) {
+	static function setConfiguration($configArray) {
 		require_once('inc/clients/transmission-daemon/functions.rpc.transmission.php');
 		$sessiondata = getSessionInfo();
 

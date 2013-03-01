@@ -4,7 +4,7 @@ require_once('inc/generalfunctions.php');
 require_once('inc/plugins/PluginInterface.php');
 require_once('inc/plugins/PluginHandler.php');
 
-class Stats implements PluginInterface
+class Stats extends PluginAbstract
 {
 	private $totaldownloadedbytes = 0;
 	private $totaluploadedbytes = 0;
@@ -56,16 +56,6 @@ class Stats implements PluginInterface
 		return "$this->totaldownloadedbytes;$this->totaluploadedbytes;$this->totaldownloadrate;$this->totaluploadrate;$this->totaltransfercount";
 	}
 
-	function getConfiguration()
-	{
-		;
-	}
-
-	function setConfiguration($configArray)
-	{
-		;
-	}
-	
 	function handleRequest($requestdata) {
 		$this->show();
 	}

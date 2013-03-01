@@ -1,10 +1,10 @@
 <?php
 
-require_once('inc/plugins/PluginInterface.php');
+require_once('inc/plugins/PluginAbstract.php');
 require_once('inc/generalfunctions.php');
 require_once('inc/classes/FormGenerator.php');
 
-class TorrentMove implements PluginInterface
+class TorrentMove extends PluginAbstract
 {
 
 	function show() {
@@ -96,11 +96,11 @@ class TorrentMove implements PluginInterface
 	/* NOT IN USE */
 
 	
-	function getConfiguration() {
+	static function getConfiguration() {
 		;
 	}
 	
-	function setConfiguration($configArray) {
+	static function setConfiguration($configArray) {
 		;
 	}
 }
