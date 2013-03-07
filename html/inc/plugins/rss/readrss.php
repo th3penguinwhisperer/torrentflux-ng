@@ -87,6 +87,7 @@ class RssReader
 						$rs["title"] = "Feed URL ".htmlentities($url, ENT_QUOTES)." Note: this feed does not have a valid 'title' tag";
 		
 					// Check each item in this feed has link, title and publication date:
+					$rss_items_to_show = array();
 					for ($i=0; $i < count($rs["items"]); $i++) {
 						// Don't include feed items without a link:
 						if (
@@ -94,8 +95,6 @@ class RssReader
 								( !isset($rs["items"][$i]["enclosure_url"]) || empty($rs["items"][$i]["enclosure_url"]) ) &&
 								( !isset($rs["items"][$i]["link"]) || empty($rs["items"][$i]["link"]) )
 							){
-							array_splice ($rs["items"], $i, 1);
-							// Continue to next feed item:
 							continue;
 						}
 		
@@ -105,7 +104,16 @@ class RssReader
 						// Check item's pub date:
 						if (!isset($rs["items"][$i]["pubDate"]) || empty($rs["items"][$i]["pubDate"]))
 							$rs["items"][$i]["pubDate"] = "Unknown publication date";
-		
+						else { // check time that this rss feed item has been published
+							//$now = date("D, d M Y H:i:s T"); // this is the RSS pubdate format
+							$timestamp = strtotime($rs["items"][$i]["pubDate"]);
+							$last_visit = strtotime("Fri, 1 Mar 2013 17:00:00 GMT"); // get from database later on
+							
+							if ( $timestamp < $last_visit )
+								continue;
+						}
+							
+						
 						// Check item's title:
 						if (!isset($rs["items"][$i]["title"]) || empty($rs["items"][$i]["title"])) {
 							// No title found for this item, create one from the link:
@@ -127,6 +135,8 @@ class RssReader
 						if ( isset($rs["items"][$i]["magnetURI"]) ) {
 							$rs["items"][$i]["magnetURI"] = rawurlencode(html_entity_decode($rs["items"][$i]["magnetURI"]));
 						}
+						
+						array_push($rss_items_to_show, $rs['items'][$i]);
 					}
 					$stat = 1;
 					$message = "";
@@ -140,12 +150,13 @@ class RssReader
 				$stat = 3;
 				$message = "Feed $url was not available";
 			}
+			
 			array_push($rss_list, array(
 				'stat' => $stat,
 				'rid' => $rid,
 				'title' => (isset($rs["title"]) ? $rs["title"] : ""),
 				'url' => $url,
-				'feedItems' => $rs['items'],
+				'feedItems' => $rss_items_to_show,
 				'message' => $message
 				)
 			);
@@ -220,12 +231,17 @@ class RssReader
 	}
 	
 	</script>
+<STYLE TYPE="text/css">
+<!--
+TD{font-size: 10pt; padding: 0 0 0 10px;}
+--->
+</STYLE>
 	'); // get this in a seperate javascript file
 		foreach($this->rss_list as $rss_source)
 		{
 			print("<img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "<br>\n");
 		
-			if(isset($rss_source['feedItems'])) {
+			if( isset($rss_source['feedItems']) && sizeof($rss_source['feedItems']) ) {
 				print('<table>');
 				foreach($rss_source['feedItems'] as $feedItem)
 				{
@@ -240,13 +256,17 @@ class RssReader
 					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
 						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
 					}
-					print("<td>$rssitemline</td>");
+					print("<td size=2>&nbsp;&nbsp;$rssitemline</td>");
 
 					print("<td>" . $feedItem['title'] . "</td>");
+					
+					print("<td>" . $feedItem['pubDate'] . "</td>");
 
 					print("</tr>");
 				}
 				print('</table>');
+			} else {
+				print ("<table><tr><td><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr></table>");
 			}
 			if ($rss_source['message'] != '')
 				print($rss_source['message'].'<br>');
