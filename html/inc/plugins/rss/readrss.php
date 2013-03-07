@@ -237,12 +237,12 @@ TD{font-size: 10pt; padding: 0 0 0 10px;}
 --->
 </STYLE>
 	'); // get this in a seperate javascript file
+		print("<table>");
 		foreach($this->rss_list as $rss_source)
 		{
-			print("<img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "<br>\n");
+			print("<tr><td colspan=3><img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "</td></tr>\n");
 		
 			if( isset($rss_source['feedItems']) && sizeof($rss_source['feedItems']) ) {
-				print('<table>');
 				foreach($rss_source['feedItems'] as $feedItem)
 				{
 					print("<tr>");
@@ -264,13 +264,13 @@ TD{font-size: 10pt; padding: 0 0 0 10px;}
 
 					print("</tr>");
 				}
-				print('</table>');
 			} else {
-				print ("<table><tr><td><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr></table>");
+				print ("<tr><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
 			if ($rss_source['message'] != '')
 				print($rss_source['message'].'<br>');
 		}
+		print("</table>");
 	
 	}
 
