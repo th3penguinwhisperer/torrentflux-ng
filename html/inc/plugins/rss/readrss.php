@@ -231,21 +231,21 @@ class RssReader
 	}
 	
 	</script>
-<STYLE TYPE="text/css">
-<!--
-TD{font-size: 10pt; padding: 0 0 0 10px;}
---->
-</STYLE>
+	<link rel="stylesheet" href="themes/RedRound/css/mainLayout.css" type="text/css" />
 	'); // get this in a seperate javascript file
-		print("<table>");
+		
+		print("<table cellspacing=\"0\" id=\"rss_table\" >");
 		foreach($this->rss_list as $rss_source)
 		{
-			print("<tr><td colspan=3><img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "</td></tr>\n");
+			print("<tr><th colspan=3><img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "</th></tr>\n");
 		
 			if( isset($rss_source['feedItems']) && sizeof($rss_source['feedItems']) ) {
+				$color_toggle = true;
+				
 				foreach($rss_source['feedItems'] as $feedItem)
 				{
-					print("<tr>");
+					print("<tr class=" . ($color_toggle ? "gray" : "white") . " >");
+					$color_toggle = !$color_toggle;
 
 					$rssitemline = "";
 					if ( isset($feedItem['enclosure_url']) && $feedItem['enclosure_url'] !== '' ) {

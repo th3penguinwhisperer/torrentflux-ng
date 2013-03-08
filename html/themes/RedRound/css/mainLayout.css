@@ -189,13 +189,21 @@ table#transfer_table th, table#transfer_table th a {
 	font-size: 1.1em;
 }
 
-table#transfer_table {
+table#rss_table th, table#rss_table th a {
+	background-color: black;
+	color: white;
+	font-weight: normal;
+	text-align: left;
+	font-size: 1.1em;
+}
+
+table#transfer_table, table#rss_table {
 	border-collapse: collapse;
 	background-color: transparent;
 	font-size: .8em;
 }
 
-table#transfer_table td {
+table#transfer_table td, table#rss_table td {
 	background-color: transparent;
 }
  
@@ -212,7 +220,7 @@ table#transfer_table tr.white {
 	color: white;
 }
 
-table#transfer_table a{
+table#transfer_table a, table#rss_table a {
 	color: #222;
 }
 
