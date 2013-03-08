@@ -265,7 +265,7 @@ class RssReader
 					print("</tr>");
 				}
 			} else {
-				print ("<tr><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
+				print ("<tr class=gray><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
 			if ($rss_source['message'] != '')
 				print($rss_source['message'].'<br>');
