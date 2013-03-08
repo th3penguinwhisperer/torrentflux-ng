@@ -53,9 +53,8 @@ class RssReader
 	
 	function buildRssItemsArray()
 	{
-		
 		// Get RSS feeds from Database
-		$arURL = GetRSSLinks();
+		$arURL = RssReader::GetRSSLinks();
 		
 		// create lastRSS object
 		$rss = new lastRSS();
@@ -79,8 +78,15 @@ class RssReader
 		foreach ($arURL as $rid => $url) {
 			if (isset($_REQUEST["debug"]))
 				$rss->cache_time=0;
+			
 			$rs = $rss->Get($url);
+			
 			if ($rs !== false) {
+				$last_visit = $this->getAccessTime($url); // first get the time since it was last visited
+				
+				// IMPORTANT: make sure this stays behind the getAccessTime rule otherwise you will never have any rss items left
+				$this->updateAccessTime($url); // now update the time so next time the ones that were already shown will no longer be
+				
 				if (!empty( $rs["items"])) {
 					// Check this feed has a title tag:
 					if (!isset($rs["title"]) || empty($rs["title"]))
@@ -98,21 +104,20 @@ class RssReader
 							continue;
 						}
 		
-						// Set the label for the link title (<a href="foo" title="$label">)
-						$rs["items"][$i]["label"] = $rs["items"][$i]["title"];
-		
 						// Check item's pub date:
 						if (!isset($rs["items"][$i]["pubDate"]) || empty($rs["items"][$i]["pubDate"]))
 							$rs["items"][$i]["pubDate"] = "Unknown publication date";
 						else { // check time that this rss feed item has been published
 							//$now = date("D, d M Y H:i:s T"); // this is the RSS pubdate format
 							$timestamp = strtotime($rs["items"][$i]["pubDate"]);
-							$last_visit = strtotime("Fri, 1 Mar 2013 17:00:00 GMT"); // get from database later on
+							//$last_visit = strtotime("Fri, 1 Mar 2013 17:00:00 GMT"); // get from database later on
 							
 							if ( $timestamp < $last_visit )
 								continue;
 						}
-							
+						
+						// Set the label for the link title (<a href="foo" title="$label">)
+						$rs["items"][$i]["label"] = $rs["items"][$i]["title"];
 						
 						// Check item's title:
 						if (!isset($rs["items"][$i]["title"]) || empty($rs["items"][$i]["title"])) {
@@ -127,6 +132,7 @@ class RssReader
 							// as the feed's display title in the table.
 							$rs["items"][$i]["title"] = substr($rs["items"][$i]["title"], 0, 64)."...";
 						}
+						
 						// decode html entities like &amp; -> & , and then uri_encode them them & -> %26
 						// This is needed to get Urls with more than one GET Parameter working
 						// (There are 3 common fields used for torrents: enclosure_url, link, magnetURI; enclosure_url is better than link as it is more generally used)
@@ -157,7 +163,8 @@ class RssReader
 				'title' => (isset($rs["title"]) ? $rs["title"] : ""),
 				'url' => $url,
 				'feedItems' => $rss_items_to_show,
-				'message' => $message
+				'message' => $message,
+				'last_visit' => $last_visit
 				)
 			);
 		}
@@ -238,9 +245,10 @@ class RssReader
 		foreach($this->rss_list as $rss_source)
 		{
 			print("<tr><th colspan=3><img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "</th></tr>\n");
+			print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . "</td></tr>\n");
 		
 			if( isset($rss_source['feedItems']) && sizeof($rss_source['feedItems']) ) {
-				$color_toggle = true;
+				$color_toggle = false;
 				
 				foreach($rss_source['feedItems'] as $feedItem)
 				{
@@ -260,7 +268,7 @@ class RssReader
 
 					print("<td>" . $feedItem['title'] . "</td>");
 					
-					print("<td>" . $feedItem['pubDate'] . "</td>");
+					print("<td>" . date( "Y-m-d H:i:s", strtotime($feedItem['pubDate']) ) . "</td>");
 
 					print("</tr>");
 				}
@@ -319,8 +327,47 @@ class RssReader
 			if ($db->ErrorNo() != 0) dbError($sql);
 		}
 	}
-
-
+	
+	function getAccessTime($url) {
+		require_once('inc/classes/singleton/db.php');
+		$db = DB::get_db()->get_handle();
+		
+		$link_array = array();
+		$sql = "SELECT last_visit FROM tf_rss WHERE url='" . $url . "'";
+		$last_visit_time = $db->GetRow($sql)[0];
+		
+		if ($db->ErrorNo() != 0)
+			AuditAction("SQL SELECT", $cfg["constants"]["error"], "SQL QUERY FAILED: ".$sql);;
+		
+		return $last_visit_time;
+	}
+	
+	function updateAccessTime($url) {
+		require_once('inc/classes/singleton/db.php');
+		$db = DB::get_db()->get_handle();
+		
+		$sql = "UPDATE tf_rss SET last_visit='" . time() . "' WHERE url='" . $url . "'";
+		$result = $db->Execute($sql);
+		
+		if ($db->ErrorNo() != 0)
+			AuditAction("SQL UPDATE", $cfg["constants"]["error"], "SQL QUERY FAILED: ".$sql);
+	}
+	
+	/**
+	 * get rss links
+	 *
+	 * @return array
+	 */
+	static function GetRSSLinks() {
+		require_once('inc/classes/singleton/db.php');
+		$db = DB::get_db()->get_handle();
+	
+		$link_array = array();
+		$sql = "SELECT rid, url FROM tf_rss ORDER BY rid";
+		$link_array = $db->GetAssoc($sql);
+		if ($db->ErrorNo() != 0) dbError($sql);
+		return $link_array;
+	}
 }
 
 ?>
