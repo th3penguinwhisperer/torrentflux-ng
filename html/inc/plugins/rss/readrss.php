@@ -240,12 +240,21 @@ class RssReader extends PluginAbstract
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
-		showstatusmessage("RSS Feed reset");
+		showstatusmessage("RSS Feed Item Added");
 		refreshajaxdata();
 	      }
 	    });
 	}
 	
+	function addRssTransfers(urls_string)
+	{
+		var urls = urls_string.split(",");
+				
+		for (var i = 0; i < urls.length; i++) {
+			addRssTransfer(urls[i]);
+		}
+	}
+				
 	// reset feed last visit date function
 	function resetRssTransferTime(url)
 	{
@@ -256,7 +265,7 @@ class RssReader extends PluginAbstract
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
-		showstatusmessage("Transfer added");
+		showstatusmessage("RSS Feed Reset");
 		refreshajaxdata();
 	      }
 	    });
@@ -269,9 +278,11 @@ class RssReader extends PluginAbstract
 		print("<table cellspacing=\"0\" id=\"rss_table\" >");
 		foreach($this->rss_list as $rss_source)
 		{
+			$all_items_list = "";
+			
 			print("<tr><th colspan=3><img src=\"images/rss.png\">" . $rss_source['title'] . "</th></tr>\n");
 			if( $rss_source['last_visit'] != '' )
-				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " <img onclick=\"javascript:resetRssTransferTime('" . urlencode($rss_source['url']) . "');\"> </td></tr>\n");
+				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " <img src=\"images/refresh.png\" onclick=\"javascript:resetRssTransferTime('" . urlencode($rss_source['url']) . "');\"> </td></tr>\n");
 			else {
 				print("<tr class=gray><td colspan=3>No start date, either due to a new RSS feed or the last visited time being reset</td></tr>\n");
 			}
@@ -282,18 +293,21 @@ class RssReader extends PluginAbstract
 				$color_toggle = false;
 				
 				foreach($rss_source['feedItems'] as $feedItem)
-				{
+				{	
 					print("<tr class=" . ($color_toggle ? "gray" : "white") . " >");
 					$color_toggle = !$color_toggle;
 
 					$rssitemline = "";
 					if ( isset($feedItem['enclosure_url']) && $feedItem['enclosure_url'] !== '' ) {
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['enclosure_url'] . "');\">";
+						$all_items_list .= ($all_items_list != "" ? "," : "") . $feedItem['enclosure_url'];
 					} elseif ( isset($feedItem['link']) && $feedItem['link'] !== '' ) {
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">";
+						$all_items_list .= ($all_items_list != "" ? "," : "") . $feedItem['link'];
 					}
 					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
 						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
+						$all_items_list .= ($all_items_list != "" ? "," : "") . $feedItem['magnetURI'];
 					}
 					print("<td size=2>&nbsp;&nbsp;$rssitemline</td>");
 
@@ -303,6 +317,8 @@ class RssReader extends PluginAbstract
 
 					print("</tr>");
 				}
+				
+				print("<tr class=" . ($color_toggle ? "gray" : "white") . "><td colspan=3>Download all from this feed <img src=\"themes/RedRound/images/index/TransferList/download_meta.png\" onclick=\"javascript:addRssTransfers('$all_items_list');\"></td></tr>");
 			} else {
 				print ("<tr class=gray><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
