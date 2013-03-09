@@ -31,6 +31,8 @@ require_once('inc/plugins/rss/functions.readrss.php');
 // require
 require_once("inc/plugins/rss/lastRSS.php");
 
+require_once("inc/plugins/PluginAbstract.php");
+
 require_once('inc/classes/singleton/Configuration.php');
 $cfg = Configuration::get_instance()->get_cfg();
 
@@ -40,7 +42,7 @@ if (!defined("ENT_NOQUOTES")) define("ENT_NOQUOTES", 0);
 if (!defined("ENT_QUOTES")) define("ENT_QUOTES", 3);
 
 // THIS SHOULD BE EXTENDED FROM PLUGIN CLASS!!!
-class RssReader
+class RssReader extends PluginAbstract
 {
 	private $rss_list;
 	private $cfg;
@@ -49,6 +51,12 @@ class RssReader
 	{
 		require_once('inc/classes/singleton/Configuration.php');
 		$this->cfg = Configuration::get_instance()->get_cfg();
+	}
+	
+	function handleRequest($requestData) {
+		if ($_REQUEST['subaction'] == 'reset') {
+			RssReader::resetAccessTime( $_REQUEST['url'] );
+		}
 	}
 	
 	function buildRssItemsArray()
@@ -82,10 +90,10 @@ class RssReader
 			$rs = $rss->Get($url);
 			
 			if ($rs !== false) {
-				$last_visit = $this->getAccessTime($url); // first get the time since it was last visited
+				$last_visit = RssReader::getAccessTime($url); // first get the time since it was last visited
 				
 				// IMPORTANT: make sure this stays behind the getAccessTime rule otherwise you will never have any rss items left
-				$this->updateAccessTime($url); // now update the time so next time the ones that were already shown will no longer be
+				RssReader::updateAccessTime($url); // now update the time so next time the ones that were already shown will no longer be
 				
 				if (!empty( $rs["items"])) {
 					// Check this feed has a title tag:
@@ -149,6 +157,7 @@ class RssReader
 				} else {
 					// feed URL is valid and active, but no feed items were found:
 					$stat = 2;
+					
 					$message = "Feed $url has no items";
 				}
 			} else {
@@ -231,6 +240,22 @@ class RssReader
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
+		showstatusmessage("RSS Feed reset");
+		refreshajaxdata();
+	      }
+	    });
+	}
+	
+	// reset feed last visit date function
+	function resetRssTransferTime(url)
+	{
+		var dataString = \'url=\' + url + \'&plugin=rss-transfers&action=passplugindata\' + \'&subaction=reset\';
+		
+		$.ajax({
+	      type: "POST",
+	      url: "dispatcher.php",
+	      data: dataString,
+	      success: function() {
 		showstatusmessage("Transfer added");
 		refreshajaxdata();
 	      }
@@ -239,13 +264,18 @@ class RssReader
 	
 	</script>
 	<link rel="stylesheet" href="themes/RedRound/css/mainLayout.css" type="text/css" />
-	'); // get this in a seperate javascript file
+	'); // TODO: get this in a seperate javascript file
 		
 		print("<table cellspacing=\"0\" id=\"rss_table\" >");
 		foreach($this->rss_list as $rss_source)
 		{
 			print("<tr><th colspan=3><img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "</th></tr>\n");
-			print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . "</td></tr>\n");
+			if( $rss_source['last_visit'] != '' )
+				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " <img onclick=\"javascript:resetRssTransferTime('" . urlencode($rss_source['url']) . "');\"> </td></tr>\n");
+			elseif ( $rss_source['message'] != '' )
+				print("<tr class=gray><td colspan=3>" . $rss_source['message'] . "</td></tr>\n");
+			else
+				print("<tr class=gray><td colspan=3>No start date, either due to a new RSS feed or the last visited time being reset</td></tr>\n");
 		
 			if( isset($rss_source['feedItems']) && sizeof($rss_source['feedItems']) ) {
 				$color_toggle = false;
@@ -275,8 +305,8 @@ class RssReader
 			} else {
 				print ("<tr class=gray><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
-			if ($rss_source['message'] != '')
-				print($rss_source['message'].'<br>');
+			//if ($rss_source['message'] != '')
+			//	print($rss_source['message'].'<br>');
 		}
 		print("</table>");
 	
@@ -328,7 +358,7 @@ class RssReader
 		}
 	}
 	
-	function getAccessTime($url) {
+	static function getAccessTime($url) {
 		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
 		
@@ -342,15 +372,30 @@ class RssReader
 		return $last_visit_time;
 	}
 	
-	function updateAccessTime($url) {
+	/**
+	 * Update the access time since the last time the RSS feed was shown
+	 * 
+	 * @param string $url
+	 * @param time() $time
+	 */
+	static function updateAccessTime($url, $time = '') {
 		require_once('inc/classes/singleton/db.php');
 		$db = DB::get_db()->get_handle();
 		
-		$sql = "UPDATE tf_rss SET last_visit='" . time() . "' WHERE url='" . $url . "'";
+		$sql = 'UPDATE tf_rss SET last_visit=\'' . ($time != '' ? $time : time()) . '\' WHERE url=\'' . $url . '\'';
 		$result = $db->Execute($sql);
 		
 		if ($db->ErrorNo() != 0)
 			AuditAction("SQL UPDATE", $cfg["constants"]["error"], "SQL QUERY FAILED: ".$sql);
+	}
+	
+	/**
+	 * Reset the time the RSS feed was last shown to Unix time 0
+	 * 
+	 * @param string $url
+	 */
+	static function resetAccessTime($url) {
+		RssReader::updateAccessTime($url, "0");
 	}
 	
 	/**
