@@ -95,11 +95,11 @@ class RssReader extends PluginAbstract
 				// IMPORTANT: make sure this stays behind the getAccessTime rule otherwise you will never have any rss items left
 				RssReader::updateAccessTime($url); // now update the time so next time the ones that were already shown will no longer be
 				
+				// Check this feed has a title tag:
+				if (!isset($rs["title"]) || empty($rs["title"]))
+					$rs["title"] = htmlentities($url, ENT_QUOTES);
+				
 				if (!empty( $rs["items"])) {
-					// Check this feed has a title tag:
-					if (!isset($rs["title"]) || empty($rs["title"]))
-						$rs["title"] = "Feed URL ".htmlentities($url, ENT_QUOTES)." Note: this feed does not have a valid 'title' tag";
-		
 					// Check each item in this feed has link, title and publication date:
 					$rss_items_to_show = array();
 					for ($i=0; $i < count($rs["items"]); $i++) {
@@ -158,12 +158,12 @@ class RssReader extends PluginAbstract
 					// feed URL is valid and active, but no feed items were found:
 					$stat = 2;
 					
-					$message = "Feed $url has no items";
+					$message = "Feed $url is empty";
 				}
 			} else {
 				// Unable to grab RSS feed, must of timed out
 				$stat = 3;
-				$message = "Feed $url was not available";
+				$message = "Feed $url isn't available";
 			}
 			
 			array_push($rss_list, array(
@@ -269,14 +269,15 @@ class RssReader extends PluginAbstract
 		print("<table cellspacing=\"0\" id=\"rss_table\" >");
 		foreach($this->rss_list as $rss_source)
 		{
-			print("<tr><th colspan=3><img src=\"images/rss.png\">RSS Title: " . $rss_source['title'] . "</th></tr>\n");
+			print("<tr><th colspan=3><img src=\"images/rss.png\">" . $rss_source['title'] . "</th></tr>\n");
 			if( $rss_source['last_visit'] != '' )
 				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " <img onclick=\"javascript:resetRssTransferTime('" . urlencode($rss_source['url']) . "');\"> </td></tr>\n");
-			elseif ( $rss_source['message'] != '' )
-				print("<tr class=gray><td colspan=3>" . $rss_source['message'] . "</td></tr>\n");
-			else
+			else {
 				print("<tr class=gray><td colspan=3>No start date, either due to a new RSS feed or the last visited time being reset</td></tr>\n");
-		
+			}
+			if ( $rss_source['message'] != '' )
+				print("<tr class=gray><td colspan=3>" . $rss_source['message'] . "</td></tr>\n");
+			
 			if( isset($rss_source['feedItems']) && sizeof($rss_source['feedItems']) ) {
 				$color_toggle = false;
 				
@@ -305,8 +306,6 @@ class RssReader extends PluginAbstract
 			} else {
 				print ("<tr class=gray><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
-			//if ($rss_source['message'] != '')
-			//	print($rss_source['message'].'<br>');
 		}
 		print("</table>");
 	
