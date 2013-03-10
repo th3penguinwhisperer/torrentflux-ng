@@ -72,7 +72,7 @@ class RssReader extends PluginAbstract
 		
 		if (!checkDirectory($cacheDir, 0777)) {
 			//@error("Error with rss-cache-dir", "index.php?page=index", "", array($cacheDir));
-			print("The rss_cache_path does not exist: " . $this->cfg['rewrite_rss_cache_path']);
+			AuditAction('RSS', $cfg["constants"]["error"], "The rss_cache_path does not exist: " . $this->cfg['rewrite_rss_cache_path']);
 			exit();
 		}
 		$rss->cache_dir = $cacheDir;
