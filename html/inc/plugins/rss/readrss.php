@@ -55,7 +55,10 @@ class RssReader extends PluginAbstract
 	
 	function handleRequest($requestData) {
 		if ($_REQUEST['subaction'] == 'reset') {
-			RssReader::resetAccessTime( $_REQUEST['url'] );
+			if ( isset($_REQUEST['time']) && is_numeric($_REQUEST['time']) ) {
+				RssReader::updateAccessTime( $_REQUEST['url'], time() - $_REQUEST['time'] );
+			} else
+				RssReader::resetAccessTime( $_REQUEST['url'] );
 		}
 	}
 	
@@ -256,9 +259,10 @@ class RssReader extends PluginAbstract
 	}
 				
 	// reset feed last visit date function
-	function resetRssTransferTime(url)
+	function changeRssTransferTime(url, time)
 	{
-		var dataString = \'url=\' + url + \'&plugin=rss-transfers&action=passplugindata\' + \'&subaction=reset\';
+		var dataString = \'url=\' + url + \'&plugin=rss-transfers&action=passplugindata&subaction=reset\';
+		if ( typeof time != \'undefined\' ) dataString += \'&time=\' + time;
 		
 		$.ajax({
 	      type: "POST",
@@ -283,7 +287,11 @@ class RssReader extends PluginAbstract
 			
 			print("<tr><th colspan=3><img src=\"images/rss.png\">" . $rss_source['title'] . "</th></tr>\n");
 			if( $rss_source['last_visit'] != '' )
-				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " <img src=\"images/refresh.png\" onclick=\"javascript:resetRssTransferTime('" . urlencode($rss_source['url']) . "');\"> </td></tr>\n");
+				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " 
+						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "');\"> Reset time |
+						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "', 86400);\"> Last 24 hours |
+						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "', 604800);\"> Last 7 days
+						</td></tr>\n");
 			else {
 				print("<tr class=gray><td colspan=3>No start date, either due to a new RSS feed or the last visited time being reset</td></tr>\n");
 			}
