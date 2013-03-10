@@ -11,6 +11,10 @@ class TransfersourceTorrent extends PluginAbstract
 		;
 	}
 
+	function handleRequest($requestdata) {
+		;
+	}
+
 	function show() {
 		$pluginName = "transmission-daemon"; // TODO: can probably be removed as plugins in this context are not linked to a client
 	
