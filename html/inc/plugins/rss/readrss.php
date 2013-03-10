@@ -56,7 +56,9 @@ class RssReader extends PluginAbstract
 	function handleRequest($requestData) {
 		if ($_REQUEST['subaction'] == 'reset') {
 			if ( isset($_REQUEST['time']) && is_numeric($_REQUEST['time']) ) {
-				RssReader::updateAccessTime( $_REQUEST['url'], time() - $_REQUEST['time'] );
+				$time = time() - $_REQUEST['time']*86400;
+				$time = $time - ($time%86400);
+				RssReader::updateAccessTime( $_REQUEST['url'], $time );
 			} else
 				RssReader::resetAccessTime( $_REQUEST['url'] );
 		}
@@ -287,10 +289,10 @@ class RssReader extends PluginAbstract
 			
 			print("<tr><th colspan=3><img src=\"images/rss.png\">" . $rss_source['title'] . "</th></tr>\n");
 			if( $rss_source['last_visit'] != '' )
-				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s", $rss_source['last_visit']) . " 
+				print("<tr class=gray><td colspan=3>Items since " . date("Y-m-d H:i:s e", $rss_source['last_visit']) . " 
 						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "');\"> Reset time |
-						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "', 86400);\"> Last 24 hours |
-						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "', 604800);\"> Last 7 days
+						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "', 1);\"> Since yesterday |
+						<img src=\"images/refresh.png\" onclick=\"javascript:changeRssTransferTime('" . urlencode($rss_source['url']) . "', 7);\"> Since 7 days
 						</td></tr>\n");
 			else {
 				print("<tr class=gray><td colspan=3>No start date, either due to a new RSS feed or the last visited time being reset</td></tr>\n");
