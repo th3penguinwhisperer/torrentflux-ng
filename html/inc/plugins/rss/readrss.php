@@ -58,7 +58,7 @@ class RssReader extends PluginAbstract
 			if ( isset($_REQUEST['time']) && is_numeric($_REQUEST['time']) ) {
 				$time = time() - $_REQUEST['time']*86400;
 				$time = $time - ($time%86400);
-				RssReader::updateAccessTime( $_REQUEST['url'], $time );
+				//RssReader::updateAccessTime( $_REQUEST['url'], $time ); // TODO: uncomment after testing
 			} else
 				RssReader::resetAccessTime( $_REQUEST['url'] );
 		}
@@ -211,7 +211,50 @@ class RssReader extends PluginAbstract
 	//                            [label] => <![CDATA[Family Guy 9x17 [HDTV - REPACK - 2HD]]]>
 	//                        )
 	
+	function getBestMatchTitle($list, $matchitem) {
+		$matchlist = array("720p", "1080p");
+		$score = 0;
+		$highest_possible_score = pow( 2, sizeof($matchlist)) - 1;
+		$highest_score = 0;
+		$highest_score_title = "";
+		
+		foreach ($list as $list_item) {
+			print("A new one<br>");
+			foreach ($matchlist as $i => $matchitem) {
+				if (strstr( $list_item['title'], $matchitem ) != false)
+					$score += pow( 2, $i+1 );
+			}
+			if ( $highest_score <= $score ) {
+				$highest_score = $score;
+				$highest_score_title = $list_item['title'];
+			}
+		}
+		print($highest_score_title." highscore ". $highest_score . "<br>");
+		return $highest_score_title;
+	}
 	
+	function determineSelection() {
+		foreach ($this->rss_list as $list_index => $list) {
+			$selected_transfers = array();
+			foreach ( $list['feedItems'] as $item_index => $list_item ) {
+				$ret = preg_match("/(s[0-9]+e[0-9]+)/i", $list_item['title'], $res); // check if this is episode based download
+				
+				if ( $ret == 1 )  { // if episode
+					$episode = $res[0];
+					
+					$bestmatch_title = $this->getBestMatchTitle($list['feedItems'], $episode);
+					
+					if ( ! isset($selected_transfers[$episode]) ) // check if episode already selected; if not check if this is elegible for download 
+						$selected_transfers[$episode] = $this->getBestMatchTitle($list['feedItems'], $episode);
+					
+					if( $list_item['title'] == $selected_transfers[$episode]) {
+						$this->rss_list[$list_index]['feedItems'][$item_index]['selected'] = true;
+					}
+				} else
+					$this->rss_list[$list_index]['feedItems'][$item_index]['selected'] = true;
+			}
+		}
+	}
 	
 	function show()
 	{
@@ -220,6 +263,7 @@ class RssReader extends PluginAbstract
 		print('<br>');
 		
 		$this->buildRssItemsArray(); // TODO: not sure were exactly is the best place for this
+		$this->determineSelection(); // Makes selections for a uniq episode and 720p if avaiable for example
 		
 		// TODO: should this javascript be seperated?
 		print('
@@ -320,7 +364,7 @@ class RssReader extends PluginAbstract
 						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['magnetURI'];
 					}
-					print("<td size=2>&nbsp;&nbsp;$rssitemline</td>");
+					print("<td size=2>&nbsp;&nbsp;$rssitemline" . (isset($feedItem['selected']) ? "<img src=themes/RedRound/images/admin/serverSettings/ok.png>" : "" ) . "</td>");
 
 					print("<td>" . $feedItem['title'] . "</td>");
 					
