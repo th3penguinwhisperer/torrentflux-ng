@@ -58,7 +58,7 @@ class RssReader extends PluginAbstract
 			if ( isset($_REQUEST['time']) && is_numeric($_REQUEST['time']) ) {
 				$time = time() - $_REQUEST['time']*86400;
 				$time = $time - ($time%86400);
-				//RssReader::updateAccessTime( $_REQUEST['url'], $time ); // TODO: uncomment after testing
+				RssReader::updateAccessTime( $_REQUEST['url'], $time ); // TODO: uncomment after testing
 			} else
 				RssReader::resetAccessTime( $_REQUEST['url'] );
 		}
@@ -211,7 +211,7 @@ class RssReader extends PluginAbstract
 	//                            [label] => <![CDATA[Family Guy 9x17 [HDTV - REPACK - 2HD]]]>
 	//                        )
 	
-	function getBestMatchTitle($list, $matchitem) {
+	function getBestMatchTitle($list, $search) {
 		$matchlist = array("720p", "1080p");
 		$score = 0;
 		$highest_possible_score = pow( 2, sizeof($matchlist)) - 1;
@@ -219,7 +219,10 @@ class RssReader extends PluginAbstract
 		$highest_score_title = "";
 		
 		foreach ($list as $list_item) {
-			print("A new one<br>");
+			$ret = preg_match("/$search/i", $list_item['title']);
+			if ( $ret != 1 )
+				continue;
+			
 			foreach ($matchlist as $i => $matchitem) {
 				if (strstr( $list_item['title'], $matchitem ) != false)
 					$score += pow( 2, $i+1 );
