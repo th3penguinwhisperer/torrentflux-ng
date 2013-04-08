@@ -162,13 +162,14 @@ class RssReader extends PluginAbstract
 				} else {
 					// feed URL is valid and active, but no feed items were found:
 					$stat = 2;
-					
 					$message = "Feed $url is empty";
+					AuditAction($cfg["constants"]["error"], $message);
 				}
 			} else {
 				// Unable to grab RSS feed, must of timed out
 				$stat = 3;
 				$message = "Feed $url isn't available";
+				AuditAction($cfg["constants"]["error"], $message);
 			}
 			
 			array_push($rss_list, array(

@@ -574,7 +574,7 @@ class SimpleHTTP
 				$msg = "Error fetching " . $this->url .".  The maximum number of allowed redirects ";
 				$msg .="(" .$this->redirectMax. ") was exceeded.  Last followed URL was: " .$this->redirectUrl;
 				array_push($this->messages , $msg);
-				AuditAction($cfg["constants"]["error"], $msg);
+				AuditAction('FETCHING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 				return($data="");
 			} else {
 				$this->redirectCount++;
@@ -621,7 +621,8 @@ class SimpleHTTP
 				} else {
 					$msg = "Error fetching " . $this->url .".  A redirect status code (" . $this->status . ")";
 					$msg .= " was sent from the remote webserver, but no location header was set to obtain the redirected content from.";
-					AuditAction($cfg["constants"]["error"], $msg);
+					
+					AuditAction("RSS URL FETCH", $cfg["constants"]["error"], $msg);
 					array_push($this->messages , $msg);
 					return($data="");
 				}
@@ -693,7 +694,7 @@ class SimpleHTTP
 		if (!isset($domain["host"])) {
 			// Not a remote URL:
 			$msg = "The torrent requested for download (".$durl.") is not a remote torrent. Please enter a valid remote torrent URL such as http://example.com/example.torrent\n";
-			AuditAction($cfg["constants"]["error"], $msg);
+			AuditAction('FETCHING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 			array_push($this->messages , $msg);
 			// state
 			$this->state = SIMPLEHTTP_STATE_ERROR;
@@ -781,7 +782,7 @@ class SimpleHTTP
 					$data = $this->instance_getData($turl2);
 				} else {
 					$msg = "Error: could not find link to torrent file in $durl";
-					AuditAction($cfg["constants"]["error"], $msg);
+					AuditAction('PARSING HTTP DATA', $cfg["constants"]["error"], $msg);
 					array_push($this->messages , $msg);
 					// state
 					$this->state = SIMPLEHTTP_STATE_ERROR;
@@ -825,7 +826,7 @@ class SimpleHTTP
 		if (strpos($data, "d8:") === false)	{
 			// We don't have a Torrent File... it is something else.  Let the user know about it:
 			$msg = "Content returned from $durl does not appear to be a valid torrent.";
-			AuditAction($cfg["constants"]["error"], $msg);
+			AuditAction('VALIDATING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 			array_push($this->messages , $msg);
 			// Display the first part of $data if debuglevel higher than 1:
 			if ($cfg["debuglevel"] > 1){
@@ -895,7 +896,7 @@ class SimpleHTTP
 		if (!isset($domain["host"])) {
 			// Not a remote URL:
 			$msg = "The nzb requested for download (".$durl.") is not a remote nzb. Please enter a valid remote nzb URL such as http://example.com/example.nzb\n";
-			AuditAction($cfg["constants"]["error"], $msg);
+			AuditAction('FETCHING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 			array_push($this->messages , $msg);
 			// state
 			$this->state = SIMPLEHTTP_STATE_ERROR;
@@ -929,7 +930,7 @@ class SimpleHTTP
 					$data = $this->instance_getData($turl2);
 				} else {
 					$msg = "Error: could not find link to nzb file in $durl";
-					AuditAction($cfg["constants"]["error"], $msg);
+					AuditAction('PARSING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 					array_push($this->messages , $msg);
 					// state
 					$this->state = SIMPLEHTTP_STATE_ERROR;
@@ -954,7 +955,7 @@ class SimpleHTTP
 		if (strpos($data, "nzb") === false)	{
 			// We don't have a nzb File... it is something else.  Let the user know about it:
 			$msg = "Content returned from $durl does not appear to be a valid nzb.";
-			AuditAction($cfg["constants"]["error"], $msg);
+			AuditAction('VALIDATING EXTERNAL HTTP DATA', $cfg["constants"]["error"], $msg);
 			array_push($this->messages , $msg);
 			// Display the first part of $data if debuglevel higher than 1:
 			if ($cfg["debuglevel"] > 1){
