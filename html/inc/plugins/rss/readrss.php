@@ -234,7 +234,7 @@ class RssReader extends PluginAbstract
 				$highest_score_title = $list_item['title'];
 			}
 		}
-		print($highest_score_title." highscore ". $highest_score . "<br>");
+
 		return $highest_score_title;
 	}
 	
