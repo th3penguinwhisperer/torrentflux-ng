@@ -250,7 +250,7 @@ class RssReader extends PluginAbstract
 					$bestmatch_title = $this->getBestMatchTitle($list['feedItems'], $episode);
 					
 					if ( ! isset($selected_transfers[$episode]) ) // check if episode already selected; if not check if this is elegible for download 
-						$selected_transfers[$episode] = $this->getBestMatchTitle($list['feedItems'], $episode);
+						$selected_transfers[$episode] = $bestmatch_title;
 					
 					if( $list_item['title'] == $selected_transfers[$episode]) {
 						$this->rss_list[$list_index]['feedItems'][$item_index]['selected'] = true;
