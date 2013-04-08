@@ -104,9 +104,10 @@ class RssReader extends PluginAbstract
 				if (!isset($rs["title"]) || empty($rs["title"]))
 					$rs["title"] = htmlentities($url, ENT_QUOTES);
 				
+				$rss_items_to_show = array();
 				if (!empty( $rs["items"])) {
 					// Check each item in this feed has link, title and publication date:
-					$rss_items_to_show = array();
+					
 					for ($i=0; $i < count($rs["items"]); $i++) {
 						// Don't include feed items without a link:
 						if (
@@ -331,9 +332,11 @@ class RssReader extends PluginAbstract
 		
 		print("<table cellspacing=\"0\" id=\"rss_table\" >");
 		$all_items_list = "";
+		$all_items_list_selected = "";
 		foreach($this->rss_list as $rss_source)
 		{
 			$feed_items_list = "";
+			$feed_items_list_selected = "";
 			
 			print("<tr><th colspan=3><img src=\"images/rss.png\">" . $rss_source['title'] . "</th></tr>\n");
 			if( $rss_source['last_visit'] != '' )
@@ -360,13 +363,16 @@ class RssReader extends PluginAbstract
 					if ( isset($feedItem['enclosure_url']) && $feedItem['enclosure_url'] !== '' ) {
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['enclosure_url'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['enclosure_url'];
+						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['enclosure_url'];
 					} elseif ( isset($feedItem['link']) && $feedItem['link'] !== '' ) {
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['link'];
+						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['link'];
 					}
 					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
 						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['magnetURI'];
+						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['magnetURI'];
 					}
 					print("<td size=2>&nbsp;&nbsp;$rssitemline" . (isset($feedItem['selected']) ? "<img src=themes/RedRound/images/admin/serverSettings/ok.png>" : "" ) . "</td>");
 
@@ -379,6 +385,7 @@ class RssReader extends PluginAbstract
 				
 				print("<tr class=" . ($color_toggle ? "gray" : "white") . "><td colspan=3>Download all from this feed <img src=\"themes/RedRound/images/index/TransferList/download_meta.png\" onclick=\"javascript:addRssTransfers('$feed_items_list');\"></td></tr>");
 				$all_items_list .= ($all_items_list != "" ? "," : "") . $feed_items_list;
+				$all_items_list_selected .= ($all_items_list_selected != "" ? "," : "") . $feed_items_list_selected;
 			} else {
 				print ("<tr class=gray><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
@@ -387,6 +394,8 @@ class RssReader extends PluginAbstract
 
 		if ( $all_items_list != '' )
 			print("<tr class=" . ($color_toggle ? "gray" : "white") . "><td colspan=3>Download all from all feeds <img src=\"themes/RedRound/images/index/TransferList/download_meta.png\" onclick=\"javascript:addRssTransfers('$all_items_list');\"></td></tr>");
+		if ( $all_items_list_selected != '' )
+			print("<tr class=" . ($color_toggle ? "gray" : "white") . "><td colspan=3>Download all selected from all feeds <img src=\"themes/RedRound/images/index/TransferList/download_meta.png\" onclick=\"javascript:addRssTransfers('$all_items_list_selected');\"></td></tr>");
 	}
 
 	static function getConfiguration()
