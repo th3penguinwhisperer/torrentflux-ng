@@ -170,7 +170,7 @@ class RssReader extends PluginAbstract
 				// Unable to grab RSS feed, must of timed out
 				$stat = 3;
 				$message = "Feed $url isn't available";
-				AuditAction("RSS FEED", $cfg["constants"]["error"], $message);
+				AuditAction("RSS FEED", $this->cfg["constants"]["error"], $message);
 			}
 			
 			array_push($rss_list, array(
