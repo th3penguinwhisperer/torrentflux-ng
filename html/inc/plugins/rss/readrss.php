@@ -215,7 +215,6 @@ class RssReader extends PluginAbstract
 	
 	function getBestMatchTitle($list, $search) {
 		$matchlist = array("720p", "1080p");
-		$score = 0;
 		$highest_possible_score = pow( 2, sizeof($matchlist)) - 1;
 		$highest_score = 0;
 		$highest_score_title = "";
@@ -224,7 +223,8 @@ class RssReader extends PluginAbstract
 			$ret = preg_match("/$search/i", $list_item['title']);
 			if ( $ret != 1 )
 				continue;
-			
+
+			$score = 0; // each feed item should start counting from zero again!
 			foreach ($matchlist as $i => $matchitem) {
 				if (strstr( $list_item['title'], $matchitem ) != false)
 					$score += pow( 2, $i+1 );
