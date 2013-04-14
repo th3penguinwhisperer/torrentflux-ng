@@ -390,12 +390,13 @@ class RssReader extends PluginAbstract
 				print ("<tr class=gray><td colspan=3><i>&nbsp;&nbsp;&nbsp;No items to show in this RSS feed</i></td></tr>");
 			}
 		}
-		print("</table>");
 
 		if ( $all_items_list != '' )
 			print("<tr class=" . ($color_toggle ? "gray" : "white") . "><td colspan=3>Download all from all feeds <img src=\"themes/RedRound/images/index/TransferList/download_meta.png\" onclick=\"javascript:addRssTransfers('$all_items_list');\"></td></tr>");
 		if ( $all_items_list_selected != '' )
 			print("<tr class=" . ($color_toggle ? "gray" : "white") . "><td colspan=3>Download all selected from all feeds <img src=\"themes/RedRound/images/index/TransferList/download_meta.png\" onclick=\"javascript:addRssTransfers('$all_items_list_selected');\"></td></tr>");
+
+		print("</table>");
 	}
 
 	static function getConfiguration()
