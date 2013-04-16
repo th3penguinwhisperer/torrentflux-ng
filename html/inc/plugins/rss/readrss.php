@@ -274,7 +274,7 @@ class RssReader extends PluginAbstract
 		print('
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript">
-	function addRssTransfer(url) 
+	function addRssTransfer(url, reload) 
 	{
 	    // get other values
 	    var client = $("#client").val();
@@ -294,9 +294,13 @@ class RssReader extends PluginAbstract
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
-		showstatusmessage("RSS Feed Item Added : " + $url);
-		refreshajaxdata();
-	      }
+		showstatusmessage("RSS Feed Item Added : " + url);
+		if(typeof(reload)===\'undefined\') reload = true;
+		if(reload) refreshajaxdata();
+	      },
+		  error: function(retval) {
+				alert(retval);
+				}
 	    });
 	}
 	
@@ -305,7 +309,7 @@ class RssReader extends PluginAbstract
 		var urls = urls_string.split(",");
 				
 		for (var i = 0; i < urls.length; i++) {
-			addRssTransfer(urls[i]);
+			addRssTransfer(urls[i], false);
 		}
 	}
 				
