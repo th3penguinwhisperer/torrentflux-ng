@@ -367,16 +367,16 @@ class RssReader extends PluginAbstract
 					if ( isset($feedItem['enclosure_url']) && $feedItem['enclosure_url'] !== '' ) {
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['enclosure_url'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['enclosure_url'];
-						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['enclosure_url'];
+						if( isset($feedItem['selected']) ) $feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['enclosure_url'];
 					} elseif ( isset($feedItem['link']) && $feedItem['link'] !== '' ) {
 						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['link'];
-						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['link'];
+						if( isset($feedItem['selected']) ) $feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['link'];
 					}
 					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
 						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
 						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['magnetURI'];
-						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['magnetURI'];
+						if( isset($feedItem['selected']) ) $feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['magnetURI'];
 					}
 					print("<td size=2>&nbsp;&nbsp;$rssitemline" . (isset($feedItem['selected']) ? "<img src=themes/RedRound/images/admin/serverSettings/ok.png>" : "" ) . "</td>");
 
