@@ -71,20 +71,4 @@ function ScrubDescription($desc, $title) {
 	return $rtnValue;
 }
 
-/**
- * get rss links
- *
- * @return array
- */
-function GetRSSLinks() {
-	require_once('inc/classes/singleton/db.php');
-	$db = DB::get_db()->get_handle();
-	
-	$link_array = array();
-	$sql = "SELECT rid, url FROM tf_rss ORDER BY rid";
-	$link_array = $db->GetAssoc($sql);
-	if ($db->ErrorNo() != 0) dbError($sql);
-	return $link_array;
-}
-
 ?>

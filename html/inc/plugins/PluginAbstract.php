@@ -8,7 +8,7 @@ abstract class PluginAbstract implements PluginInterface
 
 	function get() { ; }
 	
-	function handleRequest($requestdata) { ; }
+	abstract function handleRequest($requestdata);
 
 	static function getConfiguration() { 
 		print("<i>No configuration options for this plugin</i>"); 
