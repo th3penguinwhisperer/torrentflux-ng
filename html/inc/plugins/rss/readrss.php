@@ -307,6 +307,7 @@ class RssReader extends PluginAbstract
 		for (var i = 0; i < urls.length; i++) {
 			addRssTransfer(urls[i]);
 		}
+		refreshajaxdata();
 	}
 				
 	// reset feed last visit date function
@@ -321,7 +322,6 @@ class RssReader extends PluginAbstract
 	      data: dataString,
 	      success: function() {
 		showstatusmessage("RSS Feed Reset");
-		refreshajaxdata();
 	      }
 	    });
 	}
