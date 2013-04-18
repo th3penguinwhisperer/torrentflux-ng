@@ -274,7 +274,7 @@ class RssReader extends PluginAbstract
 		print('
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript">
-	function addRssTransfer(url) 
+	function addRssTransfer(url, reload) 
 	{
 	    // get other values
 	    var client = $("#client").val();
@@ -294,9 +294,13 @@ class RssReader extends PluginAbstract
 	      url: "dispatcher.php",
 	      data: dataString,
 	      success: function() {
-		showstatusmessage("RSS Feed Item Added : " + $url);
-		refreshajaxdata();
-	      }
+		showstatusmessage("RSS Feed Item Added : " + url);
+		if(typeof(reload)===\'undefined\') reload = true;
+		if(reload) refreshajaxdata();
+	      },
+		  error: function(retval) {
+				alert(retval);
+				}
 	    });
 	}
 	
@@ -305,7 +309,7 @@ class RssReader extends PluginAbstract
 		var urls = urls_string.split(",");
 				
 		for (var i = 0; i < urls.length; i++) {
-			addRssTransfer(urls[i]);
+			addRssTransfer(urls[i], false);
 		}
 		refreshajaxdata();
 	}
@@ -360,20 +364,23 @@ class RssReader extends PluginAbstract
 					$color_toggle = !$color_toggle;
 
 					$rssitemline = "";
+					$url = "";
 					if ( isset($feedItem['enclosure_url']) && $feedItem['enclosure_url'] !== '' ) {
-						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['enclosure_url'] . "');\">";
-						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['enclosure_url'];
-						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['enclosure_url'];
+						$url = $feedItem['enclosure_url'];
+						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $url . "');\">";
+						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $url;
 					} elseif ( isset($feedItem['link']) && $feedItem['link'] !== '' ) {
-						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['link'] . "');\">";
-						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['link'];
-						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['link'];
+						$url = $feedItem['link'];
+						$rssitemline .= "<img src=\"images/add.png\" onclick=\"javascript:addRssTransfer('" . $url . "');\">";
+						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $url;
 					}
 					if ( isset($feedItem['magnetURI']) && $feedItem['magnetURI'] !== '' ) {
-						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $feedItem['magnetURI'] . "');\">";
-						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $feedItem['magnetURI'];
-						$feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $feedItem['magnetURI'];
+						$url = $feedItem['magnetURI'];
+						$rssitemline .= "<img src=\"images/magnet_arrow.png\" onclick=\"javascript:addRssTransfer('" . $url . "');\">";
+						$feed_items_list .= ($feed_items_list != "" ? "," : "") . $url;
 					}
+					if( isset($feedItem['selected']) ) $feed_items_list_selected .= ($feed_items_list_selected != "" ? "," : "") . $url;
+					
 					print("<td size=2>&nbsp;&nbsp;$rssitemline" . (isset($feedItem['selected']) ? "<img src=themes/RedRound/images/admin/serverSettings/ok.png>" : "" ) . "</td>");
 
 					print("<td>" . $feedItem['title'] . "</td>");

@@ -2,6 +2,9 @@
 
   @session_start();
 
+  require_once('inc/generalfunctions.php');
+  redirect_unallowed_visitor();
+  
   require_once('inc/plugins/PluginHandler.php');
 
 if ( empty($_REQUEST['action']) ) $action = "get"; 

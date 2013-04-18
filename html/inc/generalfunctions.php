@@ -421,4 +421,13 @@ function is_request_set($value)
 	return ( isset($_REQUEST[$value]) && $_REQUEST[$value] != '' );
 }
 
+function redirect_unallowed_visitor($level = "admin") {
+	if ($level === "admin") {
+		if ( $_SESSION['isAdmin'] != 1 )
+			@header("location: index.php?page=index");
+		else return;
+	}
+	@header("location: index.php?page=index");
+}
+
 ?>
