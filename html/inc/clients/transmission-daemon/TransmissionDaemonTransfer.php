@@ -140,7 +140,8 @@ $cfg['user'] = "administrator";
 			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
 			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
 			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');",
-			'move_action' => "loadpopup('Move Torrent', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentmove&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Move panel'); centerPopup(); loadPopup();"
+			'move_action' => "loadpopup('Move Torrent', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentmove&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Move panel'); centerPopup(); loadPopup();",
+			'toggle_action' => "loadpopup('Private/Public Torrent Toggle', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentprivatetoggle&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Private Toggle panel'); centerPopup(); loadPopup();"
 		);
 
 		return $tArray;
