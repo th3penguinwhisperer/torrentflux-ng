@@ -28,10 +28,22 @@ function gettransfersources(parameters) {
 function refreshajaxdata() {
     if (indexTimer) clearTimeout(indexTimer); // Stop countdown timer
 
-    setTimeout(ajax_update,500); // wait 300msec to reload the transferlist
+    setTimeout(ajax_update,200); // wait 300msec to reload the transferlist
 
     indexTimer = setTimeout(ajax_pageUpdate, 1000); // Start the countdown timer again
 };
+
+function toggleajaxupdate() {
+	if (indexTimer) {
+		clearTimeout(indexTimer);
+		indexTimer = null;
+		$("#index_ajax_refresh_text").html("Turn Auto Refresh On");
+	} else {
+		indexTimer = setTimeout(ajax_pageUpdate, 1000);
+		setTimeout(ajax_update,200);
+		$("#index_ajax_refresh_text").html("Turn Auto Refresh Off");
+	}
+}
 
 function showstatusmessage(message) {
 	$("#status_message").hide();
