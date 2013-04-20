@@ -33,17 +33,13 @@ class TorrentPrivateToggle extends PluginAbstract
 			$client = ClientHandler::getInstance(getTransferClient($_REQUEST['transfer']));
 			$transfer = $client->getTransfer($_REQUEST['transfer']);
 			$data = $transfer->getTransferListItem();
-			print("privatepath $privatepath<br>");
-			print("sharedpath $sharedpath<br>");
-			print("datapath " . $data['datapath'] . "<br>");
-			print("position: " . strpos($data['datapath'], $privatepath) . "<br>");
 			
 			if ( strpos($data['datapath'], $privatepath) === FALSE ) {
-				print("Move to shared $privatepath<br>");
+				print("Transfer made private<br>");
 				$client->move($_REQUEST['transfer'], $privatepath);
 			} else {
 				$client->move($_REQUEST['transfer'], $sharedpath);
-				print("Move to $sharedpath<br>");
+				print("Transfer made public<br>");
 			}
 		} else {
 			$this->show(); // SHOW
