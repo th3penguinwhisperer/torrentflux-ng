@@ -74,8 +74,7 @@ class FormGenerator
       url: "dispatcher.php",
       data: dataString,
       success: function(data) {
-      	alert(data);
-        showstatusmessage("The response to the request was: " + data);
+        showstatusmessage("Message: " + data);
         refreshajaxdata();
         $("form").reset();
       },
