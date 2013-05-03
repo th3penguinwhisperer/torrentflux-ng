@@ -100,7 +100,7 @@ function loginUser($user, $pass) {
   addRow("Hash is $md5_pass"); // TODO delete this
 
   if (sizeof($rs) > 0) {
-    $_SESSION['user'] = $user;
+    $_SESSION['user'] = strtolower($user);
     $_SESSION['uid'] = $rs['uid'];
     $_SESSION['ip'] = getRealIpAddr();
     $_SESSION['ip_resolved'] = @gethostbyaddr($_SESSION['ip']);
