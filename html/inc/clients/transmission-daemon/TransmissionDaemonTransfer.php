@@ -16,7 +16,7 @@ class TransmissionDaemonTransfer implements TransferInterface
 		$cfg = Configuration::get_instance()->get_cfg();
 		
 // TODO: get this moved to a settings class
-$cfg['user'] = "administrator";
+//$cfg['user'] = "administrator";
 		// fill in eta
 		if ( $this->data['eta'] == '-1' && $this->data['percentDone'] != 1 ) {
 			$eta = 'n/a';
@@ -104,7 +104,9 @@ $cfg['user'] = "administrator";
 		// Remove the $nothing variables
 		$nothing = "";
 		$tArray = array(
-			'is_owner' => true,
+			'is_owner' => ($this->data['uid'] == $cfg['uid'] ?  true : false),
+			'public' => ($this->data['public'] == 1 ? true : false),
+			'is_allowed_actions' => (is_admin() || $this->data['uid'] == $cfg['uid'] ? true : false),
 			'transferRunning' => ($transferRunning ? 1 : 0),
 			'url_entry' => $this->data['hashString'],
 			'hd_image' => getTransmissionStatusImage($this->data['percentDone'], $transferRunning, $seeds, $this->data['rateUpload']),

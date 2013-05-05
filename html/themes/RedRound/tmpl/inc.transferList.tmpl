@@ -141,7 +141,7 @@ Your Transfers
 		<tmpl_if name="settings_11"><td><tmpl_var name="client"></a></td></tmpl_if><!-- USED CLIENT -->
 <!-- ACTIONS CELL E.G STOP/START/SEED/EDIT -->
 				<td style="text-align:right;">
-						<tmpl_if name="is_owner">
+						<tmpl_if name="is_allowed_actions">
 							<a onclick="showTransfer('index.php?iid=transferSettings&amp;transfer=<tmpl_var name="url_entry">')" style="cursor:pointer;">
 								<img src="themes/<tmpl_var name="theme">/images/index/TransferList/edit.png" title="Transfer Settings" alt="" />
 							</a>
@@ -223,8 +223,6 @@ Your Transfers
 									<input type="checkbox" name="transfer[]" value="<tmpl_var name="url_entry">" onclick="ajax_updateState = 0;" />
 								</tmpl_if>
 							</tmpl_if>
-						<tmpl_else>
-							<input type="checkbox" disabled="disabled" />
 						</tmpl_if>
 				</td>
 			</tr>

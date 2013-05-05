@@ -77,8 +77,17 @@ function convertTime($seconds) { // TODO: put this in generalfunctions.php
 function getTransmissionTransfer($transfer, $fields=array() ) {
 	//$fields = array("id", "name", "eta", "downloadedEver", "hashString", "fileStats", "totalSize", "percentDone", 
 	//			"metadataPercentComplete", "rateDownload", "rateUpload", "status", "files", "trackerStats" )
+	$db = DB::get_db()->get_handle();
 	$required = array('hashString');
 	$afields = array_merge($required, $fields);
+	
+	// Get data that should be retrieved from db
+	$sql = "SELECT public, tt.tid, tu.uid uid, user_id user
+	FROM tf_transmission_user ttu, tf_transfers tt, tf_users tu
+	WHERE ttu.tid=tt.tid
+	AND ttu.uid=tu.uid AND tt.tid=\"$transfer\"";
+	$row = $db->GetRow($sql);
+	if ($db->ErrorNo() != 0) dbError($sql);
 	
 	require_once('inc/clients/transmission-daemon/Transmission.class.php');
 	$trans = new Transmission();
@@ -86,9 +95,14 @@ function getTransmissionTransfer($transfer, $fields=array() ) {
 	$torrentlist = $response['arguments']['torrents'];
 	
 	if (!empty($torrentlist)) {
-		foreach ($torrentlist as $aTorrent) {
-			if ( $aTorrent['hashString'] == $transfer )
+		foreach ($torrentlist as $aTorrent) { // Why looping through all torrents? should be only one returned due to the hash
+			if ( $aTorrent['hashString'] == $transfer ) {
+				$aTorrent['public'] = ( array_key_exists('public', $row) ? $row['public'] : 0 );
+				$aTorrent['user'] = ( array_key_exists("user", $row) ? $row['user'] : "foreign" );
+				$aTorrent['uid'] = ( array_key_exists("uid", $row) ? $row['uid'] : 0 );
+				
 				return $aTorrent;
+			}
 		}
 	}
 	return false;
@@ -164,10 +178,15 @@ function getUserTransmissionTransferArrayFromDB($uid = 0) {
 	$db = DB::get_db()->get_handle();
 
 	$retVal = array();
-	$sql = "SELECT tid FROM tf_transmission_user" . ($uid!=0 ? ' WHERE uid=' . $uid : '' );
+	//$sql = "SELECT tid,public,uid,user_id FROM tf_transmission_user ttu, tf_transfers tt, tf_users tu WHERE ttu.tid=tt.tid AND ttu.uid=tu.uid" . ($uid!=0 ? ' AND uid=' . $uid : '' );
+	$sql = "SELECT public, tt.tid, public, tu.uid, user_id
+FROM tf_transmission_user ttu, tf_transfers tt, tf_users tu
+WHERE ttu.tid=tt.tid
+AND ttu.uid=tu.uid AND ( public=1 " .
+		($uid!=0 && $uid!=1 ? " OR ttu.uid=$uid )" : ")");
 	$recordset = $db->Execute($sql);
 	if ($db->ErrorNo() != 0) dbError($sql);
-	while(list($transfer) = $recordset->FetchRow())
+	while($transfer = $recordset->FetchRow())
 		array_push($retVal, $transfer);
 	return $retVal;
 }
@@ -367,10 +386,12 @@ function addTransmissionTransfer($uid, $url, $path, $paused=true) {
  */
 function getUserTransmissionTransfers($uid) {
 	$retVal = array();
-	if ( $uid!=1 ) {
-		$userTransferHashes = getUserTransmissionTransferArrayFromDB($uid);
-		if ( empty($userTransferHashes) ) return $retVal;
-	}
+	//if ( $uid!=1 ) {
+		$userTransferDbData = getUserTransmissionTransferArrayFromDB($uid);
+	//	if ( empty($userTransferDbData) ) return $retVal;
+	//} else {
+	//	$userTransferDbData = array();
+	//}
 
 	require_once('inc/clients/transmission-daemon/Transmission.class.php');
 	$rpc = new Transmission ();
@@ -378,8 +399,24 @@ function getUserTransmissionTransfers($uid) {
 	$result = $rpc->get ( array(), $fields );
 
 	if ($result['result']!=="success") rpc_error("Transmission RPC could not get transfers : ".$result['result']);
+	$userTransferHashes = array();
+	foreach ($userTransferDbData as $transfer)
+		$userTransferHashes[ $transfer['tid'] ] = $transfer;
 	foreach ( $result['arguments']['torrents'] as $transfer ) {
-		if ( $uid==1 || in_array ( $transfer['hashString'], $userTransferHashes ) ) {
+		if ($uid==1 || array_key_exists( $transfer['hashString'], $userTransferHashes ) ) {
+			$transferhash = $transfer['hashString'];
+			
+			// add some extra details
+			if ( array_key_exists($transferhash, $userTransferHashes) ) {
+				$transfer['public'] = $userTransferHashes[$transferhash]['public'];
+				$transfer['user'] = $userTransferHashes[$transferhash]['user_id'];
+				$transfer['uid'] = $userTransferHashes[$transferhash]['uid'];
+			} else {
+				$transfer['public'] = 0;
+				$transfer['user'] = "foreign";
+				$transfer['uid'] = 0;
+			}
+			
 			array_push($retVal, $transfer);
 		}
 	}

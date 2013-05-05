@@ -99,6 +99,7 @@ $tmpl->setvar('_ADMIN', "Administrator");
 $tmpl->setvar('_USER', "User");
 $tmpl->setvar('_USERS', "Users");
 $tmpl->setvar('_ADMINISTRATION', "Administration");
+$tmpl->setvar('is_admin', is_admin());
 
 // username
 $tmpl->setvar('user', $cfg["user"]);

@@ -34,12 +34,14 @@ class TorrentPrivateToggle extends PluginAbstract
 			$transfer = $client->getTransfer($_REQUEST['transfer']);
 			$data = $transfer->getTransferListItem();
 			
-			if ( strpos($data['datapath'], $privatepath) === FALSE ) {
-				print("Transfer made private<br>");
-				$client->move($_REQUEST['transfer'], $privatepath);
-			} else {
-				$client->move($_REQUEST['transfer'], $sharedpath);
-				print("Transfer made public<br>");
+			if ( $cfg['uid'] == 1 || $data['is_owner'] ) { // if admin or owner
+				if ( strpos($data['datapath'], $privatepath) === FALSE ) {
+					print("Transfer made private<br>");
+					$client->move($_REQUEST['transfer'], $privatepath);
+				} else {
+					$client->move($_REQUEST['transfer'], $sharedpath);
+					print("Transfer made public<br>");
+				}
 			}
 		} else {
 			$this->show(); // SHOW

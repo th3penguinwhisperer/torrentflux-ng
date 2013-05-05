@@ -430,4 +430,9 @@ function redirect_unallowed_visitor($level = "admin") {
 	@header("location: index.php?page=index");
 }
 
+function is_admin() {
+	$cfg = Configuration::get_instance()->get_cfg();
+	return ( $cfg['uid'] == 1 ? true : false );
+}
+
 ?>
