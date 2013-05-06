@@ -1,4 +1,5 @@
 var currentactions = 0;
+var autorefresh = 1;
 
 function loadcontent(divname, url, loadingmsg) {
 	if (loadingmsg != null)
@@ -30,15 +31,18 @@ function refreshajaxdata() {
 
     setTimeout(ajax_update,200); // wait 300msec to reload the transferlist
 
-    indexTimer = setTimeout(ajax_pageUpdate, 1000); // Start the countdown timer again
+    if ( autorefresh == 1 )
+    	indexTimer = setTimeout(ajax_pageUpdate, 1000); // Start the countdown timer again
 };
 
 function toggleajaxupdate() {
 	if (indexTimer) {
 		clearTimeout(indexTimer);
 		indexTimer = null;
+		autorefresh = 0;
 		$("#index_ajax_refresh_text").html("Turn Auto Refresh On");
 	} else {
+		autorefresh = 1;
 		indexTimer = setTimeout(ajax_pageUpdate, 1000);
 		setTimeout(ajax_update,200);
 		$("#index_ajax_refresh_text").html("Turn Auto Refresh Off");
