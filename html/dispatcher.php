@@ -19,7 +19,7 @@ $cfg = Configuration::get_instance()->get_cfg();
 if ( isset($action) ) {
 	require_once('inc/classes/ClientHandler.php');
 	require_once('inc/plugins/PluginHandler.php');
-	$client = ClientHandler::getInstance(getTransferClient($transfer));
+	$client = ClientHandler::get_ch()->getInstance(getTransferClient($transfer));
 	
 	if ($action == "passplugindata") {
 		$ph = new PluginHandler();

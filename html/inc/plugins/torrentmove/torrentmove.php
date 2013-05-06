@@ -9,7 +9,7 @@ class TorrentMove extends PluginAbstract
 
 	function show() {
 		require_once('inc/classes/ClientHandler.php');
-		$client = ClientHandler::getInstance(getTransferClient($_REQUEST['transfer']));
+		$client = ClientHandler::get_ch()->getInstance(getTransferClient($_REQUEST['transfer']));
 		$transfer = $client->getTransfer($_REQUEST['transfer']);
 		$data = $transfer->getData();
 		
@@ -70,7 +70,8 @@ class TorrentMove extends PluginAbstract
 		print("Moving file $transfer to $destination");
 		
 		require_once('inc/classes/ClientHandler.php');
-		$client = ClientHandler::getInstance(getTransferClient($transfer));
+
+		$client = ClientHandler::get_ch()->getInstance(getTransferClient($transfer));
 		$client->move($transfer, $destination);
 	}
 	
