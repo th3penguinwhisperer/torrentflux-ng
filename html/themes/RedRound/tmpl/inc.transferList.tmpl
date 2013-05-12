@@ -1,10 +1,41 @@
 <link rel="stylesheet" type="text/css" media="screen" href="css/ui-lightness/jquery-ui-1.10.3.custom.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
+<script src="js/jquery-1.9.0.min.js" type="text/javascript"></script>
+<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 
 <table id="list1"></table>
 <div id="pager1"></div>
 ...
 <script type="text/javascript">
+
+	jQuery().ready(function (){
+		jQuery("#list1").jqGrid({
+			url:'transferlistxml.php',
+ 			datatype: "xml",
+ 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status'],
+			colModel:[
+				{ name:'details', index:'details', width:15, formatter: formatTransferdetails },
+				{ name:'dir',index:'dir', width:15, formatter: formatDirectory },
+				{ name:'name',index:'name', width:100 },
+				{ name:'up',index:'uprate', width:40 },
+				{ name:'down',index:'downrate', width:40 },
+				{ name:'owner',index:'owner', width:20, formatter: formatImage },
+				{ name:'percentage',index:'percentage', width:30 },
+				{ name:'status',index:'status', width:50 }
+			],
+			rowNum:25,
+			autowidth: true,
+			rowList:[25,50,75],
+			pager: jQuery('#pager1'), 
+			sortname: 'id',
+			viewrecords: true,
+			sortorder: "desc",
+			loadonce: true,
+			caption: "Transfers"
+		}).navGrid( '#pager1', {edit:false,add:false,del:false} )
+	});
+	
 	function formatImage(cellValue, options, rowObject) {
 	    var imageHtml = "";
 	    if(cellValue){
@@ -22,39 +53,21 @@
 	}
 	
 	function formatDirectory(cellValue, options, rowObject) {
-	    var imageHtml = "";
+	    var directoryHtml = "";
 		if(cellValue){
-	    	directoryHtml = '<a href="dir.php?dir=' + cellValue + '"><img src="themes/<tmpl_var name="theme">/images/dir/folder.png" title="Directory">';
+	    	directoryHtml = '<a href="dir.php?dir=' + cellValue + '"><img src="themes/<tmpl_var name="theme">/images/dir/folder.png" title="Directory"></a>';
 		}
 	    return directoryHtml;
 	}
 	
-	jQuery().ready(function (){
-		jQuery("#list1").jqGrid({
-			url:'transferlistxml.php',
- 			datatype: "xml",
- 			colNames:['Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status'],
-			colModel:[
-				{ name:'dir',index:'dir', width:15, formatter: formatDirectory},
-				{ name:'name',index:'name', width:100 },
-				{ name:'up',index:'uprate', width:40 },
-				{ name:'down',index:'downrate', width:40 },
-				{ name:'owner',index:'owner', width:20, formatter: formatImage  },
-				{ name:'percentage',index:'percentage', width:30 },
-				{ name:'status',index:'status', width:50 }
-			],
-			rowNum:25,
-			autowidth: true,
-			rowList:[25,50,75],
-			pager: jQuery('#pager1'), 
-			sortname: 'id',
-			viewrecords: true,
-			sortorder: "desc",
-			loadonce: true,
-			caption:"Transfers"
-		}).navGrid('#pager1', { edit:false,add:false,del:false }
-	);
-});
+	function formatTransferdetails(cellValue, options, rowObject) {
+	    var transferdetailsHtml = "";
+		if(cellValue){
+			transferdetailsHtml = '<a href="#" onclick="' + cellValue + '"><img src="themes/<tmpl_var name="theme">/images/dir/dlinfo.png" alt="" title="Details" /></a>';
+		}
+	    return transferdetailsHtml;
+	}
+	
 </script>
 
 </div>

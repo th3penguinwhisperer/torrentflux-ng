@@ -5,6 +5,7 @@
 	<records><tmpl_var name="transferlist_count"></records>
 	<tmpl_loop name="transferlist_torrents">
 		<row id='<tmpl_var name="url_entry">'>
+			<cell><![CDATA[ <tmpl_var name="details_action"> ]]></cell>
 			<cell><![CDATA[ <tmpl_var name="url_path"> ]]></cell>
 			<cell><![CDATA[ <tmpl_var name="displayname"> ]]></cell>
 			<cell><![CDATA[ <tmpl_var name="up_speed"> ]]></cell>

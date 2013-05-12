@@ -205,10 +205,6 @@ function printJavascriptHtml()
 		<script type="text/javascript" src="js/ajax_index.js"></script>
 		<script type="text/javascript" src="js/diskspace.js"></script>
 			
-<script src="js/jquery-1.9.0.min.js" type="text/javascript"></script>
-<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
-<script src="js/jquery.jqGrid.src.js" type="text/javascript"></script>
-			
 		<link rel="stylesheet" href="css/popup.css" type="text/css" media="screen" />
 	');
 }
