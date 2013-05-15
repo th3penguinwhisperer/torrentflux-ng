@@ -13,16 +13,17 @@
 		jQuery("#list1").jqGrid({
 			url:'transferlistxml.php',
  			datatype: "xml",
- 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status'],
+ 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status', 'Size'],
 			colModel:[
 				{ name:'details', index:'details', width:15, formatter: formatTransferdetails },
 				{ name:'dir',index:'dir', width:15, formatter: formatDirectory },
 				{ name:'name',index:'name', width:100 },
-				{ name:'up',index:'up', width:40, sorttype:'integer' },
-				{ name:'down',index:'down', width:40, sorttype:'integer' },
+				{ name:'up',index:'up', width:40, sorttype:'integer', formatter: formatSpeed },
+				{ name:'down',index:'down', width:40, sorttype:'integer', formatter: formatSpeed },
 				{ name:'owner',index:'owner', width:20, formatter: formatImage },
-				{ name:'percentage',index:'percentage', width:30 },
-				{ name:'status',index:'status', width:50 }
+				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage },
+				{ name:'status', index:'status', width:50 },
+				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize }
 			],
 			height: 500,
 			rowNum:25,
@@ -47,6 +48,47 @@
 	        }
 	    }
 	    return imageHtml;
+	}
+
+	function formatPercentage(cellValue, options, rowObject) {
+	    return cellValue + '%';
+	}
+
+	function formatSpeed(size) {
+		return formatSize(size) + '/s';
+	}
+
+	function formatSize(size, standard) {
+	    if (standard) { 
+			standard = standard.toLowerCase();
+	    }
+
+	    var n = 0, 
+		base = standard == 'si' ? 1000 : 1024, 
+		prefixes = ' KMGTPEZY';
+
+	    if (size < 1) {
+		return 0;
+	    }
+	    else if (size >= base) {
+		n = Math.floor( Math.log(size) / Math.log(base) );
+
+		if (n >= prefixes.length) {
+		    return 'N/A';
+		}
+
+		size = ( size / Math.pow(base, n) ).toFixed(2) * 1 + ' ';
+	    }
+
+	    return size + prefixes[n] + ( n && standard == 'iec' ? 'i' : '' ) + 'B';
+	}
+
+	function formatReadableSize(cellValue, options, rowObject) {
+	    var sizeHtml = "";
+	    if(cellValue){
+	            sizeHtml = formatSize(cellValue);
+	    }
+	    return sizeHtml;
 	}
 	
 	function unformatImage(cellValue, options, cellObject) {

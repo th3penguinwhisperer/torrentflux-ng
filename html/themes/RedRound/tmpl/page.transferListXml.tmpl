@@ -13,8 +13,9 @@
 			<cell> <tmpl_if name="is_owner"> <![CDATA[ images/checked.png ]]>
 				<tmpl_else> <![CDATA[ images/edit.png ]]></tmpl_if>
 			</cell>
-			<cell><![CDATA[ <tmpl_var name="percentage"> ]]></cell>
+			<cell><tmpl_var name="percentage"></cell>
 			<cell><![CDATA[ <tmpl_var name="statusStr"> ]]></cell>
+			<cell><tmpl_var name="format_af_size"></cell>
 		</row>
 	</tmpl_loop>
 </rows>
