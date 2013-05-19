@@ -15,6 +15,7 @@ class TransfersourceTorrent
 	
 		print("\n
 <form name=addurl action=\"\">Torrent URL: 
+<script type=\"text/javascript\" src=\"js/jquery.js\"></script>
 <script type=\"text/javascript\">
 
 $(function() {
