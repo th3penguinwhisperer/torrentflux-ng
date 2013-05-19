@@ -13,7 +13,7 @@
 		jQuery("#list1").jqGrid({
 			url:'transferlistxml.php',
  			datatype: "xml",
- 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status', 'Size'],
+ 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status', 'Size', 'Est Time'],
 			colModel:[
 				{ name:'details', index:'details', width:15, formatter: formatTransferdetails },
 				{ name:'dir',index:'dir', width:15, formatter: formatDirectory },
@@ -23,7 +23,8 @@
 				{ name:'owner',index:'owner', width:20, formatter: formatImage },
 				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage },
 				{ name:'status', index:'status', width:50 },
-				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize }
+				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize },
+				{ name:'esttime', index:'esttime', width:50 }
 			],
 			height: 500,
 			rowNum:25,
