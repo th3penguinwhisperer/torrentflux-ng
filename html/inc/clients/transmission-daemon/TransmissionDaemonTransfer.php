@@ -99,6 +99,26 @@ $cfg['user'] = "administrator";
 		else
 			$seeds = 0;
 
+		$actions = array();
+		array_push($actions, array(
+				'action_name' => 'start', 
+				'image' => "images/start.png", 
+				'script' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');") 
+		);
+		array_push($actions, array(
+				'action_name' => 'stop',
+				'image' => "images/stop.png",
+				'script' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');")
+		);
+		array_push($actions, array(
+				'action_name' => 'delete_with_data',
+				'image' => "images/deletewithdata.png",
+				'script' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');")
+		);
+		//	'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
+		//	'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');"
+		//
+		
 		// TODO: transferowner is always admin... probably not what we want
 		// Suppress error/warning messages(using the @ sign) otherwhise a shitload of warnings are shown
 		// Remove the $nothing variables
@@ -137,9 +157,7 @@ $cfg['user'] = "administrator";
 			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
 			'uploaded' => formatBytesTokBMBGBTB( $this->data['uploadedEver'] ),
 			'details_action' => "loadpopup('Transfer Details', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
-			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
-			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
-			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');"
+			'transfer_actions' => $actions
 		);
 
 		return $tArray;
