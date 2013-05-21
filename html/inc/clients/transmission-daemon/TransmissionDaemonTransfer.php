@@ -99,6 +99,33 @@ class TransmissionDaemonTransfer implements TransferInterface
 		else
 			$seeds = 0;
 
+		$actions = array();
+		array_push($actions, array(
+				'action_name' => 'start', 
+				'image' => "images/start.png", 
+				'script' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');") 
+		);
+		array_push($actions, array(
+				'action_name' => 'stop',
+				'image' => "images/stop.png",
+				'script' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');")
+		);
+		array_push($actions, array(
+				'action_name' => 'delete_with_data',
+				'image' => "images/deletewithdata.png",
+				'script' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');")
+		);
+		array_push($actions, array(
+				'action_name' => 'move_action',
+				'image' => "images/move.png",
+				'script' => "loadpopup('Move Torrent', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentmove&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Move panel'); centerPopup(); loadPopup();")
+		);
+		array_push($actions, array(
+				'action_name' => 'toggle_action',
+				'image' => "images/privatepublic.png",
+				'script' => "loadpopup('Private/Public Torrent Toggle', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentprivatetoggle&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Private Toggle panel'); centerPopup(); loadPopup();")
+		);
+		
 		// TODO: transferowner is always admin... probably not what we want
 		// Suppress error/warning messages(using the @ sign) otherwhise a shitload of warnings are shown
 		// Remove the $nothing variables
@@ -113,21 +140,21 @@ class TransmissionDaemonTransfer implements TransferInterface
 			'hd_title' => $nothing,
 			'displayname' => htmlspecialchars($this->data['name'],ENT_QUOTES),
 			'transferowner' => getTransmissionTransferOwner($this->data['hashString']),
-			'format_af_size' => formatBytesTokBMBGBTB( $this->data['totalSize'] ),
+			'format_af_size' => $this->data['totalSize'],
 			'format_downtotal' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
 			'format_uptotal' => formatBytesTokBMBGBTB( $this->data['uploadedEver'] ),
 			'statusStr' => $status,
 			'graph_width' => ( $status==='New' ? -1 : floor($this->data['percentDone']*100) ),
-			'percentage' => ( $status==='New' ? '' : floor($this->data['percentDone']*100) . '%' ),
+			'percentage' => $this->data['percentDone']*100,
 			'progress_color' => '#22BB22',
 			'bar_width' => 4,
 			'background' => '#000000',
 			'100_graph_width' => 100 - floor($this->data['percentDone']*100),
-			'down_speed' => formatBytesTokBMBGBTB( $this->data['rateDownload'] ) . '/s',
-			'up_speed' => formatBytesTokBMBGBTB( $this->data['rateUpload'] ) . '/s',
+			'down_speed' => $this->data['rateDownload'],
+			'up_speed' => $this->data['rateUpload'],
 			'seeds' => $seeds,
 			'peers' => $nothing,
-			'estTime' => $eta,
+			'esttime' => $eta,
 			'clientType' => 'torrent',
 			'upload_support_enabled' => 1,
 			'client' => 'transmissionrpc',
@@ -139,11 +166,7 @@ class TransmissionDaemonTransfer implements TransferInterface
 			'downloaded' => formatBytesTokBMBGBTB( $this->data['downloadedEver'] ),
 			'uploaded' => formatBytesTokBMBGBTB( $this->data['uploadedEver'] ),
 			'details_action' => "loadpopup('Transfer Details', 'dispatcher.php?client=transmission-daemon&amp;action=transfertabs&amp;transfer=" . $this->data['hashString'] . "', ''); centerPopup(); loadPopup();",
-			'start_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=start&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent started');",
-			'stop_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=stop&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent stopped');",
-			'delete_with_data_action' => "headlessaction('dispatcher.php?client=transmission-daemon&amp;action=deletewithdata&amp;transfer=" . $this->data['hashString'] . "', true, 'Torrent deleted with data');",
-			'move_action' => "loadpopup('Move Torrent', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentmove&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Move panel'); centerPopup(); loadPopup();",
-			'toggle_action' => "loadpopup('Private/Public Torrent Toggle', 'dispatcher.php?client=transmission-daemon&amp;plugin=torrentprivatetoggle&amp;action=passplugindata&amp;subaction=move&amp;transfer=" . $this->data['hashString'] . "', 'Loading Torrent Private Toggle panel'); centerPopup(); loadPopup();"
+			'transfer_actions' => $actions
 		);
 
 		return $tArray;

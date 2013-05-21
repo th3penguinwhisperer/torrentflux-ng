@@ -1,20 +1,33 @@
 <tmpl_var name="transferlist_xmlopen">xml version='1.0' encoding='utf-8'?>
-<rows>
+<transferslisting>
 	<page><tmpl_var name="transferlist_page"></page>
 	<total><tmpl_var name="transferlist_total_pages"></total>
 	<records><tmpl_var name="transferlist_count"></records>
-	<tmpl_loop name="transferlist_torrents">
-		<row id='<tmpl_var name="url_entry">'>
-			<cell><![CDATA[ <tmpl_var name="details_action"> ]]></cell>
-			<cell><![CDATA[ <tmpl_var name="url_path"> ]]></cell>
-			<cell><![CDATA[ <tmpl_var name="displayname"> ]]></cell>
-			<cell><![CDATA[ <tmpl_var name="up_speed"> ]]></cell>
-			<cell><![CDATA[ <tmpl_var name="down_speed"> ]]></cell>
-			<cell> <tmpl_if name="is_owner"> <![CDATA[ images/checked.png ]]>
+	<transfers>
+		<tmpl_loop name="transferlist_torrents">
+		<transfer id='<tmpl_var name="url_entry">'>
+			<details><![CDATA[ <tmpl_var name="details_action"> ]]></details>
+			<path><![CDATA[ <tmpl_var name="url_path"> ]]></path>
+			<name><![CDATA[ <tmpl_var name="displayname"> ]]></name>
+			<uprate><tmpl_var name="up_speed"></uprate>
+			<downrate><tmpl_var name="down_speed"></downrate>
+			<owner> <tmpl_if name="is_owner"> <![CDATA[ images/checked.png ]]>
 				<tmpl_else> <![CDATA[ images/edit.png ]]></tmpl_if>
-			</cell>
-			<cell><![CDATA[ <tmpl_var name="percentage"> ]]></cell>
-			<cell><![CDATA[ <tmpl_var name="statusStr"> ]]></cell>
-		</row>
-	</tmpl_loop>
-</rows>
+			</owner>
+			<percentage><tmpl_var name="percentage"></percentage>
+			<status><![CDATA[ <tmpl_var name="statusStr"> ]]></status>
+			<size><tmpl_var name="format_af_size"></size>
+			<eta><![CDATA[ <tmpl_var name="esttime"> ]]></eta>
+			<actions>
+				<tmpl_loop name="transfer_actions">
+				<action>
+					<name><![CDATA[<tmpl_var name="action_name">]]></name>
+					<script><![CDATA[<tmpl_var name="script">]]></script>
+					<image><![CDATA[<tmpl_var name="image">]]></image>
+				</action>
+				</tmpl_loop>
+			</actions>
+		</transfer>
+		</tmpl_loop>
+	</transfers>
+</transferslisting>
