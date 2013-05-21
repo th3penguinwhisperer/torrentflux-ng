@@ -50,7 +50,7 @@ if (isset($_REQUEST['ajax_update'])) {
 	$tmpl->setvar('onLoad', $onLoad);
 	$tmpl->setvar('isAdmin', $_SESSION['isAdmin']);
 	$tmpl->setvar('plugin_container_content', $pi_container_content);
-        printJavascriptHtml(); // TODO should be fixed in another way
+        $tmpl->setvar('javascript_loads', getJavascriptHtml()); // TODO should be fixed in another way
 
 	$start = startTimer();
 	$tmpl->pparse();
@@ -185,9 +185,9 @@ if ($onLoad != "") {
 }
 
 
-function printJavascriptHtml()
+function getJavascriptHtml()
 {
-	print('
+	return '
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/popup.js"></script>
 		<script type="text/javascript">
@@ -208,7 +208,7 @@ function printJavascriptHtml()
 		<script type="text/javascript" src="js/diskspace.js"></script>
 			
 		<link rel="stylesheet" href="css/popup.css" type="text/css" media="screen" />
-	');
+	';
 }
 
 $totaluprate = 0;
