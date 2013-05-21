@@ -13,7 +13,7 @@
 		jQuery("#list1").jqGrid({
 			url:'transferlistxml.php',
  			datatype: "xml",
- 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status', 'Size', 'Est Time'],
+ 			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status', 'Size', 'Est Time', 'Actions'],
 			colModel:[
 				{ name:'details', index:'details', width:15, formatter: formatTransferdetails, xmlmap:"details" },
 				{ name:'dir',index:'dir', width:15, formatter: formatDirectory, xmlmap:"path" },
@@ -24,7 +24,8 @@
 				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage, xmlmap:"percentage" },
 				{ name:'status', index:'status', width:50, xmlmap:"status" },
 				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize, xmlmap:"size" },
-				{ name:'esttime', index:'esttime', width:50, xmlmap:"eta" }
+				{ name:'esttime', index:'esttime', width:50, xmlmap:"eta" },
+				{ name:'actions', index:'actions', width:50, xmlmap:"actions", formatter: formatActions, sortable:false }
 			],
 			xmlReader: { 
       			root:"transfers", 
@@ -47,6 +48,22 @@
 			caption: "Transfers"
 		}).navGrid( '#pager1', {edit:false,add:false,del:false} )
 	});
+	
+	function formatActions(cellValue, options, rowObject) {
+		actions = $(rowObject).find("actions");
+		var output = "";
+		$('action', actions).each(
+			function(i) {
+				actionName = $(this).find("name").text();
+				image = $(this).find("image").text();
+				script = $(this).find("script").text();
+				
+				output += "<img src=\"" + image + "\" title=\"" + actionName + "\" onclick=\"javascript:" + script + "\"/>";
+			}
+		);
+		
+		return output;
+	}
 	
 	function formatImage(cellValue, options, rowObject) {
 	    var imageHtml = "";
