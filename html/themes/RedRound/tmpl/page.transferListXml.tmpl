@@ -1,0 +1,20 @@
+<tmpl_var name="transferlist_xmlopen">xml version='1.0' encoding='utf-8'?>
+<rows>
+	<page><tmpl_var name="transferlist_page"></page>
+	<total><tmpl_var name="transferlist_total_pages"></total>
+	<records><tmpl_var name="transferlist_count"></records>
+	<tmpl_loop name="transferlist_torrents">
+		<row id='<tmpl_var name="url_entry">'>
+			<cell><![CDATA[ <tmpl_var name="details_action"> ]]></cell>
+			<cell><![CDATA[ <tmpl_var name="url_path"> ]]></cell>
+			<cell><![CDATA[ <tmpl_var name="displayname"> ]]></cell>
+			<cell><![CDATA[ <tmpl_var name="up_speed"> ]]></cell>
+			<cell><![CDATA[ <tmpl_var name="down_speed"> ]]></cell>
+			<cell> <tmpl_if name="is_owner"> <![CDATA[ images/checked.png ]]>
+				<tmpl_else> <![CDATA[ images/edit.png ]]></tmpl_if>
+			</cell>
+			<cell><![CDATA[ <tmpl_var name="percentage"> ]]></cell>
+			<cell><![CDATA[ <tmpl_var name="statusStr"> ]]></cell>
+		</row>
+	</tmpl_loop>
+</rows>

@@ -206,7 +206,7 @@ function printJavascriptHtml()
 		<script type="text/javascript" src="js/ajax.js"></script>
 		<script type="text/javascript" src="js/ajax_index.js"></script>
 		<script type="text/javascript" src="js/diskspace.js"></script>
-		
+			
 		<link rel="stylesheet" href="css/popup.css" type="text/css" media="screen" />
 	');
 }
