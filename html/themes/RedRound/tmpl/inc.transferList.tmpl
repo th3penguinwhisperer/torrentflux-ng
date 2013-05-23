@@ -15,17 +15,17 @@
  			datatype: "xml",
  			colNames:['Details', 'Directory', 'Name', 'Up rate', 'Down rate', 'Owner', 'Percentage', 'Status', 'Size', 'Est Time', 'Actions'],
 			colModel:[
-				{ name:'details', index:'details', width:15, formatter: formatTransferdetails, xmlmap:"details" },
-				{ name:'dir',index:'dir', width:15, formatter: formatDirectory, xmlmap:"path" },
-				{ name:'name',index:'name', width:100, xmlmap:"name" },
-				{ name:'up',index:'up', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"uprate" },
-				{ name:'down',index:'down', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"downrate" },
-				{ name:'owner',index:'owner', width:20, formatter: formatImage, xmlmap:"owner" },
-				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage, xmlmap:"percentage" },
-				{ name:'status', index:'status', width:50, xmlmap:"status" },
-				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize, xmlmap:"size" },
-				{ name:'esttime', index:'esttime', width:50, xmlmap:"eta" },
-				{ name:'actions', index:'actions', width:50, xmlmap:"actions", formatter: formatActions, sortable:false }
+				{ name:'details', index:'details', width:15, formatter: formatTransferdetails, xmlmap:"transfer>details" },
+				{ name:'dir',index:'dir', width:15, formatter: formatDirectory, xmlmap:"transfer>path" },
+				{ name:'name',index:'name', width:100, xmlmap:"transfer>name" },
+				{ name:'up',index:'up', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"transfer>uprate" },
+				{ name:'down',index:'down', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"transfer>downrate" },
+				{ name:'owner',index:'owner', width:20, formatter: formatImage, xmlmap:"transfer>owner" },
+				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage, xmlmap:"transfer>percentage" },
+				{ name:'status', index:'status', width:50, xmlmap:"transfer>status" },
+				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize, xmlmap:"transfer>size" },
+				{ name:'esttime', index:'esttime', width:50, xmlmap:"transfer>eta" },
+				{ name:'actions', index:'actions', width:50, xmlmap:"transfer>actions", formatter: formatActions, sortable:false }
 			],
 			xmlReader: { 
       			root:"transfers", 
