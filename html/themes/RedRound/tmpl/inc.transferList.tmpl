@@ -20,7 +20,7 @@
 				{ name:'name',index:'name', width:100, xmlmap:"transfer>name" },
 				{ name:'up',index:'up', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"transfer>uprate" },
 				{ name:'down',index:'down', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"transfer>downrate" },
-				{ name:'owner',index:'owner', width:20, formatter: formatImage, xmlmap:"transfer>owner" },
+				{ name:'owner',index:'owner', width:20, formatter:formatOwner, xmlmap:"transfer>owner" },
 				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage, xmlmap:"transfer>percentage" },
 				{ name:'status', index:'status', width:50, xmlmap:"transfer>status" },
 				{ name:'size', index:'size', width:50, sorttype:'integer', formatter: formatReadableSize, xmlmap:"transfer>size" },
@@ -48,6 +48,14 @@
 			caption: "Transfers"
 		}).navGrid( '#pager1', {edit:false,add:false,del:false} )
 	});
+
+	function formatOwner(cellValue, options, rowObject) {
+		var output = "";
+		if(cellValue) {
+			output = "<img src=\"images/checked.png\">";
+		}
+		return output;
+	}
 	
 	function formatActions(cellValue, options, rowObject) {
 		actions = $(rowObject).find("actions");

@@ -11,9 +11,7 @@
 			<name><![CDATA[ <tmpl_var name="displayname"> ]]></name>
 			<uprate><tmpl_var name="up_speed"></uprate>
 			<downrate><tmpl_var name="down_speed"></downrate>
-			<owner> <tmpl_if name="is_owner"> <![CDATA[ images/checked.png ]]>
-				<tmpl_else> <![CDATA[ images/edit.png ]]></tmpl_if>
-			</owner>
+			<owner><tmpl_var name="is_owner"></owner>
 			<percentage><tmpl_var name="percentage"></percentage>
 			<status><![CDATA[ <tmpl_var name="statusStr"> ]]></status>
 			<size><tmpl_var name="format_af_size"></size>
