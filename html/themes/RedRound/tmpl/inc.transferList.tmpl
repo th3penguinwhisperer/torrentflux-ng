@@ -18,8 +18,8 @@
 				{ name:'details', index:'details', width:15, formatter: formatTransferdetails, xmlmap:"transfer>details" },
 				{ name:'dir',index:'dir', width:15, formatter: formatDirectory, xmlmap:"transfer>path" },
 				{ name:'name',index:'name', width:100, xmlmap:"transfer>name" },
-				{ name:'up',index:'up', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"transfer>uprate" },
-				{ name:'down',index:'down', width:40, sorttype:'integer', formatter: formatSpeed, xmlmap:"transfer>downrate" },
+				{ name:'up',index:'up', width:40, sorttype:'integer', formatter: formatRates, xmlmap:"transfer>uprate" },
+				{ name:'down',index:'down', width:40, sorttype:'integer', formatter: formatRates, xmlmap:"transfer>downrate" },
 				{ name:'owner',index:'owner', width:20, formatter:formatOwner, xmlmap:"transfer>owner" },
 				{ name:'percentage',index:'percentage', width:30, sorttype:'integer', formatter: formatPercentage, xmlmap:"transfer>percentage" },
 				{ name:'status', index:'status', width:50, xmlmap:"transfer>status" },
@@ -89,8 +89,18 @@
 	    return cellValue + '%';
 	}
 
-	function formatSpeed(size) {
-		return formatSize(size) + '/s';
+	function formatSpeed(cellValue) {
+		return formatSize(cellValue) + '/s';
+	}
+	
+	function formatRates(cellValue, options, rowObject) {
+		var percentage = $(rowObject).find("percentage").text();
+		var trstatus = $(rowObject).find("status").text();
+		var output = "";
+		if ( trstatus != "Stopped" && trstatus != "Done" ) {
+			output = formatSpeed(cellValue);
+		}
+		return output;
 	}
 
 	function formatSize(size, standard) {
