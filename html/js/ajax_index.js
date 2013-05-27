@@ -132,7 +132,7 @@ function ajax_processXML(content) {
 }
 
 function ajaxParseTransferlist(content) {
-	ajax_updateContent('transferList', content);
+	$('#list1').jqGrid('setGridParam', { url:'transferlistxml.php', datatype:'xml', page:1 }).trigger('reloadGrid');
 }
 
 function ajaxParseRates(content) {
