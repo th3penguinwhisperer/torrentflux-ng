@@ -32,7 +32,7 @@ function refreshajaxdata() {
     setTimeout(ajax_update,200); // wait 300msec to reload the transferlist
 
     if ( autorefresh == 1 )
-    	indexTimer = setTimeout(ajax_pageUpdate, 1000); // Start the countdown timer again
+    	indexTimer = setTimeout(ajax_pageUpdate, 2000); // Start the countdown timer again
 };
 
 function toggleajaxupdate() {
