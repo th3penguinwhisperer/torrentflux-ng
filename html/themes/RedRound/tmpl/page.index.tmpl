@@ -13,7 +13,7 @@
 
 <tmpl_include name="inc.indexStatsBar.tmpl">
 <img src=images/add.png onclick="javascript:loadpopup('Transfer Sources', 'index.php?page=transfersources', 'Loading...'); centerPopup(); loadPopup();">
-<img src=images/refresh.png onclick="javascript:$('#list1').jqGrid('setGridParam', { url:'transferlistxml.php', datatype:'xml', page:1 }).trigger('reloadGrid');">
+<img src=images/refresh.png onclick="javascript:ajax_update();">
 <div id="generalplugins"><tmpl_var name="generalplugins"></div>
 <div style="height:5px;"></div>
 
