@@ -49,22 +49,21 @@ function toggleajaxupdate() {
 	}
 }
 
-function showstatusmessage(message) {
-	$("#status_message").hide();
-	$('#status_message').html(message);
-	$("#status_message").css("background", "#33CC33");
-	$('#status_message').fadeIn('slow', function() {
-		// Animation complete
-	});
+function showerrormessage(message) {
+	var type = 'error';
+	showmessage(message, type);
+}
 
-	var refreshId = setTimeout(
-	    function() {
-		$('#status_message').fadeOut('slow', function() {
-			// Animation complete
-		});
-	    },
-	    5000
-	);
+function showmessage(message, atype) {
+	var noti = noty({
+	  text: 'noty - a jquery notification library!', 
+	  type: atype,
+	  timeout: 5000
+	});
+}
+
+function showstatusmessage(message) {
+	showmessage(message, 'information');
 }
 
 function headlessaction(action, reload, message) {
